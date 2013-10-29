@@ -9,6 +9,7 @@
 #include "stack_test.h"
 #include "queue_test.h"
 #include "hashtable_test.h"
+#include "binarytree_test.h"
 
 int main(void) {
 	CU_pSuite pSuite = NULL;
@@ -101,6 +102,26 @@ int main(void) {
 		CU_cleanup_registry();
 		return CU_get_error();	
 	}
+
+	/* Binary tree test suite */ 
+
+	pSuite = CU_add_suite("binarytree_suite", 
+			init_bintree_suite, clean_bintree_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing binarytree_init()", bintree_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing binarytree_destroy()", bintree_test_destroy) == NULL) ||
+	(CU_add_test(pSuite, "testing empty binarytree", bintree_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing binarytree_add() and find()", bintree_test_add_find) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
 
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();

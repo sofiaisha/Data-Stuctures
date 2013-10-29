@@ -1,7 +1,7 @@
 Data structures in C:
-- linked list
-- stack
-- queue
-- hashtable
+- linked list (list.h)
+- stack (stack.h)
+- queue (queue.h)
+- hashtable (hashtable.h)
 
-
+Unit-tests written with CUnit (*_test.[ch]).

@@ -10,33 +10,27 @@ stack_t* stack_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 }
 
 unsigned int stack_size(stack_t* s) {
-	list_t* l = (list_t*)s;
-	return list_size(l);
+	return list_size((list_t*)s);
 }
 
 void*	stack_push(stack_t* s, void* elem) {
-	list_t* l = (list_t*)s;
-	return list_addFirst(l, elem);	
+	return list_addFirst((list_t*)s, elem);	
 }
 
 void*	stack_get(stack_t* s) {
-	list_t* l = (list_t*)s;
-	return list_getElem(l, 1, false);
+	return list_getElem((list_t*)s, 1, false);
 }
 
 void*	stack_pop(stack_t* s) {
-	list_t* l = (list_t*)s;
-	void* ret = list_getElem(l, 1, true);
-	list_remove(l, ret);
+	void* ret = list_getElem((list_t*)s, 1, true);
+	list_remove((list_t*)s, ret);
 	return ret;
 }
 
 void 	stack_print(stack_t* s, FILE* fd) {
-	list_t* l = (list_t*)s;
-	list_print(l, fd);
+	list_print((list_t*)s, fd);
 }
 
 int 	stack_destroy(stack_t** s) {
-	list_t** l = (list_t**)s;
-	return list_destroy(l);
+	return list_destroy((list_t**)s);
 }

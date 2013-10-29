@@ -1,0 +1,110 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <string.h>
+#include <CUnit/Basic.h>
+
+#include "list_test.h"
+#include "stack_test.h"
+#include "queue_test.h"
+#include "hashtable_test.h"
+
+int main(void) {
+	CU_pSuite pSuite = NULL;
+
+	if (CU_initialize_registry() != CUE_SUCCESS) {
+		return CU_get_error();	
+	}
+
+	/* List test suite */ 
+
+	pSuite = CU_add_suite("list_suite", init_list_suite, clean_list_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing list_init()", list_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing empty list", list_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing list_addFirst()", list_test_addFirst) == NULL) ||
+	(CU_add_test(pSuite, "testing list_addLast()", list_test_addLast) == NULL) ||
+	(CU_add_test(pSuite, "testing list_getElem()", list_test_getElem) == NULL) ||
+	(CU_add_test(pSuite, "testing list_print()", list_test_print) == NULL) ||
+	(CU_add_test(pSuite, "testing list_find()", list_test_find) == NULL) ||
+	(CU_add_test(pSuite, "testing list_remove()", list_test_remove) == NULL) ||
+	(CU_add_test(pSuite, "testing list_destroy()", list_test_destroy) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	/* Stack test suite */ 
+
+	pSuite = CU_add_suite("stack_suite", init_stk_suite, clean_stk_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing stack_init()", stk_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing empty stack", stk_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing stack_push()", stk_test_push) == NULL) ||
+	(CU_add_test(pSuite, "testing stack_get()", stk_test_get) == NULL) ||
+	(CU_add_test(pSuite, "testing stack_pop()", stk_test_pop) == NULL) || 
+	(CU_add_test(pSuite, "testing stack_print()", stk_test_print) == NULL) ||
+	(CU_add_test(pSuite, "testing stack_destroy()", stk_test_destroy) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	/* Queue test suite */ 
+
+	pSuite = CU_add_suite("queue_suite", init_que_suite, clean_que_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing queue_init()", que_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_empty()", que_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_enqueue()", que_test_enqueue) == NULL) || 
+	(CU_add_test(pSuite, "testing queue_get()", que_test_get) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_dequeue()", que_test_dequeue) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_print()", que_test_print) == NULL) || 
+	(CU_add_test(pSuite, "testing queue_destroy()", que_test_destroy) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	/* Hashtable test suite */ 
+
+	pSuite = CU_add_suite("hashtable_suite", init_ht_suite, clean_ht_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing hashtable_init()", ht_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing empty hashtable", ht_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing hashtable_add()", ht_test_add) == NULL) ||
+	(CU_add_test(pSuite, "testing hashtable_remove()", ht_test_remove) == NULL) || 
+	(CU_add_test(pSuite, "testing hashtable_find()", ht_test_find) == NULL) || 
+	(CU_add_test(pSuite, "testing hashtable_destroy()", ht_test_destroy) == NULL)  
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	CU_basic_set_mode(CU_BRM_VERBOSE);
+	CU_basic_run_tests();
+	CU_cleanup_registry();
+
+	return CU_get_error();	
+}

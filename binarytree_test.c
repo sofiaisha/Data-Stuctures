@@ -126,54 +126,6 @@ void bintree_test_add_find(void) {
 	binarytree_destroy(&t);
 }
 
-
-/*
-
-void list_test_find(void) {
-	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
-
-	CU_ASSERT (list_find(NULL, list_test_s1) == NULL);
-	CU_ASSERT (list_find(l, NULL) == NULL);
-
-	list_addFirst(l, list_test_s1);
-	list_addFirst(l, list_test_s2);
-	list_addFirst(l, list_test_s3);
-
-	CU_ASSERT (strcmp((char*)list_find(l, list_test_s1), list_test_s1) == 0);
-	CU_ASSERT (strcmp((char*)list_find(l, list_test_s2), list_test_s2) == 0);
-	CU_ASSERT (strcmp((char*)list_find(l, list_test_s3), list_test_s3) == 0);
-	CU_ASSERT (list_find(l, list_test_s4) == NULL);
-
-	list_destroy(&l);
-}
-
-void list_test_remove(void) {
-	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
-
-	CU_ASSERT(list_remove(NULL, list_test_s1) == -1);
-	CU_ASSERT(list_remove(l, NULL) == -1);
-
-	list_addFirst(l, list_test_s1);
-	list_addFirst(l, list_test_s2);
-	list_addFirst(l, list_test_s3);
-
-	CU_ASSERT(list_remove(l, list_test_s1) == 0);
-	CU_ASSERT(list_find(l, list_test_s1) == NULL);
-	CU_ASSERT (list_size(l) == 2);
-
-	CU_ASSERT(list_remove(l, list_test_s2) == 0);
-	CU_ASSERT(list_find(l, list_test_s2) == NULL);
-	CU_ASSERT (list_size(l) == 1);
-
-	CU_ASSERT(list_remove(l, list_test_s3) == 0);
-	CU_ASSERT(list_find(l, list_test_s3) == NULL);
-	CU_ASSERT (list_size(l) == 0);
-
-	list_destroy(&l);
-}
-
-*/
-
 void bintree_test_destroy(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);

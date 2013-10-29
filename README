@@ -3,5 +3,6 @@ Data structures in C:
 - stack (stack.h)
 - queue (queue.h)
 - hashtable (hashtable.h)
+- binary tree (binarytree.h)
 
 Unit-tests written with CUnit (*_test.[ch]).

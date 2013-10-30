@@ -98,12 +98,34 @@ void* binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem, unsigned
 	return NULL;
 }
 
+tnode_t* binarytree_findMaxNode(tnode_t* n) {
+	while ((n != NULL) && (n->left != NULL)) {
+		n = n->left;
+	}
+	return n;
+}
+
 void* binarytree_add(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");
 		return NULL;
 	}
 	return binarytree_add_internal(t, &(t->root), elem, NULL);
+}
+
+void binarytree_skipNode_internal(tnode_t* old, tnode_t* new) {
+	/* Old node is a single child. It will be skipped, 
+	 * i.e. its parent and the new node are linked both ways 
+	 */
+	if (old == old->parent->left) {
+		old->parent->left = new;
+	}
+	else if (old == old->parent->right) {
+		old->parent->right = new;
+	}
+	if (new != NULL) {
+		new->parent = old->parent;
+	}
 }
 
 void* binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem, tnode_t* parent) {
@@ -148,57 +170,52 @@ int binarytree_remove(binarytree_t* t, void* elem) {
 		return -1;
 	}
 
-	if ((n->left == NULL) && (n->right == NULL)) {
-		/* The node is a leaf */
-		if (n == t->root) {
-			/* No parent pointers to update */
-			t->root = NULL;
-		}
-		else {
-			if (n->parent->left == n) {
-				n->parent->left = NULL;
-			}
-			else if (n->parent->right == n) {
-				n->parent->right = NULL;
-			}
-			else {
-				/* Should never happen */
-				assert(0);
-			}
-		}
+	if (n == t->root) {
+		/* Not implemented yet :) */
+		return -1;
 	}
 
-	else if ((n->left == NULL) || (n->right == NULL)) {
-		/* The node has only one child */
-		tnode_t* child = (n->left == NULL ? n->right:n->left);
-			
-		if (n == t->root) {
-			/* No parent pointers to update */
-			t->root = child;
-		}
-		else {
-			child->parent = n->parent;
-			if (n->parent->left == n) {
-				n->parent->left = child;
-			}
-			else if (n->parent->right == n) {
-				n->parent->right = child;
-			}	
-			else {
-				/* Should never happen */
-				assert(0);
-			}
-		}
+	/* Count children of node to remove */
+	unsigned int children = ((n->left != NULL)?1:0) + ((n->right != NULL)?2:0); 
+
+	tnode_t* tmp = NULL;
+
+	switch (children) {
+		case 0: /* The node is a leaf */
+			binarytree_skipNode_internal(n, NULL);
+			t->destroy(n->elem);
+			free(n);
+			break;
+
+		case 1: /* The node has only one child (left) */
+			binarytree_skipNode_internal(n, n->left);
+			t->destroy(n->elem);
+			free(n);
+			break;
+
+		case 2: /* The node has only one child (right) */
+			binarytree_skipNode_internal(n, n->right);
+			t->destroy(n->elem);
+			free(n);
+			break;
+
+		case 3: /* The node has two children */
+			/* Find max node in right subtree */
+			tmp = binarytree_findMaxNode(n->right);
+			/* Replace n element with min element */
+			t->destroy(n->elem);
+			n->elem = tmp->elem;
+			/* Unlink max node */
+			binarytree_skipNode_internal(tmp, NULL);
+			/* Delete max node */
+			free(tmp);
+			break;
+
+		default: /* should never happen */
+			assert(0);
+			break;
 	}
 
-	else {
-		/* The node has two childs */
-		/* XXX not implemented yet */
-		assert(0);
-	}
-
-	t->destroy(n->elem);
-	free(n);
 	t->size--;
 	return 0;
 }

@@ -10,6 +10,7 @@ void bintree_test_add_find3(void);
 void bintree_test_add_find4(void);
 void bintree_test_remove1(void);
 void bintree_test_remove2(void);
+void bintree_test_remove3(void);
 
 int init_bintree_suite(void);
 int clean_bintree_suite(void);

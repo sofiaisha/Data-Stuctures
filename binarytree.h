@@ -8,6 +8,7 @@
 typedef struct tnode_t tnode_t;
 struct tnode_t {
 	void*		elem;
+	tnode_t*	parent;
 	tnode_t*	left;
 	tnode_t*	right;
 }; 
@@ -30,6 +31,8 @@ unsigned int	binarytree_size(binarytree_t* t);
 
 void* 		binarytree_add(binarytree_t* t, void* elem);
 
+int 		binarytree_remove(binarytree_t* t, void* elem);
+
 void* 		binarytree_find(binarytree_t* t, void* elem);
 
 void 		binarytree_print(binarytree_t* t, FILE* fd);
@@ -38,8 +41,8 @@ void		binarytree_destroy(binarytree_t** t);
 
 /* Internal functions used recursion, do not use! */
 
-void* 		binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem);
-void* 		binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem);
-void 		binarytree_print_internal(binarytree_t* t, tnode_t* n, FILE* fd);
-void 		binarytree_destroy_internal(binarytree_t* t, tnode_t* n);
+void* binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem, tnode_t* parent);
+void* binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem, unsigned int mode);
+void  binarytree_print_internal(binarytree_t* t, tnode_t* n, FILE* fd);
+void  binarytree_destroy_internal(binarytree_t* t, tnode_t* n);
 #endif

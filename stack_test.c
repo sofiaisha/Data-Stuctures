@@ -16,7 +16,7 @@ int stk_compare(void* s1, void* s2) {
 }
 
 void* stk_clone(void* s) {
-	return strdup(s);
+	return strdup((char*)s);
 }
 
 void stk_destroy(void* s) {

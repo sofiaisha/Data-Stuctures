@@ -16,7 +16,7 @@ int que_compare(void* s1, void* s2) {
 }
 
 void* que_clone(void* s) {
-	return strdup(s);
+	return strdup((char*)s);
 }
 
 void que_destroy(void* s) {

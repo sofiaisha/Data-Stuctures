@@ -15,7 +15,7 @@ int lst_compare(void* s1, void* s2) {
 }
 
 void* lst_clone(void* s) {
-	return strdup(s);
+	return strdup((char*)s);
 }
 
 void lst_destroy(void* s) {

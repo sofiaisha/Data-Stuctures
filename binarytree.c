@@ -49,6 +49,15 @@ unsigned int binarytree_size(binarytree_t* t) {
 	return t->size;
 }
 
+#define MAX(a,b) ( (a) > (b) ? (a) : (b) ) 
+
+unsigned int binarytree_height(tnode_t* n) {
+	if (n == NULL) {
+		return 0;
+	}
+	return 1 + MAX(binarytree_height(n->left), binarytree_height(n->right));
+} 
+
 #define _BT_FIND_ELEM 0
 #define _BT_FIND_NODE 1
 

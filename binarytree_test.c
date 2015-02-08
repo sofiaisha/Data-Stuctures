@@ -50,6 +50,7 @@ void bintree_test_init(void) {
                                           bintree_clone, bintree_destroy);
 	CU_ASSERT (t != NULL);
 	CU_ASSERT (binarytree_size(t) == 0);
+	CU_ASSERT (binarytree_height(t->root) == 0);
 
 	binarytree_destroy(&t);
 }
@@ -57,6 +58,8 @@ void bintree_test_init(void) {
 void bintree_test_empty(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (binarytree_size(t) == 0);
+	CU_ASSERT (binarytree_height(t->root) == 0);
 	binarytree_print(t, stdout);
 
 	binarytree_destroy(&t);
@@ -68,21 +71,35 @@ void bintree_test_remove1(void) {
 
 	/* Degenerate tree: s1 -> s2 -> s3 -> s4 */
 	binarytree_add(t, bintree_test_s1);
+	CU_ASSERT (binarytree_size(t) == 1);
+	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_add(t, bintree_test_s2);
+	CU_ASSERT (binarytree_height(t->root) == 2);
+	CU_ASSERT (binarytree_size(t) == 2);
 	binarytree_add(t, bintree_test_s3);
+	CU_ASSERT (binarytree_height(t->root) == 3);
+	CU_ASSERT (binarytree_size(t) == 3);
 	binarytree_add(t, bintree_test_s4);
 	CU_ASSERT (binarytree_size(t) == 4);
+	CU_ASSERT (binarytree_height(t->root) == 4);
 	binarytree_print(t, stdout);
 
 	/* Removing in reverse order, i.e. treating each node as a leaf */ 
 	CU_ASSERT (binarytree_remove(t, bintree_testKey4) == 0); 
+	CU_ASSERT (binarytree_size(t) == 3);
+	CU_ASSERT (binarytree_height(t->root) == 3);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey3) == 0); 
+	CU_ASSERT (binarytree_size(t) == 2);
+	CU_ASSERT (binarytree_height(t->root) == 2);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == 0); 
+	CU_ASSERT (binarytree_size(t) == 1);
+	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == -1); 
 	CU_ASSERT (binarytree_size(t) == 1);
+	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
 
 	binarytree_destroy(&t);
@@ -99,17 +116,25 @@ void bintree_test_remove2(void) {
 	binarytree_add(t, bintree_test_s3);
 	binarytree_add(t, bintree_test_s4);
 	CU_ASSERT (binarytree_size(t) == 4);
+	CU_ASSERT (binarytree_height(t->root) == 4);
 	binarytree_print(t, stdout);
 
 	/* Removing in addition order, i.e. treating nodes as a one-child node */ 
 	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == -1); 
+	CU_ASSERT (binarytree_size(t) == 4);
+	CU_ASSERT (binarytree_height(t->root) == 4);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == 0); 
+	CU_ASSERT (binarytree_size(t) == 3);
+	CU_ASSERT (binarytree_height(t->root) == 3);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey3) == 0); 
+	CU_ASSERT (binarytree_size(t) == 2);
+	CU_ASSERT (binarytree_height(t->root) == 2);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey4) == 0); 
 	CU_ASSERT (binarytree_size(t) == 1);
+	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
 
 	binarytree_destroy(&t);
@@ -135,21 +160,26 @@ void bintree_test_remove3(void) {
 	CU_ASSERT (binarytree_add(t, bintree_test_s4) == bintree_test_s4);
 	CU_ASSERT (binarytree_add(t, bintree_test_s6) == bintree_test_s6);
 	CU_ASSERT (binarytree_size(t) == 6);
+	CU_ASSERT (binarytree_height(t->root) == 4);
 	binarytree_print(t, stdout);
 
 	CU_ASSERT (binarytree_remove(t, bintree_testKey5) == 0); 
+	CU_ASSERT (binarytree_height(t->root) == 4);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey6) == 0); 
+	CU_ASSERT (binarytree_height(t->root) == 3);
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey4) == 0); 
+	CU_ASSERT (binarytree_height(t->root) == 2);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey3) == 0); 
+	binarytree_print(t, stdout);
+	CU_ASSERT (binarytree_height(t->root) == 2);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == 0); 
+	CU_ASSERT (binarytree_height(t->root) == 1);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == -1); 
 	binarytree_print(t, stdout);
 	binarytree_destroy(&t);
 }
-
-
 
 void bintree_test_add_find1(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 

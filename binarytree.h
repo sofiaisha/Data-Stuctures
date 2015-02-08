@@ -29,6 +29,8 @@ binarytree_t*	binarytree_init(int (*compare)(void*, void*),
 
 unsigned int	binarytree_size(binarytree_t* t);
 
+unsigned int	binarytree_height(tnode_t* n);
+
 void* 		binarytree_add(binarytree_t* t, void* elem);
 
 int 		binarytree_remove(binarytree_t* t, void* elem);

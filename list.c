@@ -50,7 +50,7 @@ unsigned int list_size(list_t* l) {
 void* list_add(list_t* l, void* elem, unsigned int mode) {
 	if ((l == NULL) || (elem == NULL) || 
             ((mode != ADD_FIRST) && (mode != ADD_LAST))){
-		debug_print("invalid parameter\n");
+		debug_print("invalid mode\n");
 		return NULL;
 	}
 
@@ -159,7 +159,10 @@ int list_remove(list_t* l, void* elem) {
 		return -2;
 	}
 
-	/* XXX: thread safeness */
+	if (sem_wait(&(l->sem)) != 0) {
+		perror("list_remove: can't wait semaphore");
+		return errno;
+	}
 
 	/* If this is the first node, the head must be updated */
 	if (n == l->head) {
@@ -189,6 +192,12 @@ int list_remove(list_t* l, void* elem) {
 	}
 	/* Free node */
 	free(n);
+
+	if (sem_post(&(l->sem)) != 0) {
+		perror("list_destroy: can't post semaphore");
+		return errno;
+
+	}
 
 	return 0;
 }

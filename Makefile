@@ -1,5 +1,5 @@
 CC= gcc 
-CFLAGS= -Wextra -Wall -std=c99 -fPIC
+CFLAGS= -Wextra -Wall -std=gnu99 -fPIC
 OPT_FLAGS = -O6
 DEBUG_FLAGS= -g # -DDEBUG1 -DDEBUG2
 

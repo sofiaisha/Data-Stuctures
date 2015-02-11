@@ -289,6 +289,43 @@ void bintree_test_add_find4(void) {
 	binarytree_destroy(&t);
 }
 
+void traversal_print(void* elem) {
+	printf ("%s ", (char*)elem);
+}
+
+void bintree_test_traversal(void) {
+	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
+					  bintree_clone, bintree_destroy);
+	// Check invalid parameters
+	CU_ASSERT (binarytree_traversal(NULL, TRAVERSAL_MODE_PREORDER, traversal_print) == -1); 
+	CU_ASSERT (binarytree_traversal(t, -1, traversal_print) == -1); 
+	CU_ASSERT (binarytree_traversal(t, 2, traversal_print) == -1); 
+	CU_ASSERT (binarytree_traversal(t, TRAVERSAL_MODE_PREORDER, NULL) == -1); 
+
+	/* Tree:            s2
+         *                 /  \
+         *                s1  s4
+         *                   / 
+         *                  s3  
+	 */
+
+	CU_ASSERT (binarytree_add(t, bintree_test_s2) == bintree_test_s2);
+	CU_ASSERT (binarytree_add(t, bintree_test_s4) == bintree_test_s4);
+	CU_ASSERT (binarytree_add(t, bintree_test_s3) == bintree_test_s3);
+	CU_ASSERT (binarytree_add(t, bintree_test_s1) == bintree_test_s1);
+
+	printf("\n");
+	printf("Preorder: ");
+	binarytree_traversal(t, TRAVERSAL_MODE_PREORDER, traversal_print); 
+	printf("\n");
+	printf("Inorder: ");
+	binarytree_traversal(t, TRAVERSAL_MODE_INORDER, traversal_print); 
+	printf("\n");
+	printf("Postorder: ");
+	binarytree_traversal(t, TRAVERSAL_MODE_POSTORDER, traversal_print); 
+	printf("\n");
+}
+
 void bintree_test_destroy(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);

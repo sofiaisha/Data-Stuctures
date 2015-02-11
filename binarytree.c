@@ -107,6 +107,32 @@ void* binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem, unsigned
 	return NULL;
 }
 
+int binarytree_traversal(binarytree_t* t, unsigned int mode, void(*f)(void*)) {
+	if ((t == NULL) || (mode > TRAVERSAL_MODE_POSTORDER) || (f == NULL)) {
+		return -1;
+	}
+	binarytree_traversal_internal(t->root, mode, f);
+	return 0;
+
+}
+
+void binarytree_traversal_internal(tnode_t* t, unsigned int mode, void(*f)(void*)) {
+	if (t==NULL) {
+		return;
+	}
+	if (mode == TRAVERSAL_MODE_PREORDER) {
+		f(t->elem);
+	}
+	binarytree_traversal_internal(t->left, mode, f);
+	if (mode == TRAVERSAL_MODE_INORDER) {
+		f(t->elem);
+	}
+	binarytree_traversal_internal(t->right, mode, f);
+	if (mode == TRAVERSAL_MODE_POSTORDER) {
+		f(t->elem);
+	}
+}
+
 tnode_t* binarytree_findMaxNode(tnode_t* n) {
 	while ((n != NULL) && (n->left != NULL)) {
 		n = n->left;

@@ -8,6 +8,7 @@ void bintree_test_add_find1(void);
 void bintree_test_add_find2(void);
 void bintree_test_add_find3(void);
 void bintree_test_add_find4(void);
+void bintree_test_traversal(void);
 void bintree_test_remove1(void);
 void bintree_test_remove2(void);
 void bintree_test_remove3(void);

@@ -120,6 +120,7 @@ int main(void) {
 	(CU_add_test(pSuite, "testing binarytree_add() and find() #2", bintree_test_add_find2) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_add() and find() #3", bintree_test_add_find3) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_add() and find() #4", bintree_test_add_find4) == NULL) ||
+	(CU_add_test(pSuite, "testing binarytree_traversal()", bintree_test_traversal) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_remove() #1", bintree_test_remove1) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_remove() #2", bintree_test_remove2) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_remove() #3", bintree_test_remove3) == NULL) 

@@ -23,5 +23,15 @@ libcontainer.a: $(LIBOBJS)
 
 libcontainer.so: $(LIBOBJS)
 	$(CC) -shared -o libcontainer.so $(LIBOBJS)
+
 clean:	
 	/bin/rm -f all_test $(LIBOBJS) $(TESTOBJS) $(LIB)
+
+test: all_test
+	./all_test
+
+cppcheck: 
+	cppcheck --std=c99 --language=c --platform=unix64 --enable=all --force  *.c *.h
+
+valgrind: all_test
+	valgrind --leak-check=full ./all_test

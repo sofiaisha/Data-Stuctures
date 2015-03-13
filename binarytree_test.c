@@ -299,7 +299,7 @@ void bintree_test_traversal(void) {
 	// Check invalid parameters
 	CU_ASSERT (binarytree_traversal(NULL, TRAVERSAL_MODE_PREORDER, traversal_print) == -1); 
 	CU_ASSERT (binarytree_traversal(t, -1, traversal_print) == -1); 
-	CU_ASSERT (binarytree_traversal(t, 2, traversal_print) == -1); 
+	CU_ASSERT (binarytree_traversal(t, 4, traversal_print) == -1); 
 	CU_ASSERT (binarytree_traversal(t, TRAVERSAL_MODE_PREORDER, NULL) == -1); 
 
 	/* Tree:            s2
@@ -324,6 +324,7 @@ void bintree_test_traversal(void) {
 	printf("Postorder: ");
 	binarytree_traversal(t, TRAVERSAL_MODE_POSTORDER, traversal_print); 
 	printf("\n");
+	binarytree_destroy(&t);
 }
 
 void bintree_test_destroy(void) {

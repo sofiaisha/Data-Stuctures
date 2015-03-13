@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <semaphore.h>
 #include <assert.h> 
-#include <CUnit/Basic.h>
 
 #include "hashtable.h"
 #include "util.h"

@@ -102,6 +102,7 @@ void* binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem, unsigned
 
 int binarytree_traversal(binarytree_t* t, unsigned int mode, void(*f)(void*)) {
 	if ((t == NULL) || (mode > TRAVERSAL_MODE_POSTORDER) || (f == NULL)) {
+		debug_print("Invalid parameter\n");
 		return -1;
 	}
 	binarytree_traversal_internal(t->root, mode, f);

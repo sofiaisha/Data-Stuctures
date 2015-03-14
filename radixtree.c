@@ -11,6 +11,7 @@
 radixtree_t* radixtree_init(unsigned int alphabetSize, char alphabetStart) {
 
 	if (alphabetSize == 0)  {
+		debug_print("Invalid parameter\n");
 		return NULL;
 	}
 
@@ -45,19 +46,15 @@ unsigned int radixtree_size(radixtree_t* t) {
 
 char* radixtree_add(radixtree_t* t, char* s) {
 	if ((t == NULL) || (s == NULL)) {
+		debug_print("Invalid parameter\n");
 		return NULL;
 	}
 	rtnode_t** currentChilds = t->childs;
 	assert (currentChilds != NULL);
 
-	printf("Adding %s, length %d\n", s, strlen(s));
 	for (unsigned int i=0;i<strlen(s);i++) {
 		unsigned int childIndex = s[i] - t->alphabetStart;
-
-		printf("Adding %c at index %d\n", s[i], childIndex);
-
 		if (currentChilds[childIndex] == NULL) {
-			printf("Alloc\n");
 			currentChilds[childIndex] = (rtnode_t*)malloc(sizeof(rtnode_t));
 			if (currentChilds[childIndex] == NULL) {
                 		perror("radixtree_add: can't create childs, errno=%d");
@@ -74,11 +71,13 @@ char* radixtree_add(radixtree_t* t, char* s) {
 		currentChilds = currentChilds[childIndex]->childs;
 	}
 
+	t->size++;
 	return s;
 }
 
 char* radixtree_find(radixtree_t* t, char* s) {
 	if ((t == NULL) || (s == NULL)) {
+		debug_print("Invalid parameter\n");
 		return NULL;
 	}
 

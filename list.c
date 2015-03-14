@@ -34,6 +34,7 @@ list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 
 unsigned int list_size(list_t* l) {
 	if (l == NULL) {
+		debug_print("invalid parameter\n");
 		return 0;
 	}
 	else {

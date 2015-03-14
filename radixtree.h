@@ -20,13 +20,9 @@ radixtree_t*	radixtree_init(unsigned int alphabetSize, char alphabetStart);
 
 unsigned int	radixtree_size(radixtree_t* t);
 
-unsigned int 	radixtree_height(radixtree_t* t, rtnode_t* n);
-
 char* 		radixtree_add(radixtree_t* t, char* s);
 
 char*		radixtree_find(radixtree_t* t, char* s);
-
-void 		radixtree_print(radixtree_t* t, FILE* fd);
 
 void		radixtree_destroy(radixtree_t** t);
 

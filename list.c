@@ -21,12 +21,6 @@ list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 		return NULL;
 	}
 
-	if (sem_init(&(l->sem), 0, 1) != 0) {
-		perror("list_init: can't create semaphore");
-		free(l);
-		return NULL;
-	}
-	
 	l->head 	= NULL;
 	l->tail 	= NULL;
 	l->size 	= 0;
@@ -57,18 +51,6 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 	node_t* n = (node_t*)malloc(sizeof(node_t));
 	if (n == NULL) {
 		perror("list_add: can't create node");
-		return NULL;
-	}
-
-	if (sem_wait(&(l->sem)) != 0) {
-		perror("list_add: can't wait semaphore");
-		free(n);
-		return NULL;
-	}
-
-	if (l == NULL) {
-		debug_print("oops, list has been destroyed\n");
-		free(n);
 		return NULL;
 	}
 
@@ -105,10 +87,6 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 	}
 	
 	l->size++;	
-
-	if (sem_post(&(l->sem)) != 0) {
-		perror("list_init: can't post semaphore");
-	}
 
 	return n->elem;
 }
@@ -159,11 +137,6 @@ int list_remove(list_t* l, void* elem) {
 		return -2;
 	}
 
-	if (sem_wait(&(l->sem)) != 0) {
-		perror("list_remove: can't wait semaphore");
-		return errno;
-	}
-
 	/* If this is the first node, the head must be updated */
 	if (n == l->head) {
 		l->head = n->next;
@@ -192,12 +165,6 @@ int list_remove(list_t* l, void* elem) {
 	}
 	/* Free node */
 	free(n);
-
-	if (sem_post(&(l->sem)) != 0) {
-		perror("list_destroy: can't post semaphore");
-		return errno;
-
-	}
 
 	return 0;
 }
@@ -247,11 +214,6 @@ int list_destroy(list_t** l) {
 		return EINVAL;
 	}
 	
-	if (sem_wait(&((*l)->sem)) != 0) {
-		perror("list_destroy: can't wait semaphore");
-		return errno;
-	}
-
 	list_t* tmpl = *l;
 	*l = NULL;
 	while (tmpl->head) {
@@ -266,10 +228,6 @@ int list_destroy(list_t** l) {
 
 	assert(tmpl->head == NULL);
 	assert(tmpl->size == 0);
-
-	if (sem_post(&(tmpl->sem)) != 0) {
-		perror("list_destroy: can't post semaphore");
-	}
 
 	free(tmpl);
 

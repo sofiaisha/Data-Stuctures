@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <semaphore.h>
 #include <assert.h> 
 
 #include "hashtable.h"
@@ -24,12 +23,6 @@ hashtable_t* hashtable_init(unsigned int bins, int (*compare)(void*, void*),
      	   	perror("hashtable_init: can't create new hashtable");
 	   	return NULL;
      	}
-
-	if (sem_init(&(h->sem), 0, 1) != 0) {
-		perror("hashtable_init: can't create semaphore");
-		free(h);
-		return NULL;
-	}
 
 	h->bins = (list_t**)malloc(bins*sizeof(list_t*)); 
         if (h->bins == NULL) {
@@ -126,13 +119,7 @@ int hashtable_remove(hashtable_t* h, void* key) {
 	tmp.key = key;
 	int result = list_remove(h->bins[bin], &tmp);
 	if (result == 0) { 
-		if (sem_wait(&(h->sem)) != 0) { 
-                	perror("hashtable_remove: can't wait semaphore");
-        	}
 		h->size--;
-		if (sem_post(&(h->sem)) != 0) { 
-                	perror("hashtable_remove: can't post semaphore");
-        	}
 	}
 	return result;
 }
@@ -144,12 +131,6 @@ void hashtable_destroy(hashtable_t** h) {
 	}
 
 	hashtable_t* tmp = *h;	
-
-	if (sem_wait(&(tmp->sem)) != 0) {
-		perror("hashtable_destroy: can't wait semaphore");
-		return;	
-	}
-
 	*h = NULL;
 
 	/* Empty and free each bin */
@@ -161,7 +142,6 @@ void hashtable_destroy(hashtable_t** h) {
 	free(tmp->bins);	
 	tmp->bin_count = 0;
 	tmp->size = 0;
-	sem_post(&(tmp->sem));
 	free(tmp);
 }
 

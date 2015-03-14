@@ -2,7 +2,6 @@
 #define __LIST_H
 
 #include <stdio.h>
-#include <semaphore.h>
 #include <stdbool.h>
 
 typedef struct node_t node_t;
@@ -16,7 +15,6 @@ typedef struct {
 	node_t*		head;
 	node_t*		tail;
 	unsigned int 	size;
-	sem_t		sem;
 	int		(*compare)(void*, void*);
 	void		(*print)(void*, FILE*);
 	void*		(*clone)(void*);

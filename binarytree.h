@@ -2,7 +2,6 @@
 #define __BINARYTREE_H
 
 #include <stdio.h>
-#include <semaphore.h>
 #include <stdbool.h>
 
 typedef struct tnode_t tnode_t;
@@ -16,7 +15,6 @@ struct tnode_t {
 typedef struct {
 	tnode_t*	root;
 	unsigned int 	size;
-	sem_t		sem;
 	int		(*compare)(void*, void*);
 	void		(*print)(void*, FILE*);
 	void*		(*clone)(void*);

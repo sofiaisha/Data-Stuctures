@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <semaphore.h>
 #include <stdbool.h>
 #include <assert.h>
 
@@ -24,12 +23,6 @@ binarytree_t*	binarytree_init(int (*compare)(void*, void*),
                 return NULL;
         }       
 
-        if (sem_init(&(t->sem), 0, 1) != 0) { 
-                perror("binarytree_init: can't create semaphore");
-                free(t);
-                return NULL;
-        }       
-       
 	t->root		= NULL;
 	t->size		= 0;
         t->compare      = compare;

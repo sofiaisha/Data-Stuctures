@@ -2,7 +2,6 @@
 #define __HASHTABLE_H
 
 #include <stdio.h>
-#include <semaphore.h>
 
 #include "list.h"
 
@@ -10,7 +9,6 @@ typedef struct {
 	list_t**	bins;
 	unsigned int 	bin_count;
 	unsigned int 	size;
-	sem_t		sem;
 	unsigned int 	(*hash)(void * key);
 } hashtable_t;
 

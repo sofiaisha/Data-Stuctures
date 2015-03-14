@@ -1,8 +1,10 @@
-Data structures in C:
+Generic data structures in C:
 - linked list (list.h)
 - stack (stack.h)
 - queue (queue.h)
 - hashtable (hashtable.h)
 - binary tree (binarytree.h)
+- radix tree (radixtree.h), with customizable alphabet size
 
 Unit-tests written with CUnit (*_test.[ch]).
+Code checked with cppcheck and valgrind.

@@ -10,6 +10,7 @@
 #include "queue_test.h"
 #include "hashtable_test.h"
 #include "binarytree_test.h"
+#include "radixtree_test.h"
 
 int main(void) {
 	CU_pSuite pSuite = NULL;
@@ -129,7 +130,23 @@ int main(void) {
 		return CU_get_error();	
 	}
 
+	/* Radix tree test suite */ 
 
+	pSuite = CU_add_suite("radixtree_suite", 
+			init_radixtree_suite, clean_radixtree_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing radixtree_init()", radixtree_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing radixtree_destroy()", radixtree_test_destroy) == NULL)
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+ 
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
 	CU_cleanup_registry();

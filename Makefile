@@ -1,7 +1,7 @@
 CC= gcc 
 CFLAGS= -Wextra -Wall -std=gnu99 -fPIC
 OPT_FLAGS = -O6
-DEBUG_FLAGS= -g # -DDEBUG1 -DDEBUG2
+DEBUG_FLAGS= -g  -DDEBUG1 # -DDEBUG2
 
 .c.o :
 	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) -c $<

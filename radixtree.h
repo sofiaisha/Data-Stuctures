@@ -2,7 +2,6 @@
 #define __RADIXTREE_STRING_H
 
 #include <stdio.h>
-#include <semaphore.h>
 #include <stdbool.h>
 
 typedef struct rtnode_t rtnode_t;
@@ -15,7 +14,6 @@ typedef struct {
 	unsigned int 	alphabetSize;
 	char		alphabetStart;
 	unsigned int 	size;
-	sem_t		sem;
 } radixtree_t;
 
 radixtree_t*	radixtree_init(unsigned int alphabetSize, char alphabetStart);

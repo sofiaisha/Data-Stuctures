@@ -1,7 +1,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <semaphore.h>
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -24,12 +23,6 @@ radixtree_t* radixtree_init(unsigned int alphabetSize, char alphabetStart) {
 	t->alphabetSize		= alphabetSize;
 	t->alphabetStart	= alphabetStart;
 
-        if (sem_init(&(t->sem), 0, 1) != 0) { 
-                perror("radixtree_init: can't create semaphore");
-                free(t);
-                return NULL;
-        }       
-       
 	t->childs = (rtnode_t**)malloc((t->alphabetSize)*sizeof(rtnode_t*));
 	if (t->childs == NULL) {
                 perror("radixtree_init: can't create childs, errno=%d");
@@ -59,12 +52,12 @@ char* radixtree_add(radixtree_t* t, char* s) {
 
 	printf("Adding %s, length %d\n", s, strlen(s));
 	for (unsigned int i=0;i<strlen(s);i++) {
-		int ch = *(s+i);
-		unsigned int childIndex = ch - t->alphabetStart;
+		unsigned int childIndex = s[i] - t->alphabetStart;
 
-		printf("Adding %c at index %d\n", ch, childIndex);
+		printf("Adding %c at index %d\n", s[i], childIndex);
 
 		if (currentChilds[childIndex] == NULL) {
+			printf("Alloc\n");
 			currentChilds[childIndex] = (rtnode_t*)malloc(sizeof(rtnode_t));
 			if (currentChilds[childIndex] == NULL) {
                 		perror("radixtree_add: can't create childs, errno=%d");
@@ -80,16 +73,34 @@ char* radixtree_add(radixtree_t* t, char* s) {
 		}
 		currentChilds = currentChilds[childIndex]->childs;
 	}
+
 	return s;
 }
 
+char* radixtree_find(radixtree_t* t, char* s) {
+	if ((t == NULL) || (s == NULL)) {
+		return NULL;
+	}
+
+	rtnode_t** currentChilds = t->childs;
+	assert (currentChilds != NULL);
+
+	for (unsigned int i=0;i<strlen(s);i++) {
+		unsigned int childIndex = s[i] - t->alphabetStart;
+		if (currentChilds[childIndex] == NULL) {
+			return NULL;
+		}
+		currentChilds = currentChilds[childIndex]->childs;
+	}
+	return s;
+}
 
 void radixtree_destroy(radixtree_t** t) {
 	if ((t == NULL) || (*t == NULL)) {
 		debug_print("Invalid parameter\n");
 		return;
 	}
-	
+
 	radixtree_t* tmp = (*t);
 	(*t) = NULL;
 	for (unsigned int i=0;i<tmp->alphabetSize;i++) {
@@ -109,4 +120,3 @@ void radixtree_destroy_internal(radixtree_t* t, rtnode_t* c) {
 	free(c->childs);
 	free(c);
 }
-

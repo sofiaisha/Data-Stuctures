@@ -7,19 +7,18 @@
 
 typedef struct rtnode_t rtnode_t;
 struct rtnode_t {
-	char		c;
-	rtnode_t*	parent;
-	rtnode_t*	childs[];
+	rtnode_t**	childs;
 }; 
 
 typedef struct {
-	rtnode_t*	root;
+	rtnode_t**	childs;
 	unsigned int 	alphabetSize;
+	char		alphabetStart;
 	unsigned int 	size;
 	sem_t		sem;
 } radixtree_t;
 
-radixtree_t*	radixtree_init(unsigned int alphabetSize);
+radixtree_t*	radixtree_init(unsigned int alphabetSize, char alphabetStart);
 
 unsigned int	radixtree_size(radixtree_t* t);
 
@@ -35,12 +34,6 @@ void		radixtree_destroy(radixtree_t** t);
 
 /* Internal functions, do not use! */
 
-void radixtree_destroy_internal(radixtree_t* t, rtnode_t* n);
+void 		radixtree_destroy_internal(radixtree_t* t, rtnode_t* c);
 
-/*
-void* binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem, tnode_t* parent);
-void* binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem, unsigned int mode);
-void  binarytree_traversal_internal(tnode_t* t, unsigned int mode, void(*f)(void*));
-void  binarytree_print_internal(binarytree_t* t, tnode_t* n, FILE* fd);
-*/
 #endif

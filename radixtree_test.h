@@ -3,6 +3,7 @@
 
 void radixtree_test_init(void);
 void radixtree_test_destroy(void);
+void radixtree_test_add(void);
 
 int init_radixtree_suite(void);
 int clean_radixtree_suite(void);

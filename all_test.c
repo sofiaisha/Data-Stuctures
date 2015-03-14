@@ -141,7 +141,8 @@ int main(void) {
 
 	if (
 	(CU_add_test(pSuite, "testing radixtree_init()", radixtree_test_init) == NULL) ||
-	(CU_add_test(pSuite, "testing radixtree_destroy()", radixtree_test_destroy) == NULL)
+	(CU_add_test(pSuite, "testing radixtree_destroy()", radixtree_test_destroy) == NULL) || 
+	(CU_add_test(pSuite, "testing radixtree_add()", radixtree_test_add) == NULL)
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();	

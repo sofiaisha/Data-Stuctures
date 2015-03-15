@@ -49,24 +49,27 @@ char* radixtree_add(radixtree_t* t, char* s) {
 		debug_print("Invalid parameter\n");
 		return NULL;
 	}
+	assert (t->childs != NULL);
+	
 	rtnode_t** currentChilds = t->childs;
-	assert (currentChilds != NULL);
 
 	for (unsigned int i=0;i<strlen(s);i++) {
 		unsigned int childIndex = s[i] - t->alphabetStart;
+
 		if (currentChilds[childIndex] == NULL) {
 			currentChilds[childIndex] = (rtnode_t*)malloc(sizeof(rtnode_t));
 			if (currentChilds[childIndex] == NULL) {
                 		perror("radixtree_add: can't create childs, errno=%d");
 				return NULL;
 			}
+
 			currentChilds[childIndex]->childs = (rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
-			memset(currentChilds[childIndex]->childs, 0, t->alphabetSize * sizeof(rtnode_t*));
 			if (currentChilds[childIndex]->childs == NULL) {
                 		perror("radixtree_add: can't create childs, errno=%d");
 				free(currentChilds[childIndex]);
 				return NULL;
 			}
+			memset(currentChilds[childIndex]->childs, 0, t->alphabetSize * sizeof(rtnode_t*));
 		}
 		currentChilds = currentChilds[childIndex]->childs;
 	}
@@ -80,16 +83,17 @@ char* radixtree_find(radixtree_t* t, char* s) {
 		debug_print("Invalid parameter\n");
 		return NULL;
 	}
+	assert (t->childs != NULL);
 
 	rtnode_t** currentChilds = t->childs;
-	assert (currentChilds != NULL);
 
 	for (unsigned int i=0;i<strlen(s);i++) {
 		unsigned int childIndex = s[i] - t->alphabetStart;
-		if (currentChilds[childIndex] == NULL) {
+		rtnode_t* child = currentChilds[childIndex];
+		if (child == NULL) {
 			return NULL;
 		}
-		currentChilds = currentChilds[childIndex]->childs;
+		currentChilds = child->childs;
 	}
 	return s;
 }

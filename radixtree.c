@@ -63,13 +63,15 @@ char* radixtree_add(radixtree_t* t, char* s) {
 				return NULL;
 			}
 
-			currentChilds[childIndex]->childs = (rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
 			if (currentChilds[childIndex]->childs == NULL) {
-                		perror("radixtree_add: can't create childs, errno=%d");
-				free(currentChilds[childIndex]);
-				return NULL;
+				currentChilds[childIndex]->childs = (rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
+				if (currentChilds[childIndex]->childs == NULL) {
+                			perror("radixtree_add: can't create childs, errno=%d");
+					free(currentChilds[childIndex]);
+					return NULL;
+				}
+				memset(currentChilds[childIndex]->childs, 0, t->alphabetSize * sizeof(rtnode_t*));
 			}
-			memset(currentChilds[childIndex]->childs, 0, t->alphabetSize * sizeof(rtnode_t*));
 		}
 		currentChilds = currentChilds[childIndex]->childs;
 	}

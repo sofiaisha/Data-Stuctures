@@ -6,17 +6,24 @@ DEBUG_FLAGS= -g  -DDEBUG1 # -DDEBUG2
 .c.o :
 	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) -c $<
 
-LIB= libcontainer.a libcontainer.so
-
-LIBOBJS= list.o stack.o queue.o hashtable.o binarytree.o radixtree.o
-TESTOBJS= all_test.o list_test.o stack_test.o queue_test.o hashtable_test.o \
+LIB= 		libcontainer.a libcontainer.so
+LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o
+TESTOBJS= 	all_test.o list_test.o stack_test.o queue_test.o hashtable_test.o \
 		     binarytree_test.o radixtree_test.o
 
+BIN= 		all_test words 
+BINOBJS= 	all_test.o words.o
 
-OBJS= all_test.o $(TESTOBJS)  
+OBJS= $(TESTOBJS) $(LIBOBJS) $(BINOBJS)
 
-all_test: $(OBJS) $(LIB)
+
+all: $(BIN)
+
+all_test: $(TESTOBJS) $(LIB)
 	$(CC) -o all_test $(TESTOBJS) libcontainer.a -lpthread -lcunit 
+
+words: words.o $(LIB)
+	$(CC) -o words words.o libcontainer.a 
 
 libcontainer.a: $(LIBOBJS)
 	ar rcs libcontainer.a $(LIBOBJS)
@@ -25,7 +32,7 @@ libcontainer.so: $(LIBOBJS)
 	$(CC) -shared -o libcontainer.so $(LIBOBJS)
 
 clean:	
-	/bin/rm -f all_test $(LIBOBJS) $(TESTOBJS) $(LIB)
+	/bin/rm -f $(BIN) $(OBJS) $(LIB)
 
 test: all_test
 	./all_test

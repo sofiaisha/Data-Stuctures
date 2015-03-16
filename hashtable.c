@@ -78,7 +78,7 @@ void hashtable_print(hashtable_t* h, FILE* fd) {
         }       
 
 	for (unsigned int i=0;i<h->bin_count;i++) {
-		fprintf (fd, " bin %d ", i);
+		fprintf (fd, " bin %ud ", i);
 		list_print(h->bins[i], fd);
 	}
 	fprintf (fd, "\n");

@@ -13,7 +13,7 @@ void ht_print(void* elem, FILE* fd) {
 	unsigned int k 		= *(int*)(hte->key);
 	char* v 		= (char*)(hte->value);
 
-	fprintf (fd, " (k=%d, v=%s) ", k, v);
+	fprintf (fd, " (k=%ud, v=%s) ", k, v);
 }
 
 unsigned int ht_hash(void * key) {

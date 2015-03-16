@@ -81,7 +81,7 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 
 			/* Should never happen */
 			default:
-				debug_print("invalid mode, %d", mode);
+				debug_print("invalid mode, %ud", mode);
 				assert(0);
 				break;
 		}

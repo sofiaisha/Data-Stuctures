@@ -30,11 +30,11 @@ int main(int argc, char** argv) {
 		unsigned int ret = fscanf(fd, "%s\n", s);
 
 		if (radixtree_add(tree, s) != NULL) {
-			count++;	
+			count+=ret;	
 		}
 	}
         clock_gettime(CLOCK_REALTIME, &after);
-	printf("Loaded %d words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
+	printf("Loaded %ud words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
 		count, after.tv_sec-before.tv_sec, after.tv_nsec-before.tv_nsec, 
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 
@@ -54,12 +54,12 @@ int main(int argc, char** argv) {
 		unsigned int ret = fscanf(fd, "%s\n", s);
 
 		if (radixtree_find(tree, s) != NULL) {
-			count++;
+			count+=ret;
 		}
 		
 	}
         clock_gettime(CLOCK_REALTIME, &after);
-	printf("Found %d words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
+	printf("Found %ud words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
 		count, after.tv_sec-before.tv_sec, after.tv_nsec-before.tv_nsec, 
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 

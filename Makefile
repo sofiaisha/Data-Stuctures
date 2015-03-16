@@ -38,7 +38,7 @@ test: all_test
 	./all_test
 
 cppcheck: 
-	cppcheck --std=c99 --language=c --platform=unix64 --enable=all --force  *.c *.h
+	cppcheck --quiet -I. --std=c99 --language=c --platform=unix64 --enable=all --force  *.c *.h
 
 valgrind: 
 	make clean

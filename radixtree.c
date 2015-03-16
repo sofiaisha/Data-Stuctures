@@ -114,7 +114,7 @@ float radixtree_density(radixtree_t* t, rtnode_t** childs, unsigned int* total, 
 		}
 	}
 	unsigned int full = (*total)-(*empty);
-	debug_print("Total: %d, empty: %d, full: %d\n", *total, *empty, full);
+	debug_print("Total: %ud, empty: %iud, full: %ud\n", *total, *empty, full);
 	return ((float)full)/(*total)*100;
 }
 

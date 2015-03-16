@@ -7,6 +7,7 @@
 typedef struct rtnode_t rtnode_t;
 struct rtnode_t {
 	rtnode_t**	childs;
+	bool		last;
 }; 
 
 typedef struct {

@@ -62,6 +62,8 @@ char* radixtree_add(radixtree_t* t, char* s) {
                 		perror("radixtree_add: can't create childs, errno=%d");
 				return NULL;
 			}
+			// If this is the last character, mark the node
+			currentChilds[childIndex]->last = (i == strlen(s)-1) ? true : false;
 
 			currentChilds[childIndex]->childs = (rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
 			if (currentChilds[childIndex]->childs == NULL) {
@@ -86,16 +88,19 @@ char* radixtree_find(radixtree_t* t, char* s) {
 	assert (t->childs != NULL);
 
 	rtnode_t** currentChilds = t->childs;
-
+	rtnode_t* child;	
 	for (unsigned int i=0;i<strlen(s);i++) {
 		unsigned int childIndex = s[i] - t->alphabetStart;
-		rtnode_t* child = currentChilds[childIndex];
+		child = currentChilds[childIndex];
 		if (child == NULL) {
 			return NULL;
 		}
 		currentChilds = child->childs;
 	}
-	return s;
+
+	// If the node has been marked as the last one, we've found the string.
+	// If not, we've only matched a substring and we return NULL.
+	return (child->last) ? s : NULL;
 }
 
 float radixtree_density(radixtree_t* t, rtnode_t** childs, unsigned int* total, unsigned int* empty) {

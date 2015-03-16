@@ -1,7 +1,7 @@
 CC= gcc 
 CFLAGS= -Wextra -Wall -std=gnu99 -fPIC
 OPT_FLAGS = -O6
-DEBUG_FLAGS= -g  -DDEBUG1 # -DDEBUG2
+DEBUG_FLAGS= -g # -DDEBUG1 # -DDEBUG2
 
 .c.o :
 	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) -c $<
@@ -32,7 +32,7 @@ libcontainer.so: $(LIBOBJS)
 	$(CC) -shared -o libcontainer.so $(LIBOBJS)
 
 clean:	
-	/bin/rm -f $(BIN) $(OBJS) $(LIB)
+	/bin/rm -f $(BIN) $(OBJS) $(LIB) cachegrind.out.*
 
 test: all_test
 	./all_test
@@ -40,5 +40,12 @@ test: all_test
 cppcheck: 
 	cppcheck --std=c99 --language=c --platform=unix64 --enable=all --force  *.c *.h
 
-valgrind: all_test
+valgrind: 
+	make clean
+	make OPT_FLAGS='' 
 	valgrind --leak-check=full ./all_test
+
+cachegrind: 
+	make clean
+	make OPT_FLAGS='-O6'
+	valgrind --tool=cachegrind ./all_test

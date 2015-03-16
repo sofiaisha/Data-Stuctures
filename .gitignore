@@ -2,3 +2,5 @@
 *.a
 *.so
 all_test
+words
+cachegrind.out.*

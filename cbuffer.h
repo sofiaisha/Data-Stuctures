@@ -3,23 +3,27 @@
 
 #include <stdio.h>
 
-#include "list.h"
+typedef struct cbuffer_t cbuffer_t;
+struct cbuffer_t {
+        void**  	entries;
+	unsigned int	head;
+	unsigned int 	size;
+	void 		(*print)(void*, FILE*);
+	void* 		(*clone)(void*);
+	void 		(*destroy)(void*);
+};
 
-typedef list_t queue_t;
+cbuffer_t* cbuffer_init(unsigned int size,
+	void (*print)(void*, FILE*), void* (*clone)(void*), void (*destroy)(void*));
 
-queue_t* queue_init(int (*compare)(void*, void*), void (*print)(void*, FILE*), 
-		  void* (*clone)(void*), void (*destroy)(void*));
+int cbuffer_size(cbuffer_t* c);
 
-unsigned int queue_size(queue_t* q);
+void*	cbuffer_write(cbuffer_t* c, void* elem);
 
-void*	queue_enqueue(queue_t* q, void* elem);
+void*	cbuffer_read(cbuffer_t* q, unsigned int index);
 
-void*	queue_dequeue(queue_t* q);
+void 	cbuffer_print(cbuffer_t* q, FILE* fd);
 
-void*	queue_get(queue_t* q);
-
-void 	queue_print(queue_t* q, FILE* fd);
-
-int 	queue_destroy(queue_t** q); 
+int 	cbuffer_destroy(cbuffer_t** q); 
 
 #endif 

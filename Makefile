@@ -7,9 +7,9 @@ DEBUG_FLAGS= -g # -DDEBUG1 # -DDEBUG2
 	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) -c $<
 
 LIB= 		libcontainer.a libcontainer.so
-LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o
+LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o cbuffer.o
 TESTOBJS= 	all_test.o list_test.o stack_test.o queue_test.o hashtable_test.o \
-		     binarytree_test.o radixtree_test.o
+		     binarytree_test.o radixtree_test.o cbuffer_test.o
 WORDSOBJ=	words.o words_radix.o
 
 BIN= 		all_test words 

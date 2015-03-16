@@ -11,6 +11,7 @@
 #include "hashtable_test.h"
 #include "binarytree_test.h"
 #include "radixtree_test.h"
+#include "cbuffer_test.h"
 
 int main(void) {
 	CU_pSuite pSuite = NULL;
@@ -145,6 +146,24 @@ int main(void) {
 	(CU_add_test(pSuite, "testing radixtree_density()", radixtree_test_density) == NULL) ||
 	(CU_add_test(pSuite, "testing radixtree_add()", radixtree_test_add) == NULL) || 
 	(CU_add_test(pSuite, "testing radixtree_find()", radixtree_test_find) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+ 
+	/* Circular buffer test suite */ 
+
+	pSuite = CU_add_suite("cbuffer_suite", 
+			init_cbuffer_suite, clean_cbuffer_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing cbuffer_init()", cbuffer_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing cbuffer_size()", cbuffer_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing cbuffer_destroy()", cbuffer_test_destroy) == NULL) 
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();	

@@ -10,11 +10,11 @@ LIB= 		libcontainer.a libcontainer.so
 LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o
 TESTOBJS= 	all_test.o list_test.o stack_test.o queue_test.o hashtable_test.o \
 		     binarytree_test.o radixtree_test.o
+WORDSOBJ=	words.o words_radix.o
 
 BIN= 		all_test words 
-BINOBJS= 	all_test.o words.o
 
-OBJS= $(TESTOBJS) $(LIBOBJS) $(BINOBJS)
+OBJS= $(TESTOBJS) $(LIBOBJS) $(BINOBJS) $(WORDSOBJ)
 
 
 all: $(BIN)
@@ -22,8 +22,8 @@ all: $(BIN)
 all_test: $(TESTOBJS) $(LIB)
 	$(CC) -o all_test $(TESTOBJS) libcontainer.a -lpthread -lcunit 
 
-words: words.o $(LIB)
-	$(CC) -o words words.o libcontainer.a 
+words: $(WORDSOBJ) $(LIB)
+	$(CC) -o words $(WORDSOBJ) libcontainer.a 
 
 libcontainer.a: $(LIBOBJS)
 	ar rcs libcontainer.a $(LIBOBJS)

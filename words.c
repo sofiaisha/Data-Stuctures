@@ -38,6 +38,12 @@ int main(int argc, char** argv) {
 		count, after.tv_sec-before.tv_sec, after.tv_nsec-before.tv_nsec, 
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 
+	unsigned int total =0, empty=0;
+	float density = radixtree_density(tree, tree->childs, &total, &empty);
+	printf("Density: %4.1f\n", density);
+	
+
+
 	rewind(fd);
 	count = 0;
 
@@ -65,6 +71,7 @@ int main(int argc, char** argv) {
 
 	char* msg = (s == NULL) ? "Did not find" : "Found";
 	printf("%s %s in %ld nanoseconds\n", msg, argv[1], after.tv_nsec-before.tv_nsec);
+
 
 	radixtree_destroy(&tree);
 }

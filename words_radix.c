@@ -24,7 +24,7 @@ void processRadixtree(FILE * fd, char* argString) {
 		}
 	}
         clock_gettime(CLOCK_REALTIME, &after);
-	printf("Radixtree: loaded %ud words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
+	printf("Radixtree: loaded %u words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
 		count, after.tv_sec-before.tv_sec, after.tv_nsec-before.tv_nsec, 
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 
@@ -46,7 +46,7 @@ void processRadixtree(FILE * fd, char* argString) {
 		
 	}
         clock_gettime(CLOCK_REALTIME, &after);
-	printf("Radixtree: found %ud words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
+	printf("Radixtree: found %u words in %ld seconds %ld nanoseconds (avg time: %.0f ns)\n", 
 		count, after.tv_sec-before.tv_sec, after.tv_nsec-before.tv_nsec, 
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 

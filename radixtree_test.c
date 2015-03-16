@@ -50,9 +50,26 @@ void radixtree_test_add(void) {
 	CU_ASSERT (strcmp(radixtree_add(t, radixtree_test_s4), radixtree_test_s4) == 0);
 	CU_ASSERT (strcmp(radixtree_add(t, radixtree_test_s5), radixtree_test_s5) == 0);
 	CU_ASSERT (radixtree_size(t) == 5);
+
+	unsigned int total = 0, empty = 0;
+	float density = radixtree_density(t, t->childs, &total, &empty);
+	printf("\nDensity= %4.1f\n", density);
+
 	radixtree_destroy(&t);
 }
 
+void radixtree_test_density(void) {
+	unsigned int total = 0, empty = 0;
+	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
+	CU_ASSERT (radixtree_density(NULL, t->childs, &total, &empty) == -1);
+	CU_ASSERT (radixtree_density(t, NULL, &total, &empty) == -1);
+	CU_ASSERT (radixtree_density(t, t->childs, NULL, &empty) == -1);
+	CU_ASSERT (radixtree_density(t, t->childs, &total, NULL) == -1);
+
+	CU_ASSERT (radixtree_density(t, t->childs, &total, &empty) == 0.0);
+
+	radixtree_destroy(&t);
+}
 
 void radixtree_test_find(void) {
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);

@@ -63,15 +63,13 @@ char* radixtree_add(radixtree_t* t, char* s) {
 				return NULL;
 			}
 
+			currentChilds[childIndex]->childs = (rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
 			if (currentChilds[childIndex]->childs == NULL) {
-				currentChilds[childIndex]->childs = (rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
-				if (currentChilds[childIndex]->childs == NULL) {
-                			perror("radixtree_add: can't create childs, errno=%d");
-					free(currentChilds[childIndex]);
-					return NULL;
-				}
-				memset(currentChilds[childIndex]->childs, 0, t->alphabetSize * sizeof(rtnode_t*));
+                		perror("radixtree_add: can't create childs, errno=%d");
+				free(currentChilds[childIndex]);
+				return NULL;
 			}
+			memset(currentChilds[childIndex]->childs, 0, t->alphabetSize * sizeof(rtnode_t*));
 		}
 		currentChilds = currentChilds[childIndex]->childs;
 	}
@@ -98,6 +96,26 @@ char* radixtree_find(radixtree_t* t, char* s) {
 		currentChilds = child->childs;
 	}
 	return s;
+}
+
+float radixtree_density(radixtree_t* t, rtnode_t** childs, unsigned int* total, unsigned int* empty) {
+	if ( (t == NULL) || (childs == NULL) || (total == NULL) || (empty == NULL)) {
+		debug_print("Invalid parameter\n");
+		return -1; 
+	}
+	
+	for (unsigned int i =0; i<t->alphabetSize; i++) {
+		(*total)++;
+		if (childs[i] == NULL) {
+			(*empty)++;
+		}
+		else {
+			radixtree_density(t, childs[i]->childs, total, empty);
+		}
+	}
+	unsigned int full = (*total)-(*empty);
+	debug_print("Total: %d, empty: %d, full: %d\n", *total, *empty, full);
+	return ((float)full)/(*total)*100;
 }
 
 void radixtree_destroy(radixtree_t** t) {

@@ -20,6 +20,8 @@ radixtree_t*	radixtree_init(unsigned int alphabetSize, char alphabetStart);
 
 unsigned int	radixtree_size(radixtree_t* t);
 
+float 		radixtree_density(radixtree_t* t, rtnode_t** childs, unsigned int* total, unsigned int* empty);
+
 char* 		radixtree_add(radixtree_t* t, char* s);
 
 char*		radixtree_find(radixtree_t* t, char* s);

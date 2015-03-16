@@ -65,20 +65,20 @@ int main(void) {
 
 	/* Queue test suite */ 
 
-	pSuite = CU_add_suite("queue_suite", init_que_suite, clean_que_suite); 
+	pSuite = CU_add_suite("queue_suite", init_queue_suite, clean_queue_suite); 
 	if (pSuite == NULL) {
 		CU_cleanup_registry();
 		return CU_get_error();	
 	}
 
 	if (
-	(CU_add_test(pSuite, "testing queue_init()", que_test_init) == NULL) ||
-	(CU_add_test(pSuite, "testing queue_empty()", que_test_empty) == NULL) ||
-	(CU_add_test(pSuite, "testing queue_enqueue()", que_test_enqueue) == NULL) || 
-	(CU_add_test(pSuite, "testing queue_get()", que_test_get) == NULL) ||
-	(CU_add_test(pSuite, "testing queue_dequeue()", que_test_dequeue) == NULL) ||
-	(CU_add_test(pSuite, "testing queue_print()", que_test_print) == NULL) || 
-	(CU_add_test(pSuite, "testing queue_destroy()", que_test_destroy) == NULL) 
+	(CU_add_test(pSuite, "testing queue_init()", queue_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_empty()", queue_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_push()", queue_test_push) == NULL) || 
+	(CU_add_test(pSuite, "testing queue_peek()", queue_test_peek) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_pop()", queue_test_pop) == NULL) ||
+	(CU_add_test(pSuite, "testing queue_print()", queue_test_print) == NULL) || 
+	(CU_add_test(pSuite, "testing queue_destroy()", queue_test_destroy) == NULL) 
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();	

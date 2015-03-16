@@ -7,143 +7,143 @@
 #include "queue.h"
 #include "queue_test.h"
 
-void que_print(void* elem, FILE* fd) {
+void q_print(void* elem, FILE* fd) {
 	fprintf (fd, "%s ", (char*)elem);
 }
 
-int que_compare(void* s1, void* s2) {
+int q_compare(void* s1, void* s2) {
 	return strcmp ( (char*)s1, (char*)s2 );
 }
 
-void* que_clone(void* s) {
+void* q_clone(void* s) {
 	return strdup((char*)s);
 }
 
-void que_destroy(void* s) {
+void q_destroy(void* s) {
 	return;
 }
 
-char que_test_s1[] = "string1";
-char que_test_s2[] = "string2";
-char que_test_s3[] = "string3";
-char que_test_s4[] = "string4";
+char queue_test_s1[] = "string1";
+char queue_test_s2[] = "string2";
+char queue_test_s3[] = "string3";
+char queue_test_s4[] = "string4";
 
-void que_test_init(void) {
-	CU_ASSERT (queue_init(NULL, que_print, que_clone, que_destroy) == NULL);
-	CU_ASSERT (queue_init(que_compare, NULL, que_clone, que_destroy) == NULL);
-	CU_ASSERT (queue_init(que_compare, que_print, NULL, que_destroy) == NULL);
-	CU_ASSERT (queue_init(que_compare, que_print, que_clone, NULL) == NULL);
+void queue_test_init(void) {
+	CU_ASSERT (queue_init(NULL, q_print, q_clone, q_destroy) == NULL);
+	CU_ASSERT (queue_init(q_compare, NULL, q_clone, q_destroy) == NULL);
+	CU_ASSERT (queue_init(q_compare, q_print, NULL, q_destroy) == NULL);
+	CU_ASSERT (queue_init(q_compare, q_print, q_clone, NULL) == NULL);
 
-	queue_t* q = queue_init(que_compare, que_print, que_clone, que_destroy);
-	queue_destroy(&q);
+	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
+	q_destroy(&q);
 }
 
-void que_test_empty(void) {
-	queue_t* s = queue_init(que_compare, que_print, que_clone, que_destroy);
+void queue_test_empty(void) {
+	queue_t* s = queue_init(q_compare, q_print, q_clone, q_destroy);
 
-	queue_print(s, stderr);
-	CU_ASSERT (queue_get(s) == NULL);
-	CU_ASSERT (queue_dequeue(s) == NULL);
+	q_print(s, stderr);
+	CU_ASSERT (queue_peek(s) == NULL);
+	CU_ASSERT (queue_pop(s) == NULL);
 
-	queue_destroy(&s);
+	q_destroy(&s);
 }
 
-void que_test_enqueue(void) {
-	queue_t* q = queue_init(que_compare, que_print, que_clone, que_destroy);
+void queue_test_push(void) {
+	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
 	
-	CU_ASSERT (queue_enqueue(NULL, que_test_s1) == NULL);
-	CU_ASSERT (queue_enqueue(q, NULL) == NULL);
+	CU_ASSERT (queue_push(NULL, queue_test_s1) == NULL);
+	CU_ASSERT (queue_push(q, NULL) == NULL);
 
-	CU_ASSERT (queue_enqueue(q, que_test_s1) == que_test_s1);
-	CU_ASSERT (queue_enqueue(q, que_test_s2) == que_test_s2);
-	CU_ASSERT (queue_enqueue(q, que_test_s3) == que_test_s3);
-	CU_ASSERT (queue_enqueue(q, que_test_s4) == que_test_s4);
+	CU_ASSERT (queue_push(q, queue_test_s1) == queue_test_s1);
+	CU_ASSERT (queue_push(q, queue_test_s2) == queue_test_s2);
+	CU_ASSERT (queue_push(q, queue_test_s3) == queue_test_s3);
+	CU_ASSERT (queue_push(q, queue_test_s4) == queue_test_s4);
 
-	queue_destroy(&q);
+	q_destroy(&q);
 }
 
-void que_test_get(void) {
-	queue_t* q = queue_init(que_compare, que_print, que_clone, que_destroy);
+void queue_test_peek(void) {
+	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
 	
-	queue_enqueue(q, que_test_s1);
-	queue_enqueue(q, que_test_s2);
-	queue_enqueue(q, que_test_s3);
-	queue_enqueue(q, que_test_s4);
+	queue_push(q, queue_test_s1);
+	queue_push(q, queue_test_s2);
+	queue_push(q, queue_test_s3);
+	queue_push(q, queue_test_s4);
 
-	char* str = queue_get(q);
-	CU_ASSERT(str == que_test_s1);
-	CU_ASSERT (strcmp(str, que_test_s1) == 0);
+	char* str = queue_peek(q);
+	CU_ASSERT(str == queue_test_s1);
+	CU_ASSERT (strcmp(str, queue_test_s1) == 0);
 
-	str = queue_dequeue(q);
-	CU_ASSERT(str != que_test_s1);
-	CU_ASSERT (strcmp(str, que_test_s1) == 0);
+	str = queue_pop(q);
+	CU_ASSERT(str != queue_test_s1);
+	CU_ASSERT (strcmp(str, queue_test_s1) == 0);
 	free(str);
 
-	str = queue_get(q);
-	CU_ASSERT(str == que_test_s2);
-	CU_ASSERT (strcmp(str, que_test_s2) == 0);
+	str = queue_peek(q);
+	CU_ASSERT(str == queue_test_s2);
+	CU_ASSERT (strcmp(str, queue_test_s2) == 0);
 
-	queue_destroy(&q);
+	q_destroy(&q);
 }
 	
-void que_test_dequeue(void) {
-	queue_t* q = queue_init(que_compare, que_print, que_clone, que_destroy);
+void queue_test_pop(void) {
+	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
 	
-	queue_enqueue(q, que_test_s1);
-	queue_enqueue(q, que_test_s2);
-	queue_enqueue(q, que_test_s3);
-	queue_enqueue(q, que_test_s4);
+	queue_push(q, queue_test_s1);
+	queue_push(q, queue_test_s2);
+	queue_push(q, queue_test_s3);
+	queue_push(q, queue_test_s4);
 
-	char* str = queue_dequeue(q);
-	CU_ASSERT(str != que_test_s1);
-	CU_ASSERT (strcmp(str, que_test_s1) == 0);
+	char* str = queue_pop(q);
+	CU_ASSERT(str != queue_test_s1);
+	CU_ASSERT (strcmp(str, queue_test_s1) == 0);
 	free(str);
 
-	str = queue_dequeue(q);
-	CU_ASSERT(str != que_test_s2);
-	CU_ASSERT (strcmp(str, que_test_s2) == 0);
+	str = queue_pop(q);
+	CU_ASSERT(str != queue_test_s2);
+	CU_ASSERT (strcmp(str, queue_test_s2) == 0);
 	free(str);
 
-	str = queue_dequeue(q);
-	CU_ASSERT(str != que_test_s3);
-	CU_ASSERT (strcmp(str, que_test_s3) == 0);
+	str = queue_pop(q);
+	CU_ASSERT(str != queue_test_s3);
+	CU_ASSERT (strcmp(str, queue_test_s3) == 0);
 	free(str);
 
-	str = queue_dequeue(q);
-	CU_ASSERT(str != que_test_s4);
-	CU_ASSERT (strcmp(str, que_test_s4) == 0);
+	str = queue_pop(q);
+	CU_ASSERT(str != queue_test_s4);
+	CU_ASSERT (strcmp(str, queue_test_s4) == 0);
 	free(str);
 
-	str = queue_dequeue(q);
+	str = queue_pop(q);
 	CU_ASSERT(str == NULL);
 	CU_ASSERT(queue_size(q) == 0);
 	
-	queue_destroy(&q);
+	q_destroy(&q);
 }
 	
-void que_test_print(void) {
-	queue_t* q = queue_init(que_compare, que_print, que_clone, que_destroy);
-	queue_enqueue(q, que_test_s1);
-	queue_enqueue(q, que_test_s2);
-	queue_enqueue(q, que_test_s3);
-	queue_enqueue(q, que_test_s4);
+void queue_test_print(void) {
+	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
+	queue_push(q, queue_test_s1);
+	queue_push(q, queue_test_s2);
+	queue_push(q, queue_test_s3);
+	queue_push(q, queue_test_s4);
 
-	queue_print(q, stdout);
+	q_print(q, stdout);
 
-	queue_destroy(&q);
+	q_destroy(&q);
 }
 
-void que_test_destroy(void) {
-	queue_t* q = queue_init(que_compare, que_print, que_clone, que_destroy);
-	queue_destroy(NULL);
-	queue_destroy(&q);
+void queue_test_destroy(void) {
+	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
+	q_destroy(NULL);
+	q_destroy(&q);
 }
 
-int init_que_suite(void) {
+int init_queue_suite(void) {
 	return 0;
 }
 
-int clean_que_suite(void) {
+int clean_queue_suite(void) {
 	return 0;
 }
 

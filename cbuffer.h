@@ -12,11 +12,11 @@ queue_t* queue_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 
 unsigned int queue_size(queue_t* q);
 
-void*	queue_push(queue_t* q, void* elem);
+void*	queue_enqueue(queue_t* q, void* elem);
 
-void*	queue_pop(queue_t* q);
+void*	queue_dequeue(queue_t* q);
 
-void*	queue_peek(queue_t* q);
+void*	queue_get(queue_t* q);
 
 void 	queue_print(queue_t* q, FILE* fd);
 

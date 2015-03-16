@@ -13,15 +13,15 @@ unsigned int queue_size(queue_t* q) {
 	return list_size((list_t*)q);
 }
 
-void*	queue_enqueue(queue_t* q, void* elem) {
+void*	queue_push(queue_t* q, void* elem) {
 	return list_addLast((list_t*)q, elem);	
 }
 
-void*	queue_get(queue_t* q) {
+void*	queue_peek(queue_t* q) {
 	return list_getElem((list_t*)q, 1, false);
 }
 
-void*	queue_dequeue(queue_t* q) {
+void*	queue_pop(queue_t* q) {
 	list_t* l = (list_t*)q;
 	void* ret = list_getElem(l, 1, true);
 	list_remove(l, ret);

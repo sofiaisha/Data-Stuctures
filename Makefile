@@ -2,9 +2,10 @@ CC= gcc
 CFLAGS= -Wextra -Wall -std=gnu99 -fPIC
 OPT_FLAGS = -O6
 DEBUG_FLAGS= -g # -DDEBUG1 # -DDEBUG2
+PROFILE_FLAGS=
 
 .c.o :
-	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) -c $<
+	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) $(PROFILE_FLAGS) -c $<
 
 LIB= 		libcontainer.a libcontainer.so
 LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o cbuffer.o
@@ -20,10 +21,10 @@ OBJS= $(TESTOBJS) $(LIBOBJS) $(BINOBJS) $(WORDSOBJ)
 all: $(BIN)
 
 all_test: $(TESTOBJS) $(LIB)
-	$(CC) -o all_test $(TESTOBJS) libcontainer.a -lcunit 
+	$(CC) -o all_test $(TESTOBJS) libcontainer.a -lcunit -lgcov
 
 words: $(WORDSOBJ) $(LIB)
-	$(CC) -o words $(WORDSOBJ) libcontainer.a 
+	$(CC) -o words $(WORDSOBJ) libcontainer.a -lgcov
 
 libcontainer.a: $(LIBOBJS)
 	ar rcs libcontainer.a $(LIBOBJS)
@@ -32,7 +33,7 @@ libcontainer.so: $(LIBOBJS)
 	$(CC) -shared -o libcontainer.so $(LIBOBJS)
 
 clean:	
-	/bin/rm -f $(BIN) $(OBJS) $(LIB) cachegrind.out.*
+	/bin/rm -f $(BIN) $(OBJS) $(LIB) cachegrind.out.* *.gcov *.gcda *.gcno
 
 test: all_test
 	./all_test
@@ -49,3 +50,9 @@ cachegrind:
 	make clean
 	make OPT_FLAGS='-O6'
 	valgrind --tool=cachegrind ./all_test
+
+profile:
+	make clean
+	make OPT_FLAGS='' PROFILE_FLAGS="-fprofile-arcs -ftest-coverage"
+	make
+

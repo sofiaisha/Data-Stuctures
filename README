@@ -9,3 +9,4 @@ Generic data structures in C:
 
 Unit-tests written with CUnit (*_test.[ch]).
 Code checked with cppcheck and valgrind.
+Code coverage with gcov.

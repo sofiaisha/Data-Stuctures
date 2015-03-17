@@ -15,73 +15,96 @@ void* cb_clone(void* s) {
 	return strdup((char*)s);
 }
 
-void cb_destroy(void* s) {
-	return;
-}
-
 char cbuffer_test_s1[] = "string1";
 char cbuffer_test_s2[] = "string2";
 char cbuffer_test_s3[] = "string3";
 char cbuffer_test_s4[] = "string4";
+char cbuffer_test_s5[] = "string5";
+char cbuffer_test_s6[] = "string6";
 
 unsigned int cb_size = 10;
 
 void cbuffer_test_init(void) {
-	CU_ASSERT (cbuffer_init(0, cb_print, cb_clone, cb_destroy) == NULL);
-	CU_ASSERT (cbuffer_init(cb_size, NULL, cb_clone, cb_destroy) == NULL);
-	CU_ASSERT (cbuffer_init(cb_size, cb_print, NULL, cb_destroy) == NULL);
-	CU_ASSERT (cbuffer_init(cb_size, cb_print, cb_clone, NULL) == NULL);
+	CU_ASSERT (cbuffer_init(0, cb_print, cb_clone, NULL) == NULL);
+	CU_ASSERT (cbuffer_init(cb_size, NULL, cb_clone, NULL) == NULL);
+	CU_ASSERT (cbuffer_init(cb_size, cb_print, NULL, NULL) == NULL);
 
-	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, cb_destroy);
+	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, NULL);
 	CU_ASSERT (cb != NULL);
 
-	CU_ASSERT (cb->size == 0);
+	CU_ASSERT (cb->size == cb_size);
 	CU_ASSERT (cb->head == 0);
 	CU_ASSERT (cb->print == cb_print);
 	CU_ASSERT (cb->clone == cb_clone);
-	CU_ASSERT (cb->destroy == cb_destroy);
+	CU_ASSERT (cb->destroy == NULL);
 	CU_ASSERT (cb->entries != NULL);
 
 	CU_ASSERT (cbuffer_destroy(&cb) == 0);
 }
 
 void cbuffer_test_empty(void) {
-	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, cb_destroy);
+	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, NULL);
 	CU_ASSERT (cb != NULL);
 
 	CU_ASSERT (cbuffer_size(NULL) == EINVAL);
-	CU_ASSERT (cbuffer_size(cb) == 0);
+	CU_ASSERT (cbuffer_size(cb) == cb_size);
 
 	CU_ASSERT (cbuffer_destroy(&cb) == 0);
 }
 
 void cbuffer_test_destroy(void) {
-	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, cb_destroy);
+	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, NULL);
 	CU_ASSERT (cb != NULL);
 	CU_ASSERT (cbuffer_destroy(NULL) == EINVAL);
 	CU_ASSERT (cbuffer_destroy(&cb) == 0);
 }
 
 void cbuffer_test_read(void) {
-	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, cb_destroy);
-	char s1[32];
-	char* s2 = NULL;
+	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, NULL);
+	char* s = NULL;
 	
-	CU_ASSERT (cbuffer_read(NULL, 0, &s1) == EINVAL);
-	CU_ASSERT (cbuffer_read(cb, 0, NULL) == EINVAL);
-	CU_ASSERT (cbuffer_read(cb, 0, &s2) == EINVAL);
+	CU_ASSERT (cbuffer_read(NULL, 0, &s) == EINVAL);
 
 	CU_ASSERT (cbuffer_destroy(&cb) == 0);
 }
 
 void cbuffer_test_write(void) {
-	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, cb_destroy);
-	char s1[32];
-	char* s2 = NULL;
+	cbuffer_t* cb = cbuffer_init(4, cb_print, cb_clone, NULL);
+	char* s = NULL;
 	
-	CU_ASSERT (cbuffer_write(NULL, &s1) == EINVAL);
-	CU_ASSERT (cbuffer_write(cb, NULL) == EINVAL);
-	CU_ASSERT (cbuffer_write(cb, s2) == EINVAL);
+	CU_ASSERT (cbuffer_write(NULL, s) == EINVAL);
+	CU_ASSERT (cbuffer_write(cb, s) == EINVAL);
+
+	CU_ASSERT (cbuffer_write(cb, cbuffer_test_s1) == 0);
+	CU_ASSERT (cbuffer_write(cb, cbuffer_test_s2) == 0);
+	CU_ASSERT (cbuffer_write(cb, cbuffer_test_s3) == 0);
+	CU_ASSERT (cbuffer_write(cb, cbuffer_test_s4) == 0);
+	CU_ASSERT (cbuffer_write(cb, cbuffer_test_s5) == 0);
+	CU_ASSERT (cbuffer_write(cb, cbuffer_test_s6) == 0);
+
+	CU_ASSERT (cbuffer_read(cb, 0, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s6, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, -1, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s5, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, -2, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s4, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, -3, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s3, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, -4, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s6, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, -5, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s5, s) == 0);
+
+	CU_ASSERT (cbuffer_read(cb, 1, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s3, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, 2, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s4, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, 3, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s5, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, 4, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s6, s) == 0);
+	CU_ASSERT (cbuffer_read(cb, 5, &s) == 0);
+	CU_ASSERT (strcmp(cbuffer_test_s3, s) == 0);
 
 	CU_ASSERT (cbuffer_destroy(&cb) == 0);
 }

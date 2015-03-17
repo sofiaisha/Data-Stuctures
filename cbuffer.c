@@ -9,10 +9,7 @@
 
 cbuffer_t* cbuffer_init(unsigned int size, 
 	void (*print)(void*, FILE*), void* (*clone)(void*), void (*destroy)(void*)) {
-	if (size == 0) {
-		return NULL;
-	}
-	if ( (print == NULL) || (clone == NULL) || (destroy == NULL))  {
+	if ( (size == 0) || (print == NULL) || (clone == NULL) )  {
 		debug_print("invalid parameter\n");
 		return NULL;
 	}
@@ -29,7 +26,7 @@ cbuffer_t* cbuffer_init(unsigned int size,
 		return NULL;
 	}
 
-	cb->size 	= 0;
+	cb->size 	= size;
 	cb->head	= 0;
 	cb->print 	= print;
 	cb->destroy 	= destroy;
@@ -53,27 +50,25 @@ int cbuffer_write(cbuffer_t* cb, void* elem) {
 		debug_print("invalid parameter\n");
 		return EINVAL;
 	}
-	if (cb->head == cb->size-1) {
+	(cb->head)++;
+	if (cb->head == cb->size) {
 		cb->head = 0;
 	}
-	else {
-		cb->head++;
+	if (cb->destroy != NULL) {
+		cb->destroy(cb->entries[cb->head]);
 	}
 	cb->entries[cb->head] = elem;
 	return 0;
 }
 
 int cbuffer_read(cbuffer_t* cb, int offset, void** element) {
-	if ( (cb == NULL) || (element == NULL) || (*element == NULL)) {
+	if ( (cb == NULL) || (cb->size ==0) || (element == NULL)) {
 		debug_print("invalid parameter\n");
 		return EINVAL;
 	}
-	if (cb->size == 0) {
-		return NULL;
-	}
 
-	offset = offset % cb->size;
 	offset = cb->head + offset;			
+	offset = offset % cb->size;
 	if (offset < 0) {
 		offset += cb->size;	
 	}
@@ -87,12 +82,16 @@ int cbuffer_destroy(cbuffer_t** cb) {
 		return EINVAL;
 	}
 
-	for (unsigned int i=0;i<(*cb)->size;i++) {
-		if ((*cb)->entries[i]) {
-			free((*cb)->entries[i]);
+	if ((*cb)->destroy != NULL) {
+		for (unsigned int i=0;i<(*cb)->size;i++) {
+			if ((*cb)->entries[i] != NULL) {
+				((*cb)->destroy)((*cb)->entries[i]);
+			}
 		}
 	}  	
-	free((*cb)->entries);
+	if ((*cb)->entries != NULL) {
+		free((*cb)->entries);
+	}
 	free(*cb);
 
 	return 0;

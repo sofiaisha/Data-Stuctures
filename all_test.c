@@ -163,6 +163,8 @@ int main(void) {
 	if (
 	(CU_add_test(pSuite, "testing cbuffer_init()", cbuffer_test_init) == NULL) ||
 	(CU_add_test(pSuite, "testing cbuffer_size()", cbuffer_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing cbuffer_read()", cbuffer_test_read) == NULL) ||
+	(CU_add_test(pSuite, "testing cbuffer_write()", cbuffer_test_write) == NULL) ||
 	(CU_add_test(pSuite, "testing cbuffer_destroy()", cbuffer_test_destroy) == NULL) 
 	) {
 		CU_cleanup_registry();

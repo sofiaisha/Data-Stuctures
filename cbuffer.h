@@ -1,5 +1,5 @@
-#ifndef __QUEUE_H
-#define __QUEUE_H
+#ifndef __CBUFFER_H
+#define __CBUFFER_H
 
 #include <stdio.h>
 
@@ -16,14 +16,14 @@ struct cbuffer_t {
 cbuffer_t* cbuffer_init(unsigned int size,
 	void (*print)(void*, FILE*), void* (*clone)(void*), void (*destroy)(void*));
 
-int cbuffer_size(cbuffer_t* c);
+int 	cbuffer_size(cbuffer_t* cb);
 
-void*	cbuffer_write(cbuffer_t* c, void* elem);
+int	cbuffer_write(cbuffer_t* cb, void* elem);
 
-void*	cbuffer_read(cbuffer_t* q, unsigned int index);
+int 	cbuffer_read(cbuffer_t* cb, int offset, void** elem);
 
-void 	cbuffer_print(cbuffer_t* q, FILE* fd);
+void 	cbuffer_print(cbuffer_t* cb, FILE* fd);
 
-int 	cbuffer_destroy(cbuffer_t** q); 
+int 	cbuffer_destroy(cbuffer_t** cb); 
 
 #endif 

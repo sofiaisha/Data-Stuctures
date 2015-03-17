@@ -5,6 +5,7 @@ void list_test_init(void);
 void list_test_empty(void);
 void list_test_addFirst(void);
 void list_test_addLast(void);
+void list_test_walk(void);
 void list_test_getElem(void);
 void list_test_print(void);
 void list_test_find(void);

@@ -33,6 +33,7 @@ int main(void) {
 	(CU_add_test(pSuite, "testing empty list", list_test_empty) == NULL) ||
 	(CU_add_test(pSuite, "testing list_addFirst()", list_test_addFirst) == NULL) ||
 	(CU_add_test(pSuite, "testing list_addLast()", list_test_addLast) == NULL) ||
+	(CU_add_test(pSuite, "testing list traversal", list_test_walk) == NULL) ||
 	(CU_add_test(pSuite, "testing list_getElem()", list_test_getElem) == NULL) ||
 	(CU_add_test(pSuite, "testing list_print()", list_test_print) == NULL) ||
 	(CU_add_test(pSuite, "testing list_find()", list_test_find) == NULL) ||

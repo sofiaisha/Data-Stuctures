@@ -34,6 +34,8 @@ void list_test_init(void) {
 
 	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
 	CU_ASSERT (l != NULL);
+
+	CU_ASSERT (list_size(NULL) == EINVAL);
 	CU_ASSERT (list_size(l) == 0);
 
 	CU_ASSERT (list_destroy(&l) == 0);
@@ -151,6 +153,40 @@ void list_test_getElem(void) {
 	CU_ASSERT (s != list_test_s1);
 	CU_ASSERT (strcmp(s, list_test_s1) == 0);
 	free(s);
+
+	CU_ASSERT (list_destroy(&l) == 0);
+}
+
+void list_test_walk(void) {
+	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
+	CU_ASSERT(l != NULL);
+
+	list_addLast(l, list_test_s1);
+	list_addLast(l, list_test_s2);
+	list_addLast(l, list_test_s3);
+	list_addLast(l, list_test_s4);
+
+	node_t* tmp = l->head;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s1) == 0);
+	tmp = tmp->next;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s2) == 0);
+	tmp = tmp->next;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s3) == 0);
+	tmp = tmp->next;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s4) == 0);
+	tmp = tmp->next;
+	CU_ASSERT (tmp == NULL);
+
+	tmp = l->tail;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s4) == 0);
+	tmp = tmp->prev;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s3) == 0);
+	tmp = tmp->prev;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s2) == 0);
+	tmp = tmp->prev;
+	CU_ASSERT (strcmp(tmp->elem, list_test_s1) == 0);
+	tmp = tmp->prev;
+	CU_ASSERT (tmp == NULL);
 
 	CU_ASSERT (list_destroy(&l) == 0);
 }

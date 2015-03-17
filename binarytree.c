@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <errno.h>
 
 #include "binarytree.h"
 #include "util.h"
@@ -270,16 +271,17 @@ void binarytree_print_internal(binarytree_t* t, tnode_t* n, FILE* fd) {
 	}
 }
 
-void binarytree_destroy(binarytree_t** t) {
+int binarytree_destroy(binarytree_t** t) {
 	if ((t == NULL) || (*t == NULL)) {
 		debug_print("Invalid parameter\n");
-		return;
+		return EINVAL;
 	}
 	
 	binarytree_t* tmp = (*t);
 	(*t) = NULL;
 	binarytree_destroy_internal(tmp, tmp->root);
 	free (tmp);
+	return 0;
 }
 
 void binarytree_destroy_internal(binarytree_t* t, tnode_t* n) {

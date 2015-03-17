@@ -34,7 +34,7 @@ list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 unsigned int list_size(list_t* l) {
 	if (l == NULL) {
 		debug_print("invalid parameter\n");
-		return 0;
+		return EINVAL;
 	}
 	else {
 		return l->size;
@@ -74,6 +74,7 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 			/* New node becomes the tail */
 			case ADD_LAST:
 				l->tail->next = n;
+				n->prev = l->tail;
 				n->next = NULL;
 				l->tail = n;
 				break; 

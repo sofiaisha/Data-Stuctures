@@ -1,4 +1,5 @@
 Generic data structures in C:
+- circular buffer (cbuffer.h)
 - linked list (list.h)
 - stack (stack.h)
 - queue (queue.h)

@@ -27,6 +27,8 @@ void radixtree_test_init(void) {
 
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
 	CU_ASSERT (t != NULL);
+
+	CU_ASSERT (radixtree_size(NULL) == EINVAL);
 	CU_ASSERT (radixtree_size(t) == 0);
 
 	radixtree_destroy(&t);

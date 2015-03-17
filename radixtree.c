@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <errno.h>
 
 #include "radixtree.h"
 #include "util.h"
@@ -35,10 +36,10 @@ radixtree_t* radixtree_init(unsigned int alphabetSize, char alphabetStart) {
         return t;
 }
 
-unsigned int radixtree_size(radixtree_t* t) {
+int radixtree_size(radixtree_t* t) {
 	if (t == NULL) {
 		debug_print("Invalid parameter\n");
-		return 0;
+		return EINVAL;
 	}
 
 	return t->size;

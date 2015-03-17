@@ -19,7 +19,7 @@ typedef struct {
 
 radixtree_t*	radixtree_init(unsigned int alphabetSize, char alphabetStart);
 
-unsigned int	radixtree_size(radixtree_t* t);
+int		radixtree_size(radixtree_t* t);
 
 float 		radixtree_density(radixtree_t* t, rtnode_t** childs, unsigned int* total, unsigned int* empty);
 

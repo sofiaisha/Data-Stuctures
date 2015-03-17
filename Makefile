@@ -20,7 +20,7 @@ OBJS= $(TESTOBJS) $(LIBOBJS) $(BINOBJS) $(WORDSOBJ)
 all: $(BIN)
 
 all_test: $(TESTOBJS) $(LIB)
-	$(CC) -o all_test $(TESTOBJS) libcontainer.a -lpthread -lcunit 
+	$(CC) -o all_test $(TESTOBJS) libcontainer.a -lcunit 
 
 words: $(WORDSOBJ) $(LIB)
 	$(CC) -o words $(WORDSOBJ) libcontainer.a 
@@ -38,7 +38,7 @@ test: all_test
 	./all_test
 
 cppcheck: 
-	cppcheck --quiet -I. --std=c99 --language=c --platform=unix64 --enable=all --force  *.c *.h
+	cppcheck --quiet -I. --inconclusive --std=c99 --language=c --platform=unix64 --enable=all --force  *.c *.h
 
 valgrind: 
 	make clean

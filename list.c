@@ -9,8 +9,7 @@
 
 list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 		  void* (*clone)(void*), void (*destroy)(void*)) {
-	if ((compare == NULL) || (print == NULL) ||
-            (clone == NULL) || (destroy == NULL))  {
+	if ((compare == NULL) || (print == NULL) || (clone == NULL))  {
 		debug_print("invalid parameter\n");
 		return NULL;
 	}

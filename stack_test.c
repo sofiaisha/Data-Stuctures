@@ -32,7 +32,6 @@ void stk_test_init(void) {
 	CU_ASSERT (stack_init(NULL, stk_print, stk_clone, stk_destroy) == NULL);
 	CU_ASSERT (stack_init(stk_compare, NULL, stk_clone, stk_destroy) == NULL);
 	CU_ASSERT (stack_init(stk_compare, stk_print, NULL, stk_destroy) == NULL);
-	CU_ASSERT (stack_init(stk_compare, stk_print, stk_clone, NULL) == NULL);
 
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
 	stack_destroy(&s);

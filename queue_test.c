@@ -32,7 +32,6 @@ void queue_test_init(void) {
 	CU_ASSERT (queue_init(NULL, q_print, q_clone, q_destroy) == NULL);
 	CU_ASSERT (queue_init(q_compare, NULL, q_clone, q_destroy) == NULL);
 	CU_ASSERT (queue_init(q_compare, q_print, NULL, q_destroy) == NULL);
-	CU_ASSERT (queue_init(q_compare, q_print, q_clone, NULL) == NULL);
 
 	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
 	queue_destroy(&q);

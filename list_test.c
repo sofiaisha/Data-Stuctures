@@ -31,7 +31,6 @@ void list_test_init(void) {
 	CU_ASSERT (list_init(NULL, lst_print, lst_clone, NULL) == NULL);
 	CU_ASSERT (list_init(lst_compare, NULL, lst_clone, lst_destroy) == NULL);
 	CU_ASSERT (list_init(lst_compare, lst_print, NULL, lst_destroy) == NULL);
-	CU_ASSERT (list_init(lst_compare, lst_print, lst_clone, NULL) == NULL);
 
 	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
 	CU_ASSERT (list_size(l) == 0);

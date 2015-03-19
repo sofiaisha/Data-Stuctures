@@ -21,17 +21,22 @@ typedef struct {
 	void		(*destroy)(void*);
 } list_t;
 
-#define ADD_FIRST 0
-#define ADD_LAST  1
+#define ADD_FIRST 	0
+#define ADD_LAST  	1
+#define ADD_SORT_ASC  	2
+#define ADD_SORT_DESC	3
 
 list_t*	list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*), 
 		  void* (*clone)(void*), void (*destroy)(void*));
 
 unsigned int list_size(list_t* l);
 
-void* list_add(list_t* l, void* elem, unsigned int mode); 
-void* list_addFirst(list_t* l, void* elem);
-void* list_addLast(list_t* l, void* elem);
+void* 	list_add(list_t* l, void* elem, unsigned int mode); 
+void* 	list_addFirst(list_t* l, void* elem);
+void* 	list_addLast(list_t* l, void* elem);
+void* 	list_addSort(list_t* l, void* elem, unsigned int mode); 
+void* 	list_addSortAsc(list_t* l, void* elem);
+void* 	list_addSortDesc(list_t* l, void* elem);
 
 void*	list_getElem(list_t*l, unsigned int index, bool clone);
 

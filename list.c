@@ -42,8 +42,7 @@ unsigned int list_size(list_t* l) {
 }
 
 void* list_add(list_t* l, void* elem, unsigned int mode) {
-	if ((l == NULL) || (elem == NULL) || 
-            ((mode != ADD_FIRST) && (mode != ADD_LAST))){
+	if ((l == NULL) || (elem == NULL) || ((mode != ADD_FIRST) && (mode != ADD_LAST))) {
 		debug_print("invalid mode\n");
 		return NULL;
 	}
@@ -53,7 +52,6 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 		perror("list_add: can't create node");
 		return NULL;
 	}
-
 	n->elem = elem;
 
 	/* If the list is empty, this is the first and only element */
@@ -92,12 +90,87 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 	return n->elem;
 }
 
+void* list_addSort(list_t* l, void* elem, unsigned int mode) {
+	if ((l == NULL) || (elem == NULL) || ((mode != ADD_SORT_ASC) && (mode != ADD_SORT_DESC))) {
+		debug_print("invalid mode\n");
+		return NULL;
+	}
+
+	assert (l->compare != NULL);
+
+	/* If list is empty, add element */
+	if (l->head == NULL) {
+		list_add(l, elem, ADD_FIRST);
+		return elem;
+	}
+
+	/* Move to the right position */
+	node_t* tmp = l->head;
+	switch (mode) {
+		case ADD_SORT_ASC:
+			/* Stop at the first larger element */
+			while ( (tmp != NULL) && (l->compare)(elem, tmp->elem) > 0) {
+				tmp = tmp->next;
+			}
+			break;
+
+		case ADD_SORT_DESC:
+			/* Stop at the first smaller element */
+			while ( (tmp != NULL) && (l->compare)(elem, tmp->elem) < 0) {
+				tmp = tmp->next;
+			}
+			break;
+
+		default:
+			/* Should never happen */
+			debug_print("invalid mode, %ud", mode);
+			assert(0);
+	}
+
+	if (tmp == l->head) {
+		/* Insert new element at the beginning of the list */
+		list_add(l, elem, ADD_FIRST);
+		return elem;
+	}
+
+	if (tmp == NULL) {
+		/* Insert new element at the end of the list */
+		list_add(l, elem, ADD_LAST);
+		return elem;
+	}
+
+	/* Insert new element in the middle of the list */
+	node_t* n = (node_t*)malloc(sizeof(node_t));
+	if (n == NULL) {
+		perror("list_addSorted: can't create node");
+		return NULL;
+	}
+	n->elem = elem;
+
+	n->next 	= tmp;
+	n->prev 	= tmp->prev;
+	tmp->prev->next = n;
+	tmp->prev 	= n;
+
+	l->size++;
+
+	return elem;	
+}
+
 void* list_addFirst(list_t* l, void* elem) {
 	return list_add(l, elem, ADD_FIRST);
 }
 
 void* list_addLast(list_t* l, void* elem) {
 	return list_add(l, elem, ADD_LAST);
+}
+
+void* list_addSortAsc(list_t* l, void* elem) {
+	return list_addSort(l, elem, ADD_SORT_ASC);
+}
+
+void* list_addSortDesc(list_t* l, void* elem) {
+	return list_addSort(l, elem, ADD_SORT_DESC);
 }
 
 void* list_getElem(list_t* l, unsigned int index, bool clone) {

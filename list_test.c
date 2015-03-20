@@ -48,7 +48,7 @@ void list_test_empty(void) {
 	list_print(l, stderr);
 	CU_ASSERT (list_getElem(l, 0, false) == NULL);
 	CU_ASSERT (list_find(l, list_test_s1) == NULL);
-	CU_ASSERT (list_remove(l, list_test_s1) == -2);
+	CU_ASSERT (list_remove(l, list_test_s1) == ENOENT);
 
 	CU_ASSERT (list_destroy(&l) == 0);
 }
@@ -277,8 +277,8 @@ void list_test_find(void) {
 void list_test_remove(void) {
 	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
 
-	CU_ASSERT(list_remove(NULL, list_test_s1) == -1);
-	CU_ASSERT(list_remove(l, NULL) == -1);
+	CU_ASSERT(list_remove(NULL, list_test_s1) == EINVAL);
+	CU_ASSERT(list_remove(l, NULL) == EINVAL);
 
 	CU_ASSERT(list_addFirst(l, list_test_s1) != NULL);
 	CU_ASSERT(list_addFirst(l, list_test_s2) != NULL);

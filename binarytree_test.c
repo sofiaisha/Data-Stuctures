@@ -97,7 +97,7 @@ void bintree_test_remove1(void) {
 	CU_ASSERT (binarytree_size(t) == 1);
 	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == -1); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == EPERM); 
 	CU_ASSERT (binarytree_size(t) == 1);
 	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
@@ -120,7 +120,7 @@ void bintree_test_remove2(void) {
 	binarytree_print(t, stdout);
 
 	/* Removing in addition order, i.e. treating nodes as a one-child node */ 
-	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == -1); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == EPERM); 
 	CU_ASSERT (binarytree_size(t) == 4);
 	CU_ASSERT (binarytree_height(t->root) == 4);
 	binarytree_print(t, stdout);
@@ -176,7 +176,7 @@ void bintree_test_remove3(void) {
 	CU_ASSERT (binarytree_height(t->root) == 2);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == 0); 
 	CU_ASSERT (binarytree_height(t->root) == 1);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == -1); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == EPERM); 
 	binarytree_print(t, stdout);
 
 	CU_ASSERT(binarytree_destroy(&t) == 0);
@@ -300,10 +300,10 @@ void bintree_test_traversal(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);
 	// Check invalid parameters
-	CU_ASSERT (binarytree_traversal(NULL, TRAVERSAL_MODE_PREORDER, traversal_print) == -1); 
-	CU_ASSERT (binarytree_traversal(t, -1, traversal_print) == -1); 
-	CU_ASSERT (binarytree_traversal(t, 4, traversal_print) == -1); 
-	CU_ASSERT (binarytree_traversal(t, TRAVERSAL_MODE_PREORDER, NULL) == -1); 
+	CU_ASSERT (binarytree_traversal(NULL, TRAVERSAL_MODE_PREORDER, traversal_print) == EINVAL); 
+	CU_ASSERT (binarytree_traversal(t, -1, traversal_print) == EINVAL); 
+	CU_ASSERT (binarytree_traversal(t, 4, traversal_print) == EINVAL); 
+	CU_ASSERT (binarytree_traversal(t, TRAVERSAL_MODE_PREORDER, NULL) == EINVAL); 
 
 	/* Tree:            s2
          *                 /  \

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <errno.h>
 #include <assert.h> 
 
 #include "hashtable.h"
@@ -108,7 +109,7 @@ void* hashtable_find(hashtable_t* h, void* key) {
 int hashtable_remove(hashtable_t* h, void* key) {
 	if ((h == NULL) || (key == NULL)) {
      	   	debug_print("invalid parameter\n");
-		return -1;
+		return EINVAL;
 	}
 	
 	/* Find out which bin this entry should live in */

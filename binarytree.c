@@ -104,7 +104,7 @@ void* binarytree_find_internal(binarytree_t* t, tnode_t* n, void* elem, unsigned
 int binarytree_traversal(binarytree_t* t, unsigned int mode, void(*f)(void*)) {
 	if ((t == NULL) || (mode > TRAVERSAL_MODE_POSTORDER) || (f == NULL)) {
 		debug_print("Invalid parameter\n");
-		return -1;
+		return EINVAL;
 	}
 	binarytree_traversal_internal(t->root, mode, f);
 	return 0;
@@ -191,18 +191,18 @@ void* binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem, tnode_t*
 int binarytree_remove(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");
-		return -1;
+		return EINVAL;
 	}
 
 	tnode_t* n = binarytree_find_internal(t, t->root, elem, _BT_FIND_NODE);
 	if (n == NULL) {
 		/* Element not in tree */
-		return -1;
+		return ENOENT;
 	}
 
 	if (n == t->root) {
 		/* Not implemented yet :) */
-		return -1;
+		return EPERM;
 	}
 
 	/* Count children of node to remove */

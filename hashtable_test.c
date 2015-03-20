@@ -60,7 +60,7 @@ void ht_test_empty(void) {
 
 	hashtable_print(h, stdout);
 	CU_ASSERT(hashtable_find(h, &ht_test_key1) == NULL);
-	CU_ASSERT(hashtable_remove(h, &ht_test_key1) == -2);
+	CU_ASSERT(hashtable_remove(h, &ht_test_key1) == ENOENT);
 
 	hashtable_destroy(&h);
 }
@@ -95,8 +95,9 @@ void ht_test_remove(void) {
 	hashtable_add(h, &ht_test_key3, ht_test_s3);
 	hashtable_add(h, &ht_test_key4, ht_test_s4);
 
-        CU_ASSERT(hashtable_remove(NULL, &ht_test_key1) == -1);
-        CU_ASSERT(hashtable_remove(h, NULL) == -1);
+        CU_ASSERT(hashtable_remove(NULL, &ht_test_key1) == EINVAL);
+        CU_ASSERT(hashtable_remove(h, NULL) == EINVAL);
+
         CU_ASSERT (h->size == 4);
 
         CU_ASSERT(hashtable_remove(h, &ht_test_key1) == 0);

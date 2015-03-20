@@ -198,17 +198,21 @@ void* list_getElem(list_t* l, unsigned int index, bool clone) {
 int list_remove(list_t* l, void* elem) {
 	if ((l == NULL) || (elem == NULL)) {
 		debug_print("invalid parameter\n");
-		return -1;
+		return EINVAL;
 	}
 
 	/* Find the element to remove */
 	node_t* n = l->head;
-	while ((n != NULL) && (l->compare(n->elem,elem) != 0)) {
-		n = n->next;
-	} 
-
+        while ( n != NULL) {
+                if (l->compare(n->elem,elem) == 0) {
+                        break;
+                }
+                else {
+                        n = n->next;
+                }
+        }
 	if (n == NULL) {
-		return -2;
+		return ENOENT;
 	}
 
 	/* If this is the first node, the head must be updated */

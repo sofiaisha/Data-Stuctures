@@ -8,6 +8,7 @@
 #include "list_test.h"
 #include "stack_test.h"
 #include "queue_test.h"
+#include "pqueue_test.h"
 #include "hashtable_test.h"
 #include "binarytree_test.h"
 #include "radixtree_test.h"
@@ -82,6 +83,27 @@ int main(void) {
 	(CU_add_test(pSuite, "testing queue_pop()", queue_test_pop) == NULL) ||
 	(CU_add_test(pSuite, "testing queue_print()", queue_test_print) == NULL) || 
 	(CU_add_test(pSuite, "testing queue_destroy()", queue_test_destroy) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	/* Priority queue test suite */ 
+
+	pSuite = CU_add_suite("pqueue_suite", init_pqueue_suite, clean_pqueue_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing pqueue_init()", pqueue_test_init) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_empty()", pqueue_test_empty) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_push()", pqueue_test_push) == NULL) || 
+	(CU_add_test(pSuite, "testing pqueue_peek()", pqueue_test_peek) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_pop()", pqueue_test_pop) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_print()", pqueue_test_print) == NULL) || 
+	(CU_add_test(pSuite, "testing pqueue_destroy()", pqueue_test_destroy) == NULL) 
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();	

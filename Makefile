@@ -8,9 +8,9 @@ PROFILE_FLAGS=
 	$(CC) $(CFLAGS) $(OPT_FLAGS) $(DEBUG_FLAGS) $(PROFILE_FLAGS) -c $<
 
 LIB= 		libcontainer.a libcontainer.so
-LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o cbuffer.o
+LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o cbuffer.o pqueue.o
 TESTOBJS= 	all_test.o list_test.o stack_test.o queue_test.o hashtable_test.o \
-		     binarytree_test.o radixtree_test.o cbuffer_test.o
+		     binarytree_test.o radixtree_test.o cbuffer_test.o pqueue_test.o
 WORDSOBJ=	words.o words_radix.o
 
 BIN= 		all_test words 

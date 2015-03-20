@@ -1,6 +1,6 @@
 Generic data structures in C:
 - circular buffer (cbuffer.h)
-- linked list (list.h)
+- linked list (list.h), with multiple add modes : add first, add last, add sorted ascending, add sorted descending
 - stack (stack.h)
 - queue (queue.h)
 - hashtable (hashtable.h)

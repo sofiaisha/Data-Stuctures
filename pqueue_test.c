@@ -8,15 +8,21 @@
 #include "pqueue_test.h"
 
 void pq_print(void* elem, FILE* fd) {
-	fprintf (fd, "%s ", (char*)elem);
+	pqnode_t* node = (pqnode_t*)elem;
+	fprintf (fd, "(%d,%s) ", node->priority, (char*)node->entry);
 }
 
 void* pq_clone(void* s) {
-	return strdup((char*)s);
+	pqnode_t* node    = (pqnode_t*)s;
+	pqnode_t* newnode = (pqnode_t*)malloc(sizeof(pqnode_t));
+	newnode->priority = node->priority;
+	newnode->entry    = strdup(node->entry);
+	return newnode;
 }
 
 void pq_destroy(void* s) {
-	return;
+	pqnode_t* node = (pqnode_t*)s;
+	free(node);
 }
 
 char pqueue_test_s1[] = "string1";
@@ -37,7 +43,7 @@ void pqueue_test_empty(void) {
 	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
 	CU_ASSERT (pq != NULL);
 
-	pq_print(pq, stderr);
+	pqueue_print(pq, stderr);
 	CU_ASSERT (pqueue_peek(pq) == NULL);
 	CU_ASSERT (pqueue_pop(pq) == NULL);
 
@@ -89,8 +95,9 @@ void pqueue_test_peek(void) {
 	CU_ASSERT (strcmp(n->entry, pqueue_test_s1) == 0);
 
 	n = pqueue_pop(pq);
-	CU_ASSERT(n->entry == pqueue_test_s1);
+	CU_ASSERT(n->entry != pqueue_test_s1);
 	CU_ASSERT (strcmp(n->entry, pqueue_test_s1) == 0);
+	free(n->entry);
 	free(n);
 
 	n = pqueue_peek(pq);
@@ -111,31 +118,35 @@ void pqueue_test_pop(void) {
 	pqueue_push(pq, pqueue_test_s2, 2);
 
 	pqnode_t* n = pqueue_pop(pq);
-	CU_ASSERT(n->entry == pqueue_test_s1);
+	CU_ASSERT(n->entry != pqueue_test_s1);
 	CU_ASSERT(n->priority == 1);
 	CU_ASSERT (strcmp(n->entry, pqueue_test_s1) == 0);
 	CU_ASSERT (pqueue_size(pq) == 3);
+	free(n->entry);
 	free(n);
 
 	n = queue_pop(pq);
-	CU_ASSERT(n->entry == pqueue_test_s2);
 	CU_ASSERT(n->priority == 2);
+	CU_ASSERT(n->entry != pqueue_test_s2);
 	CU_ASSERT (strcmp(n->entry, pqueue_test_s2) == 0);
 	CU_ASSERT (pqueue_size(pq) == 2);
+	free(n->entry);
 	free(n);
 
 	n = queue_pop(pq);
-	CU_ASSERT(n->entry == pqueue_test_s3);
 	CU_ASSERT(n->priority == 3);
+	CU_ASSERT(n->entry != pqueue_test_s3);
 	CU_ASSERT (strcmp(n->entry, pqueue_test_s3) == 0);
 	CU_ASSERT (pqueue_size(pq) == 1);
+	free(n->entry);
 	free(n);
 
 	n = queue_pop(pq);
-	CU_ASSERT(n->entry == pqueue_test_s4);
 	CU_ASSERT(n->priority == 4);
+	CU_ASSERT(n->entry != pqueue_test_s4);
 	CU_ASSERT (strcmp(n->entry, pqueue_test_s4) == 0);
 	CU_ASSERT (pqueue_size(pq) == 0);
+	free(n->entry);
 	free(n);
 
 	n = pqueue_pop(pq);
@@ -154,7 +165,7 @@ void pqueue_test_print(void) {
 
 	pqueue_print(NULL, stdout);
 
-	//TODO pqueue_print(pq, stdout);
+	pqueue_print(pq, stdout);
 
 	CU_ASSERT (pqueue_destroy(&pq) == 0);
 }

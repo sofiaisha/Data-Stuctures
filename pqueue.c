@@ -13,12 +13,8 @@ int pq_compare_internal(void* e1, void* e2) {
 	return (p1<p2? -1:1);
 }
 
-void pq_destroy_internal(void* e) {
-	free(e);
-}
-
 pqueue_t* pqueue_init(void (*print)(void*, FILE*), void* (*clone)(void*), void (*destroy)(void*)) {
-	return (pqueue_t*)queue_init(pq_compare_internal, print, clone, pq_destroy_internal);
+	return (pqueue_t*)queue_init(pq_compare_internal, print, clone, destroy);
 }
 
 unsigned int pqueue_size(pqueue_t* q) {
@@ -55,11 +51,10 @@ pqnode_t* pqueue_pop(pqueue_t* q) {
 }
 
 void 	pqueue_print(pqueue_t* q, FILE* fd) {
-	// TODO: destruction of dynamically-allocated entries
+	list_print(q, fd);
 }
 
 int 	pqueue_destroy(pqueue_t** q) {
-	// TODO: destruction of dynamically-allocated entries
 	return list_destroy((list_t**)q);
 }
 

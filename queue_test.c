@@ -60,6 +60,7 @@ void queue_test_push(void) {
 	CU_ASSERT (queue_push(q, queue_test_s2) == queue_test_s2);
 	CU_ASSERT (queue_push(q, queue_test_s3) == queue_test_s3);
 	CU_ASSERT (queue_push(q, queue_test_s4) == queue_test_s4);
+	CU_ASSERT (queue_size(q) == 4);
 
 	CU_ASSERT (queue_destroy(&q) == 0);
 }

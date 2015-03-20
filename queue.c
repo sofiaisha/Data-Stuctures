@@ -18,12 +18,12 @@ void*	queue_push(queue_t* q, void* elem) {
 }
 
 void*	queue_peek(queue_t* q) {
-	return list_getElem((list_t*)q, 1, false);
+	return list_getElem((list_t*)q, 0, false);
 }
 
 void*	queue_pop(queue_t* q) {
 	list_t* l = (list_t*)q;
-	void* ret = list_getElem(l, 1, true);
+	void* ret = list_getElem(l, 0, true);
 	list_remove(l, ret);
 	return ret;
 }

@@ -18,11 +18,11 @@ void*	stack_push(stack_t* s, void* elem) {
 }
 
 void*	stack_get(stack_t* s) {
-	return list_getElem((list_t*)s, 1, false);
+	return list_getElem((list_t*)s, 0, false);
 }
 
 void*	stack_pop(stack_t* s) {
-	void* ret = list_getElem((list_t*)s, 1, true);
+	void* ret = list_getElem((list_t*)s, 0, true);
 	list_remove((list_t*)s, ret);
 	return ret;
 }

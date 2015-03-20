@@ -174,7 +174,7 @@ void* list_addSortDesc(list_t* l, void* elem) {
 }
 
 void* list_getElem(list_t* l, unsigned int index, bool clone) {
-	if ((l == NULL) || (index == 0) || (index > l->size)) {
+	if ((l == NULL) || (index > l->size)) {
 		debug_print("invalid parameter\n");
 		return NULL;
 	}
@@ -184,7 +184,7 @@ void* list_getElem(list_t* l, unsigned int index, bool clone) {
 	if (tmp == NULL) {
 		return NULL;
 	}
-	for (unsigned int i=1;i<index;i++) {
+	for (unsigned int i=0;i<index;i++) {
 		tmp = tmp->next;
 	}
 	if (clone) {

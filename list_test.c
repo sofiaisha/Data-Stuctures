@@ -133,13 +133,13 @@ void list_test_addSort(void) {
 	s = list_addSortAsc(l, list_test_s3);		// Add in the middle
 	CU_ASSERT(strcmp(s, list_test_s3) == 0);
 
-	s = list_getElem(l, 1, false);
+	s = list_getElem(l, 0, false);
 	CU_ASSERT(strcmp(s, list_test_s1) == 0);
-	s = list_getElem(l, 2, false);
+	s = list_getElem(l, 1, false);
 	CU_ASSERT(strcmp(s, list_test_s2) == 0);
-	s = list_getElem(l, 3, false);
+	s = list_getElem(l, 2, false);
 	CU_ASSERT(strcmp(s, list_test_s3) == 0);
-	s = list_getElem(l, 4, false);
+	s = list_getElem(l, 3, false);
 	CU_ASSERT(strcmp(s, list_test_s4) == 0);
 
 	CU_ASSERT (list_destroy(&l) == 0);
@@ -156,13 +156,13 @@ void list_test_addSort(void) {
 	s = list_addSortDesc(l, list_test_s3);		// Add in the middle
 	CU_ASSERT(strcmp(s, list_test_s3) == 0);
 
-	s = list_getElem(l, 1, false);
+	s = list_getElem(l, 0, false);
 	CU_ASSERT(strcmp(s, list_test_s4) == 0);
-	s = list_getElem(l, 2, false);
+	s = list_getElem(l, 1, false);
 	CU_ASSERT(strcmp(s, list_test_s3) == 0);
-	s = list_getElem(l, 3, false);
+	s = list_getElem(l, 2, false);
 	CU_ASSERT(strcmp(s, list_test_s2) == 0);
-	s = list_getElem(l, 4, false);
+	s = list_getElem(l, 3, false);
 	CU_ASSERT(strcmp(s, list_test_s1) == 0);
 
 	CU_ASSERT (list_destroy(&l) == 0);
@@ -178,29 +178,29 @@ void list_test_getElem(void) {
 	CU_ASSERT(list_addFirst(l, list_test_s2) != NULL);
 	CU_ASSERT(list_addFirst(l, list_test_s3) != NULL);
 
-	CU_ASSERT(list_getElem(l, 0, false) == NULL); 
+	CU_ASSERT(list_getElem(l, -1, false) == NULL); 
 	CU_ASSERT(list_getElem(l, 4, false) == NULL); 
 
 	char* s;
-	s = list_getElem(l, 1, false);
+	s = list_getElem(l, 0, false);
 	CU_ASSERT (s == list_test_s3);
-	s = list_getElem(l, 1, true);
+	s = list_getElem(l, 0, true);
 	CU_ASSERT(s != NULL);
 	CU_ASSERT(s != list_test_s3);
 	CU_ASSERT (strcmp(s, list_test_s3) == 0);
 	free(s);
 
-	s = list_getElem(l, 2, false);
+	s = list_getElem(l, 1, false);
 	CU_ASSERT (s == list_test_s2);
-	s = list_getElem(l, 2, true);
+	s = list_getElem(l, 1, true);
 	CU_ASSERT (s != list_test_s2);
 	CU_ASSERT(s != NULL);
 	CU_ASSERT (strcmp(s, list_test_s2) == 0);
 	free(s);
 
-	s = list_getElem(l, 3, false);
+	s = list_getElem(l, 2, false);
 	CU_ASSERT (s == list_test_s1);
-	s = list_getElem(l, 3, true);
+	s = list_getElem(l, 2, true);
 	CU_ASSERT(s != NULL);
 	CU_ASSERT (s != list_test_s1);
 	CU_ASSERT (strcmp(s, list_test_s1) == 0);

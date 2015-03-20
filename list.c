@@ -174,7 +174,7 @@ void* list_addSortDesc(list_t* l, void* elem) {
 }
 
 void* list_getElem(list_t* l, unsigned int index, bool clone) {
-	if ((l == NULL) || (index > l->size)) {
+	if ((l == NULL) || (index >= l->size)) {
 		debug_print("invalid parameter\n");
 		return NULL;
 	}
@@ -196,14 +196,14 @@ void* list_getElem(list_t* l, unsigned int index, bool clone) {
 }
 
 int list_remove(list_t* l, void* elem) {
-	if ((l == NULL) || (elem == NULL)) {
+	if ((l == NULL) || (elem == NULL) || (l->compare == NULL)) {
 		debug_print("invalid parameter\n");
 		return EINVAL;
 	}
 
 	/* Find the element to remove */
 	node_t* n = l->head;
-        while ( n != NULL) {
+        while (n != NULL) {
                 if (l->compare(n->elem,elem) == 0) {
                         break;
                 }

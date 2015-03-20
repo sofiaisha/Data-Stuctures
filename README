@@ -3,6 +3,7 @@ Generic data structures in C:
 - linked list (list.h), with multiple add modes : add first, add last, add sorted ascending, add sorted descending
 - stack (stack.h)
 - queue (queue.h)
+- priority queue (pqueue.h)
 - hashtable (hashtable.h)
 - binary tree (binarytree.h)
 - radix tree (radixtree.h), with customizable alphabet size

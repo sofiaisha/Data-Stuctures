@@ -92,11 +92,14 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 
 void* list_addSort(list_t* l, void* elem, unsigned int mode) {
 	if ((l == NULL) || (elem == NULL) || ((mode != ADD_SORT_ASC) && (mode != ADD_SORT_DESC))) {
-		debug_print("invalid mode\n");
+		debug_print("invalid parameter\n");
 		return NULL;
 	}
 
-	assert (l->compare != NULL);
+	if (l->compare == NULL) {
+		debug_print("no compare function\n");
+		return NULL;
+	}
 
 	/* If list is empty, add element */
 	if (l->head == NULL) {

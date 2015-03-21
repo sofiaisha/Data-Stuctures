@@ -35,6 +35,8 @@ int 		binarytree_remove(binarytree_t* t, void* elem);
 
 void* 		binarytree_find(binarytree_t* t, void* elem);
 
+tnode_t*	binarytree_findMaxNode(tnode_t* t);
+
 #define 	TRAVERSAL_MODE_PREORDER 	1
 #define 	TRAVERSAL_MODE_INORDER 		2
 #define 	TRAVERSAL_MODE_POSTORDER 	3

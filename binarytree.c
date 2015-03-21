@@ -129,8 +129,8 @@ void binarytree_traversal_internal(tnode_t* t, unsigned int mode, void(*f)(void*
 }
 
 tnode_t* binarytree_findMaxNode(tnode_t* n) {
-	while ((n != NULL) && (n->left != NULL)) {
-		n = n->left;
+	while ((n != NULL) && (n->right != NULL)) {
+		n = n->right;
 	}
 	return n;
 }

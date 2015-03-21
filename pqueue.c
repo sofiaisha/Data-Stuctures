@@ -76,7 +76,7 @@ void*   pqueue_update(queue_t* q, void* elem, int* oldPriority, int* newPriority
 		// Add the new priority queue node
 		if (list_addSortAsc(q, newqn) == NULL) {
 			debug_print("lost a node!\n");
-			// This isn't greate, but the only reason this would fail
+			// This isn't great, but the only reason this would fail
 			// is a malloc error. Not much we can do anyway,
 			// especially not trying to add the node back...
 			free (newqn);

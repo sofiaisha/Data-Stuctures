@@ -14,11 +14,14 @@ struct pqnode_t {
 };
 
 
-pqueue_t* pqueue_init(void (*print)(void*, FILE*), void* (*clone)(void*), void (*destroy)(void*));
+pqueue_t* pqueue_init(int (*compare)(void*,void*), void (*print)(void*, FILE*), 
+	void* (*clone)(void*), void (*destroy)(void*));
 
 unsigned int pqueue_size(pqueue_t* q);
 
 void*	pqueue_push(queue_t* q, void* elem, int priority);
+
+void*	pqueue_update(queue_t* q, void* elem, int* oldPriority, int* newPriority);
 
 pqnode_t* pqueue_pop(pqueue_t* q);
 

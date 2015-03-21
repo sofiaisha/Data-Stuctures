@@ -7,6 +7,22 @@
 #include "pqueue.h"
 #include "pqueue_test.h"
 
+int pq_compare(void* e1, void* e2) {
+        int p1 = ((pqnode_t*)e1)->priority;
+        int p2 = ((pqnode_t*)e2)->priority;
+        if (p1 < p2) {
+		return -1;
+	}
+        if (p1 > p2) {
+		return 1;
+	}
+        if (p1 == p2) {
+		char* s1 = ((pqnode_t*)e1)->entry;
+		char* s2 = ((pqnode_t*)e2)->entry;
+		return strcmp(s1, s2);
+	}
+}
+
 void pq_print(void* elem, FILE* fd) {
 	pqnode_t* node = (pqnode_t*)elem;
 	fprintf (fd, "(%d,%s) ", node->priority, (char*)node->entry);
@@ -29,18 +45,20 @@ char pqueue_test_s1[] = "string1";
 char pqueue_test_s2[] = "string2";
 char pqueue_test_s3[] = "string3";
 char pqueue_test_s4[] = "string4";
+char pqueue_test_s5[] = "string5";
 
 void pqueue_test_init(void) {
-	CU_ASSERT (pqueue_init(NULL, pq_clone, pq_destroy) == NULL);
-	CU_ASSERT (pqueue_init(pq_print, NULL, pq_destroy) == NULL);
+	CU_ASSERT (pqueue_init(NULL, pq_print, pq_clone, pq_destroy) == NULL);
+	CU_ASSERT (pqueue_init(pq_compare, NULL, pq_clone, pq_destroy) == NULL);
+	CU_ASSERT (pqueue_init(pq_compare, pq_print, NULL, pq_destroy) == NULL);
 
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 	CU_ASSERT (pq != NULL);
 	CU_ASSERT (pqueue_destroy(&pq) == 0);
 }
 
 void pqueue_test_empty(void) {
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 	CU_ASSERT (pq != NULL);
 
 	pqueue_print(pq, stderr);
@@ -51,7 +69,7 @@ void pqueue_test_empty(void) {
 }
 
 void pqueue_test_push(void) {
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 	CU_ASSERT (pq != NULL);
 	
 	CU_ASSERT (pqueue_push(NULL, pqueue_test_s2, 2) == NULL);
@@ -80,7 +98,7 @@ void pqueue_test_push(void) {
 }
 
 void pqueue_test_peek(void) {
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 	CU_ASSERT (pq != NULL);
 	
 	CU_ASSERT (pqueue_peek(NULL) == NULL);
@@ -108,7 +126,7 @@ void pqueue_test_peek(void) {
 }
 	
 void pqueue_test_pop(void) {
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 	
 	CU_ASSERT (pqueue_pop(NULL) == NULL);
 
@@ -156,8 +174,45 @@ void pqueue_test_pop(void) {
 	CU_ASSERT (pqueue_destroy(&pq) == 0);
 }
 	
+void pqueue_test_update(void) {
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
+
+	int oldPriority;
+	int newPriority;
+	CU_ASSERT (pqueue_update(NULL, pqueue_test_s1, &oldPriority, &newPriority) == NULL);
+	CU_ASSERT (pqueue_update(pq, NULL, &oldPriority, &newPriority) == NULL);
+	CU_ASSERT (pqueue_update(pq, pqueue_test_s1, &oldPriority, NULL) == NULL);
+
+	pqueue_push(pq, pqueue_test_s1, 1);
+	pqueue_push(pq, pqueue_test_s2, 2);
+	pqueue_push(pq, pqueue_test_s3, 3);
+	pqueue_push(pq, pqueue_test_s4, 4);
+	CU_ASSERT(pqueue_size(pq) == 4);
+
+	newPriority = 10;
+	CU_ASSERT (pqueue_update(pq, pqueue_test_s5, &oldPriority, &newPriority) == NULL);
+
+	char*s = pqueue_update(pq, pqueue_test_s1, &oldPriority, &newPriority);
+	CU_ASSERT (s == pqueue_test_s1);
+	CU_ASSERT (oldPriority == 1);
+	CU_ASSERT(pqueue_size(pq) == 4);
+	pqnode_t* n = pqueue_peek(pq);
+	CU_ASSERT(n->entry == pqueue_test_s2);
+	CU_ASSERT (strcmp(n->entry, pqueue_test_s2) == 0);
+
+	newPriority = 1;
+	s = pqueue_update(pq, pqueue_test_s1, &oldPriority, &newPriority);
+	CU_ASSERT (oldPriority == 10);
+	CU_ASSERT(pqueue_size(pq) == 4);
+	n = pqueue_peek(pq);
+	CU_ASSERT(n->entry == pqueue_test_s1);
+	CU_ASSERT (strcmp(n->entry, pqueue_test_s1) == 0);
+
+	CU_ASSERT (pqueue_destroy(&pq) == 0);
+}
+
 void pqueue_test_print(void) {
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 	pqueue_push(pq, pqueue_test_s4, 4);
 	pqueue_push(pq, pqueue_test_s3, 3);
 	pqueue_push(pq, pqueue_test_s2, 2);
@@ -171,7 +226,7 @@ void pqueue_test_print(void) {
 }
 
 void pqueue_test_destroy(void) {
-	pqueue_t* pq = pqueue_init(pq_print, pq_clone, pq_destroy);
+	pqueue_t* pq = pqueue_init(pq_compare, pq_print, pq_clone, pq_destroy);
 
 	CU_ASSERT (pqueue_destroy(NULL) == EINVAL);
 	CU_ASSERT (pqueue_destroy(&pq) == 0);

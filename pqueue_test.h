@@ -6,6 +6,7 @@ void pqueue_test_empty(void);
 void pqueue_test_push(void);
 void pqueue_test_peek(void);
 void pqueue_test_pop(void);
+void pqueue_test_update(void);
 void pqueue_test_print(void);
 void pqueue_test_destroy(void);
 

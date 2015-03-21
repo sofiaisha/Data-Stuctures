@@ -102,6 +102,7 @@ int main(void) {
 	(CU_add_test(pSuite, "testing pqueue_push()", pqueue_test_push) == NULL) || 
 	(CU_add_test(pSuite, "testing pqueue_peek()", pqueue_test_peek) == NULL) ||
 	(CU_add_test(pSuite, "testing pqueue_pop()", pqueue_test_pop) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_update()", pqueue_test_update) == NULL) ||
 	(CU_add_test(pSuite, "testing pqueue_print()", pqueue_test_print) == NULL) || 
 	(CU_add_test(pSuite, "testing pqueue_destroy()", pqueue_test_destroy) == NULL) 
 	) {

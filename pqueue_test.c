@@ -16,11 +16,9 @@ int pq_compare(void* e1, void* e2) {
         if (p1 > p2) {
 		return 1;
 	}
-        if (p1 == p2) {
-		char* s1 = ((pqnode_t*)e1)->entry;
-		char* s2 = ((pqnode_t*)e2)->entry;
-		return strcmp(s1, s2);
-	}
+	char* s1 = ((pqnode_t*)e1)->entry;
+	char* s2 = ((pqnode_t*)e2)->entry;
+	return strcmp(s1, s2);
 }
 
 void pq_print(void* elem, FILE* fd) {
@@ -31,14 +29,18 @@ void pq_print(void* elem, FILE* fd) {
 void* pq_clone(void* s) {
 	pqnode_t* node    = (pqnode_t*)s;
 	pqnode_t* newnode = (pqnode_t*)malloc(sizeof(pqnode_t));
+	if (newnode == NULL) {
+		perror("can't clone new node, errno=%d");
+		return NULL;
+	}
 	newnode->priority = node->priority;
 	newnode->entry    = strdup(node->entry);
 	return newnode;
 }
 
 void pq_destroy(void* s) {
-	pqnode_t* node = (pqnode_t*)s;
-	free(node);
+	// Free pqnode_t
+	free(s);
 }
 
 char pqueue_test_s1[] = "string1";

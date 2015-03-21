@@ -4,3 +4,6 @@
 all_test
 words
 cachegrind.out.*
+*.gcda
+*.gcno
+*.gcov

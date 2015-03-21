@@ -44,7 +44,7 @@ cppcheck:
 valgrind: 
 	make clean
 	make OPT_FLAGS='' 
-	valgrind --leak-check=full ./all_test
+	valgrind --show-leak-kinds=all --read-var-info=yes --leak-check=full ./all_test
 
 cachegrind: 
 	make clean

@@ -30,7 +30,7 @@ void* pq_clone(void* s) {
 	pqnode_t* node    = (pqnode_t*)s;
 	pqnode_t* newnode = (pqnode_t*)malloc(sizeof(pqnode_t));
 	if (newnode == NULL) {
-		perror("can't clone new node, errno=%d");
+		perror("pq_clone: can't clone new node\n");
 		return NULL;
 	}
 	newnode->priority = node->priority;

@@ -18,7 +18,7 @@ radixtree_t* radixtree_init(unsigned int alphabetSize, char alphabetStart) {
 
         radixtree_t* t = (radixtree_t*)malloc(sizeof(radixtree_t));
         if (t == NULL) { 
-                perror("radixtree_init: can't create new radix tree, errno=%d");
+                perror("radixtree_init: can't create new radix tree\n");
                 return NULL;
         }       
 	t->size			= 0;
@@ -27,7 +27,7 @@ radixtree_t* radixtree_init(unsigned int alphabetSize, char alphabetStart) {
 
 	t->childs = (rtnode_t**)malloc((t->alphabetSize)*sizeof(rtnode_t*));
 	if (t->childs == NULL) {
-                perror("radixtree_init: can't create childs, errno=%d");
+                perror("radixtree_init: can't create childs\n");
 		free(t);
 		return NULL;
 	}		
@@ -61,7 +61,7 @@ char* radixtree_add(radixtree_t* t, char* s) {
 		if (currentChilds[childIndex] == NULL) {
 			currentChilds[childIndex] = (rtnode_t*)malloc(sizeof(rtnode_t));
 			if (currentChilds[childIndex] == NULL) {
-                		perror("radixtree_add: can't create childs, errno=%d");
+                		perror("radixtree_add: can't create childs\n");
 				return NULL;
 			}
 			currentChilds[childIndex]->last   = false;
@@ -83,7 +83,7 @@ char* radixtree_add(radixtree_t* t, char* s) {
 			currentChilds[childIndex]->childs = 
 				(rtnode_t**)malloc(t->alphabetSize*sizeof(rtnode_t*));
 			if (currentChilds[childIndex]->childs == NULL) {
-               			perror("radixtree_add: can't create childs, errno=%d");
+               			perror("radixtree_add: can't create childs\n");
 				free(currentChilds[childIndex]);
 				return NULL;
 			}

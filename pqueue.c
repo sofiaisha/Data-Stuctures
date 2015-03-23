@@ -24,14 +24,14 @@ pqueue_t* pqueue_init(unsigned int type,
 
 	pqueue_t* pq = (pqueue_t*)malloc(sizeof(pqueue_t));
 	if (pq == NULL) {
-                perror("can't create new priority queue");
+                perror("pqueue_init: can't create new priority queue\n");
                 return NULL;
 	}
 
 	pq->queue = queue_init(compare, print, clone, destroy);
 	if (pq->queue == NULL) {
 		free(pq);
-                perror("can't create new priority queue");
+                perror("pqueue_init: can't create new priority queue\n");
                 return NULL;
 	}
 		
@@ -56,7 +56,7 @@ void*	pqueue_push(pqueue_t* q, void* elem, int priority) {
 
 	pqnode_t* n = (pqnode_t*)malloc(sizeof(pqnode_t));
 	if (n == NULL) {
-                perror("can't create new node, errno=%d");
+                perror("pqueue_push: can't create new node\n");
                 return NULL;
         }
 	n->entry 	= elem;
@@ -112,7 +112,7 @@ void*   pqueue_update(pqueue_t* q, void* elem, int* oldPriority, int* newPriorit
 		// Allocate and initialize a new priority queue node
 		pqnode_t* newqn = (pqnode_t*)malloc(sizeof(pqnode_t));
 		if (newqn == NULL) {
-                	perror("can't create new node, errno=%d");
+                	perror("pqueue_update: can't create new node\n");
                 	return NULL;
         	}
 		newqn->entry 	 = elem;

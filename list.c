@@ -16,7 +16,7 @@ list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 
 	list_t* l = (list_t*)malloc(sizeof(list_t));
 	if (l == NULL) {
-		perror("can't create new list, errno=%d");
+		perror("list_init: can't create new list\n");
 		return NULL;
 	}
 
@@ -49,7 +49,7 @@ void* list_add(list_t* l, void* elem, unsigned int mode) {
 
 	node_t* n = (node_t*)malloc(sizeof(node_t));
 	if (n == NULL) {
-		perror("list_add: can't create node");
+		perror("list_add: can't create node\n");
 		return NULL;
 	}
 	n->elem = elem;
@@ -145,7 +145,7 @@ void* list_addSort(list_t* l, void* elem, unsigned int mode) {
 	/* Insert new element in the middle of the list */
 	node_t* n = (node_t*)malloc(sizeof(node_t));
 	if (n == NULL) {
-		perror("list_addSorted: can't create node");
+		perror("list_addSorted: can't create node\n");
 		return NULL;
 	}
 	n->elem = elem;

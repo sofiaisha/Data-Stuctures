@@ -21,13 +21,13 @@ hashtable_t* hashtable_init(unsigned int bins, int (*compare)(void*, void*),
 
 	hashtable_t* h = (hashtable_t*)malloc(sizeof(hashtable_t));
         if (h == NULL) {
-     	   	perror("hashtable_init: can't create new hashtable");
+     	   	perror("hashtable_init: can't create new hashtable\n");
 	   	return NULL;
      	}
 
 	h->bins = (list_t**)malloc(bins*sizeof(list_t*)); 
         if (h->bins == NULL) {
-     	   	perror("hashtable_init: can't create bins");
+     	   	perror("hashtable_init: can't create bins\n");
 		free(h);
 	   	return NULL;
      	}

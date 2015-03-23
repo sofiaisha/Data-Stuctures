@@ -16,12 +16,12 @@ cbuffer_t* cbuffer_init(unsigned int size,
 
 	cbuffer_t* cb = (cbuffer_t*)malloc(sizeof(cbuffer_t));
 	if (cb == NULL) {
-		perror("can't create new circular buffer, errno=%d");
+		perror("cbuffer_init: can't create new circular buffer\n");
 		return NULL;
 	}
 	cb->entries = (void*)malloc(size*sizeof(void*));
 	if (cb->entries == NULL) {
-		perror("can't create new circular buffer, errno=%d");
+		perror("cbuffer_init: can't create circular buffer entries\n");
 		free(cb);
 		return NULL;
 	}

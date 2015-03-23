@@ -20,7 +20,7 @@ binarytree_t*	binarytree_init(int (*compare)(void*, void*),
 
         binarytree_t* t = (binarytree_t*)malloc(sizeof(binarytree_t));
         if (t == NULL) { 
-                perror("can't create new binary tree, errno=%d");
+                perror("binarytree_init: can't create new binary tree\n");
                 return NULL;
         }       
 

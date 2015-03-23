@@ -3,10 +3,14 @@
 
 void pqueue_test_init(void);
 void pqueue_test_empty(void);
-void pqueue_test_push(void);
-void pqueue_test_peek(void);
-void pqueue_test_pop(void);
-void pqueue_test_update(void);
+void pqueue_test_push_min(void);
+void pqueue_test_push_max(void);
+void pqueue_test_peek_min(void);
+void pqueue_test_peek_max(void);
+void pqueue_test_pop_min(void);
+void pqueue_test_pop_max(void);
+void pqueue_test_update_min(void);
+void pqueue_test_update_max(void);
 void pqueue_test_print(void);
 void pqueue_test_destroy(void);
 

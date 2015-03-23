@@ -99,10 +99,14 @@ int main(void) {
 	if (
 	(CU_add_test(pSuite, "testing pqueue_init()", pqueue_test_init) == NULL) ||
 	(CU_add_test(pSuite, "testing pqueue_empty()", pqueue_test_empty) == NULL) ||
-	(CU_add_test(pSuite, "testing pqueue_push()", pqueue_test_push) == NULL) || 
-	(CU_add_test(pSuite, "testing pqueue_peek()", pqueue_test_peek) == NULL) ||
-	(CU_add_test(pSuite, "testing pqueue_pop()", pqueue_test_pop) == NULL) ||
-	(CU_add_test(pSuite, "testing pqueue_update()", pqueue_test_update) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_push_min()", pqueue_test_push_min) == NULL) || 
+	(CU_add_test(pSuite, "testing pqueue_push_max()", pqueue_test_push_max) == NULL) || 
+	(CU_add_test(pSuite, "testing pqueue_peek_min()", pqueue_test_peek_min) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_peek_max()", pqueue_test_peek_max) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_pop_min()", pqueue_test_pop_min) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_pop_max()", pqueue_test_pop_max) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_update_min()", pqueue_test_update_min) == NULL) ||
+	(CU_add_test(pSuite, "testing pqueue_update_max()", pqueue_test_update_max) == NULL) ||
 	(CU_add_test(pSuite, "testing pqueue_print()", pqueue_test_print) == NULL) || 
 	(CU_add_test(pSuite, "testing pqueue_destroy()", pqueue_test_destroy) == NULL) 
 	) {

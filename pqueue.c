@@ -175,13 +175,13 @@ void 	pqueue_print(pqueue_t* q, FILE* fd) {
 	list_print(q->queue, fd);
 }
 
-int 	pqueue_destroy(pqueue_t** q) {
-	if ((q == NULL) || (*q == NULL)) {
+int 	pqueue_destroy(pqueue_t* q) {
+	if (q == NULL) {
 		return EINVAL;
 	}
 
-	list_destroy(&((*q)->queue));
-	free(*q);	
+	list_destroy(q->queue);
+	free(q);	
 	return 0;
 }
 

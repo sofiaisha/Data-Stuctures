@@ -34,7 +34,7 @@ void stk_test_init(void) {
 	CU_ASSERT (stack_init(stk_compare, stk_print, NULL, stk_destroy) == NULL);
 
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 
 void stk_test_empty(void) {
@@ -44,7 +44,7 @@ void stk_test_empty(void) {
 	CU_ASSERT (stack_get(s) == NULL);
 	CU_ASSERT (stack_pop(s) == NULL);
 
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 
 void stk_test_push(void) {
@@ -58,7 +58,7 @@ void stk_test_push(void) {
 	CU_ASSERT (stack_push(s, stk_test_s3) == stk_test_s3);
 	CU_ASSERT (stack_push(s, stk_test_s4) == stk_test_s4);
 
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 
 void stk_test_get(void) {
@@ -82,7 +82,7 @@ void stk_test_get(void) {
 	CU_ASSERT(str == stk_test_s3);
 	CU_ASSERT (strcmp(str, stk_test_s3) == 0);
 
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 	
 void stk_test_pop(void) {
@@ -117,7 +117,7 @@ void stk_test_pop(void) {
 	CU_ASSERT(str == NULL);
 	CU_ASSERT(stack_size(s) == 0);
 	
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 	
 void stk_test_print(void) {
@@ -129,13 +129,13 @@ void stk_test_print(void) {
 
 	stack_print(s, stdout);
 
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 
 void stk_test_destroy(void) {
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
 	stack_destroy(NULL);
-	stack_destroy(&s);
+	stack_destroy(s);
 }
 
 int init_stk_suite(void) {

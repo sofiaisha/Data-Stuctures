@@ -125,24 +125,21 @@ int hashtable_remove(hashtable_t* h, void* key) {
 	return result;
 }
 
-void hashtable_destroy(hashtable_t** h) {
-	if ((h == NULL) || (*h == NULL)) {
+int hashtable_destroy(hashtable_t* h) {
+	if (h == NULL) {
      	   	debug_print("invalid parameter\n");
-		return;
+		return EINVAL;
 	}
 
-	hashtable_t* tmp = *h;	
-	*h = NULL;
+	hashtable_t* tmp = h;	
 
 	/* Empty and free each bin */
 	for (unsigned int i=0;i<tmp->bin_count;i++) {
-		list_destroy(&(tmp->bins[i]));
-		assert(tmp->bins[i] == NULL);
+		list_destroy(tmp->bins[i]);
 	}
 
-	free(tmp->bins);	
-	tmp->bin_count = 0;
-	tmp->size = 0;
-	free(tmp);
+	free(h->bins);	
+	free(h);
+	return 0;
 }
 

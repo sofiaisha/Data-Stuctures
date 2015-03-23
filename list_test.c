@@ -39,7 +39,7 @@ void list_test_init(void) {
 	CU_ASSERT (list_size(NULL) == EINVAL);
 	CU_ASSERT (list_size(l) == 0);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_empty(void) {
@@ -50,7 +50,7 @@ void list_test_empty(void) {
 	CU_ASSERT (list_find(l, list_test_s1) == NULL);
 	CU_ASSERT (list_remove(l, list_test_s1) == ENOENT);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_addFirst(void) {
@@ -82,7 +82,7 @@ void list_test_addFirst(void) {
 	CU_ASSERT(strcmp((char*)(l->tail->elem), list_test_s1) == 0);
 	CU_ASSERT (list_size(l) == 3);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_addLast(void) {
@@ -115,7 +115,7 @@ void list_test_addLast(void) {
 	CU_ASSERT(strcmp((char*)(l->head->elem), list_test_s1) == 0);
 	CU_ASSERT (list_size(l) == 3);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_addSort(void) {
@@ -142,7 +142,7 @@ void list_test_addSort(void) {
 	s = list_getElem(l, 3, false);
 	CU_ASSERT(strcmp(s, list_test_s4) == 0);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 
 	/* Sort descending */ 
 	l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
@@ -165,7 +165,7 @@ void list_test_addSort(void) {
 	s = list_getElem(l, 3, false);
 	CU_ASSERT(strcmp(s, list_test_s1) == 0);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_getElem(void) {
@@ -206,7 +206,7 @@ void list_test_getElem(void) {
 	CU_ASSERT (strcmp(s, list_test_s1) == 0);
 	free(s);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_walk(void) {
@@ -240,7 +240,7 @@ void list_test_walk(void) {
 	tmp = tmp->prev;
 	CU_ASSERT (tmp == NULL);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_print(void) {
@@ -253,7 +253,7 @@ void list_test_print(void) {
 	list_addFirst(l, list_test_s3);
 	list_print(l, stderr);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_find(void) {
@@ -271,7 +271,7 @@ void list_test_find(void) {
 	CU_ASSERT (strcmp((char*)list_find(l, list_test_s3), list_test_s3) == 0);
 	CU_ASSERT (list_find(l, list_test_s4) == NULL);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_remove(void) {
@@ -296,13 +296,13 @@ void list_test_remove(void) {
 	CU_ASSERT(list_find(l, list_test_s3) == NULL);
 	CU_ASSERT (list_size(l) == 0);
 
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 void list_test_destroy(void) {
 	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
 	CU_ASSERT (list_destroy(NULL) == EINVAL);
-	CU_ASSERT (list_destroy(&l) == 0);
+	CU_ASSERT (list_destroy(l) == 0);
 }
 
 int init_list_suite(void) {

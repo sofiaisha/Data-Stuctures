@@ -29,6 +29,6 @@ void* 	hashtable_find(hashtable_t* h, void* key);
 
 void 	hashtable_print(hashtable_t* h, FILE* fd);
 
-void 	hashtable_destroy(hashtable_t** h); 
+int 	hashtable_destroy(hashtable_t* h); 
 
 #endif 

@@ -52,7 +52,7 @@ void ht_test_init(void) {
 	CU_ASSERT (h->bin_count == BINS);
 	CU_ASSERT (h->size == 0);
 	CU_ASSERT (h->hash == ht_hash);
-	hashtable_destroy(&h);
+	CU_ASSERT (hashtable_destroy(h) == 0);
 }
 
 void ht_test_empty(void) {
@@ -62,7 +62,7 @@ void ht_test_empty(void) {
 	CU_ASSERT(hashtable_find(h, &ht_test_key1) == NULL);
 	CU_ASSERT(hashtable_remove(h, &ht_test_key1) == ENOENT);
 
-	hashtable_destroy(&h);
+	CU_ASSERT (hashtable_destroy(h) == 0);
 }
 
 void ht_test_add(void) {
@@ -85,7 +85,7 @@ void ht_test_add(void) {
 	CU_ASSERT(strcmp((char*)(hte->value), ht_test_s4) == 0);
 	CU_ASSERT(h->size == 4);
 
-	hashtable_destroy(&h);
+	CU_ASSERT (hashtable_destroy(h) == 0);
 }
 
 void ht_test_remove(void) {
@@ -105,7 +105,7 @@ void ht_test_remove(void) {
 	CU_ASSERT(hashtable_find(h, &ht_test_key1) == NULL);
 	hashtable_print(h, stdout);
 
-	hashtable_destroy(&h);
+	CU_ASSERT (hashtable_destroy(h) == 0);
 }
 
 void ht_test_find(void) {
@@ -125,13 +125,13 @@ void ht_test_find(void) {
 	s = (char*)hashtable_find(h, &testKey);
 	CU_ASSERT (strcmp(s, ht_test_s4) == 0);
 
-	hashtable_destroy(&h);
+	CU_ASSERT (hashtable_destroy(h) == 0);
 }
 
 void ht_test_destroy(void) {
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
-	hashtable_destroy(NULL);
-	hashtable_destroy(&h);
+	CU_ASSERT (hashtable_destroy(NULL) == EINVAL);
+	CU_ASSERT (hashtable_destroy(h) == 0);
 }
 
 int init_ht_suite(void) {

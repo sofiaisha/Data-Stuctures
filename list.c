@@ -289,14 +289,13 @@ void list_print(list_t* l, FILE* fd) {
 	fprintf(fd, ") ");
 }
 
-int list_destroy(list_t** l) {
-	if ((l == NULL) || (*l == NULL)) {
+int list_destroy(list_t* l) {
+	if (l == NULL) {
 		debug_print("invalid parameter\n");
 		return EINVAL;
 	}
 	
-	list_t* tmpl = *l;
-	*l = NULL;
+	list_t* tmpl = l;
 	while (tmpl->head) {
 		node_t* tmpn = tmpl->head;
 		tmpl->head = tmpl->head->next;
@@ -307,10 +306,10 @@ int list_destroy(list_t** l) {
 		free(tmpn);
 	}
 
-	assert(tmpl->head == NULL);
-	assert(tmpl->size == 0);
+	assert(l->head == NULL);
+	assert(l->size == 0);
 
-	free(tmpl);
+	free(l);
 
 	return 0;
 }

@@ -31,6 +31,6 @@ void 	stack_print(stack_t* s, FILE* fd) {
 	list_print((list_t*)s, fd);
 }
 
-int 	stack_destroy(stack_t** s) {
-	return list_destroy((list_t**)s);
+int 	stack_destroy(stack_t* s) {
+	return list_destroy((list_t*)s);
 }

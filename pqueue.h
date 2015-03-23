@@ -42,6 +42,6 @@ pqnode_t* pqueue_peek(pqueue_t* q);
 
 void 	pqueue_print(pqueue_t* q, FILE* fd);
 
-int 	pqueue_destroy(pqueue_t** q); 
+int 	pqueue_destroy(pqueue_t* q); 
 
 #endif 

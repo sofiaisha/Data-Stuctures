@@ -20,6 +20,6 @@ void*	stack_pop(stack_t* s);
 
 void 	stack_print(stack_t* s, FILE* fd);
 
-int 	stack_destroy(stack_t** s); 
+int 	stack_destroy(stack_t* s); 
 
 #endif 

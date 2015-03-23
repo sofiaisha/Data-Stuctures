@@ -32,6 +32,6 @@ void 	queue_print(queue_t* q, FILE* fd) {
 	list_print((list_t*)q, fd);
 }
 
-int 	queue_destroy(queue_t** q) {
-	return list_destroy((list_t**)q);
+int 	queue_destroy(queue_t* q) {
+	return list_destroy((list_t*)q);
 }

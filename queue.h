@@ -20,6 +20,6 @@ void*	queue_peek(queue_t* q);
 
 void 	queue_print(queue_t* q, FILE* fd);
 
-int 	queue_destroy(queue_t** q); 
+int 	queue_destroy(queue_t* q); 
 
 #endif 

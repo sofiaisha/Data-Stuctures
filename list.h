@@ -46,6 +46,6 @@ void* 	list_find(list_t* l, void* elem);
 
 void 	list_print(list_t* l, FILE* fd);
 
-int 	list_destroy(list_t** l); 
+int 	list_destroy(list_t* l); 
 
 #endif 

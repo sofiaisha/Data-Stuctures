@@ -107,6 +107,11 @@ void*   pqueue_update(pqueue_t* q, void* elem, int* oldPriority, int* newPriorit
 		return NULL;
 	}
 
+	// Save the old priority
+	if (oldPriority != NULL) {
+		*oldPriority = qn->priority;
+	}
+
 	// If priorities are different,
 	if (qn->priority != *newPriority) {
 		// Allocate and initialize a new priority queue node
@@ -145,10 +150,6 @@ void*   pqueue_update(pqueue_t* q, void* elem, int* oldPriority, int* newPriorit
 			free (newqn);
 			return NULL;
 		}
-	}
-	// Save the old priority
-	if (oldPriority != NULL) {
-		*oldPriority = qn->priority;
 	}
 
 	return elem;

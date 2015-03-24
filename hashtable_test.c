@@ -49,6 +49,7 @@ void ht_test_init(void) {
 	CU_ASSERT (hashtable_init(BINS, ht_compare, ht_print, NULL, ht_hash) == NULL);
 	CU_ASSERT (hashtable_init(BINS, ht_compare, ht_print, ht_destroy, NULL) == NULL);
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
+	CU_ASSERT (h != NULL);
 	CU_ASSERT (h->bin_count == BINS);
 	CU_ASSERT (h->size == 0);
 	CU_ASSERT (h->hash == ht_hash);
@@ -57,6 +58,7 @@ void ht_test_init(void) {
 
 void ht_test_empty(void) {
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
+	CU_ASSERT (h != NULL);
 
 	hashtable_print(h, stdout);
 	CU_ASSERT(hashtable_find(h, &ht_test_key1) == NULL);
@@ -67,6 +69,7 @@ void ht_test_empty(void) {
 
 void ht_test_add(void) {
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
+	CU_ASSERT (h != NULL);
 
 	hashtable_entry_t* hte = 
 		(hashtable_entry_t*)hashtable_add(h, &ht_test_key1, ht_test_s1);
@@ -90,10 +93,12 @@ void ht_test_add(void) {
 
 void ht_test_remove(void) {
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
-	hashtable_add(h, &ht_test_key1, ht_test_s1);
-	hashtable_add(h, &ht_test_key2, ht_test_s2);
-	hashtable_add(h, &ht_test_key3, ht_test_s3);
-	hashtable_add(h, &ht_test_key4, ht_test_s4);
+	CU_ASSERT (h != NULL);
+	
+	CU_ASSERT (hashtable_add(h, &ht_test_key1, ht_test_s1) != NULL);
+	CU_ASSERT (hashtable_add(h, &ht_test_key2, ht_test_s2) != NULL);
+	CU_ASSERT (hashtable_add(h, &ht_test_key3, ht_test_s3) != NULL);
+	CU_ASSERT (hashtable_add(h, &ht_test_key4, ht_test_s4) != NULL);
 
         CU_ASSERT(hashtable_remove(NULL, &ht_test_key1) == EINVAL);
         CU_ASSERT(hashtable_remove(h, NULL) == EINVAL);
@@ -110,10 +115,12 @@ void ht_test_remove(void) {
 
 void ht_test_find(void) {
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
-	hashtable_add(h, &ht_test_key1, ht_test_s1);
-	hashtable_add(h, &ht_test_key2, ht_test_s2);
-	hashtable_add(h, &ht_test_key3, ht_test_s3);
-	hashtable_add(h, &ht_test_key4, ht_test_s4);
+	CU_ASSERT (h != NULL);
+
+	CU_ASSERT (hashtable_add(h, &ht_test_key1, ht_test_s1) != NULL);
+	CU_ASSERT (hashtable_add(h, &ht_test_key2, ht_test_s2) != NULL);
+	CU_ASSERT (hashtable_add(h, &ht_test_key3, ht_test_s3) != NULL);
+	CU_ASSERT (hashtable_add(h, &ht_test_key4, ht_test_s4) != NULL);
 
 	unsigned int testKey = ht_test_key2;
 	char* s = (char*)hashtable_find(h, &testKey);
@@ -130,6 +137,7 @@ void ht_test_find(void) {
 
 void ht_test_destroy(void) {
 	hashtable_t * h = hashtable_init(BINS, ht_compare, ht_print, ht_destroy, ht_hash);
+	CU_ASSERT (h != NULL);
 	CU_ASSERT (hashtable_destroy(NULL) == EINVAL);
 	CU_ASSERT (hashtable_destroy(h) == 0);
 }

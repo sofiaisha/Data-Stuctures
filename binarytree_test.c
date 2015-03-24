@@ -54,23 +54,25 @@ void bintree_test_init(void) {
 	CU_ASSERT (binarytree_size(t) == 0);
 	CU_ASSERT (binarytree_height(t->root) == 0);
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_empty(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 	
 	CU_ASSERT (binarytree_size(t) == 0);
 	CU_ASSERT (binarytree_height(t->root) == 0);
 	binarytree_print(t, stdout);
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_remove1(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	CU_ASSERT (binarytree_remove(NULL, bintree_testKey4) == EINVAL); 
 	CU_ASSERT (binarytree_remove(t, NULL) == EINVAL); 
@@ -109,12 +111,13 @@ void bintree_test_remove1(void) {
 	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_remove2(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	/* Degenerate tree: s1 -> s2 -> s3 -> s4 */
 
@@ -144,12 +147,13 @@ void bintree_test_remove2(void) {
 	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_remove3(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	/* Tree:            s2
          *                 /  \
@@ -186,12 +190,13 @@ void bintree_test_remove3(void) {
 	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == EPERM); 
 	binarytree_print(t, stdout);
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_add_find1(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	CU_ASSERT (binarytree_add(NULL, bintree_test_s1) == NULL);
 	CU_ASSERT (binarytree_add(t, NULL) == NULL);
@@ -221,12 +226,13 @@ void bintree_test_add_find1(void) {
 	CU_ASSERT (strcmp(binarytree_find(t, bintree_testKey3), bintree_testKey3) == 0); 
 	CU_ASSERT (strcmp(binarytree_find(t, bintree_testKey4), bintree_testKey4) == 0); 
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_add_find2(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	/* Degenerate tree: s1 -> s2 -> s3 -> s4 */
 
@@ -247,12 +253,13 @@ void bintree_test_add_find2(void) {
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_add_find3(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	/* Tree:            s2
          *                 /  \
@@ -278,12 +285,13 @@ void bintree_test_add_find3(void) {
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_add_find4(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	/* Tree:            s3
          *                 /  \
@@ -309,7 +317,7 @@ void bintree_test_add_find4(void) {
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void traversal_print(void* elem) {
@@ -319,6 +327,8 @@ void traversal_print(void* elem) {
 void bintree_test_traversal(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
+
 	// Check invalid parameters
 	CU_ASSERT (binarytree_traversal(NULL, TRAVERSAL_MODE_PREORDER, traversal_print) == EINVAL); 
 	CU_ASSERT (binarytree_traversal(t, -1, traversal_print) == EINVAL); 
@@ -348,12 +358,13 @@ void bintree_test_traversal(void) {
 	binarytree_traversal(t, TRAVERSAL_MODE_POSTORDER, traversal_print); 
 	printf("\n");
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_walk(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	/* Tree:            s2
          *                 /  \
@@ -427,15 +438,16 @@ void bintree_test_walk(void) {
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey6) == 0); 
 
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 void bintree_test_destroy(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
 
 	CU_ASSERT(binarytree_destroy(NULL) == EINVAL);
-	CU_ASSERT(binarytree_destroy(&t) == 0);
+	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
 

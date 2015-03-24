@@ -71,10 +71,10 @@ void queue_test_peek(void) {
 	
 	CU_ASSERT (queue_peek(NULL) == NULL);
 
-	queue_push(q, queue_test_s1);
-	queue_push(q, queue_test_s2);
-	queue_push(q, queue_test_s3);
-	queue_push(q, queue_test_s4);
+	CU_ASSERT (queue_push(q, queue_test_s1) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s2) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s3) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s4) != NULL);
 
 	char* str = queue_peek(q);
 	CU_ASSERT(str == queue_test_s1);
@@ -94,13 +94,14 @@ void queue_test_peek(void) {
 	
 void queue_test_pop(void) {
 	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
+	CU_ASSERT (q != NULL);
 	
 	CU_ASSERT (queue_pop(NULL) == NULL);
 
-	queue_push(q, queue_test_s1);
-	queue_push(q, queue_test_s2);
-	queue_push(q, queue_test_s3);
-	queue_push(q, queue_test_s4);
+	CU_ASSERT (queue_push(q, queue_test_s1) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s2) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s3) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s4) != NULL);
 
 	char* str = queue_pop(q);
 	CU_ASSERT(str != queue_test_s1);
@@ -131,10 +132,12 @@ void queue_test_pop(void) {
 	
 void queue_test_print(void) {
 	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
-	queue_push(q, queue_test_s1);
-	queue_push(q, queue_test_s2);
-	queue_push(q, queue_test_s3);
-	queue_push(q, queue_test_s4);
+	CU_ASSERT (q != NULL);
+	
+	CU_ASSERT (queue_push(q, queue_test_s1) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s2) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s3) != NULL);
+	CU_ASSERT (queue_push(q, queue_test_s4) != NULL);
 
 	queue_print(NULL, stdout);
 
@@ -145,6 +148,7 @@ void queue_test_print(void) {
 
 void queue_test_destroy(void) {
 	queue_t* q = queue_init(q_compare, q_print, q_clone, q_destroy);
+	CU_ASSERT (q != NULL);
 	CU_ASSERT (queue_destroy(NULL) == EINVAL);
 	CU_ASSERT (queue_destroy(q) == 0);
 }

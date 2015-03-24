@@ -44,7 +44,7 @@ int		binarytree_traversal(binarytree_t* t, unsigned int mode, void(*f)(void*));
 
 void 		binarytree_print(binarytree_t* t, FILE* fd);
 
-int		binarytree_destroy(binarytree_t** t);
+int		binarytree_destroy(binarytree_t* t);
 
 /* Internal functions, do not use! */
 

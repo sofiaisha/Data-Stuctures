@@ -36,13 +36,14 @@ void radixtree_test_init(void) {
 
 void radixtree_test_destroy(void) {
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
+	CU_ASSERT (t != NULL);
 	CU_ASSERT (radixtree_destroy(NULL) == EINVAL);
 	CU_ASSERT (radixtree_destroy(t) == 0);
 }
 
 void radixtree_test_add(void) {
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
-
+	CU_ASSERT (t != NULL);
 	CU_ASSERT (radixtree_add(NULL, radixtree_test_s1) == NULL);
 	CU_ASSERT (radixtree_add(t, NULL) == NULL);
 
@@ -63,6 +64,7 @@ void radixtree_test_add(void) {
 void radixtree_test_density(void) {
 	unsigned int total = 0, empty = 0;
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
+	CU_ASSERT (t != NULL);
 	CU_ASSERT (radixtree_density(NULL, t->childs, &total, &empty) == -1);
 	CU_ASSERT (radixtree_density(t, NULL, &total, &empty) == -1);
 	CU_ASSERT (radixtree_density(t, t->childs, NULL, &empty) == -1);
@@ -75,15 +77,16 @@ void radixtree_test_density(void) {
 
 void radixtree_test_find(void) {
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
+	CU_ASSERT (t != NULL);
 	
 	CU_ASSERT (radixtree_find(NULL, radixtree_test_s1) == NULL);
 	CU_ASSERT (radixtree_find(t, NULL) == NULL);
 
-	radixtree_add(t, radixtree_test_s1);
-	radixtree_add(t, radixtree_test_s2);
-	radixtree_add(t, radixtree_test_s3);
-	radixtree_add(t, radixtree_test_s4);
-	radixtree_add(t, radixtree_test_s5);
+	CU_ASSERT (radixtree_add(t, radixtree_test_s1) != NULL);
+	CU_ASSERT (radixtree_add(t, radixtree_test_s2) != NULL);
+	CU_ASSERT (radixtree_add(t, radixtree_test_s3) != NULL);
+	CU_ASSERT (radixtree_add(t, radixtree_test_s4) != NULL);
+	CU_ASSERT (radixtree_add(t, radixtree_test_s5) != NULL);
 
 	CU_ASSERT (strcmp(radixtree_find(t, radixtree_test_s1), radixtree_test_s1) == 0);
 	CU_ASSERT (strcmp(radixtree_find(t, radixtree_test_s2), radixtree_test_s2) == 0);

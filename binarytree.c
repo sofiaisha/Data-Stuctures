@@ -271,16 +271,14 @@ void binarytree_print_internal(binarytree_t* t, tnode_t* n, FILE* fd) {
 	}
 }
 
-int binarytree_destroy(binarytree_t** t) {
-	if ((t == NULL) || (*t == NULL)) {
+int binarytree_destroy(binarytree_t* t) {
+	if (t == NULL) {
 		debug_print("Invalid parameter\n");
 		return EINVAL;
 	}
 	
-	binarytree_t* tmp = (*t);
-	(*t) = NULL;
-	binarytree_destroy_internal(tmp, tmp->root);
-	free (tmp);
+	binarytree_destroy_internal(t, t->root);
+	free (t);
 	return 0;
 }
 

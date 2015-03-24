@@ -63,6 +63,7 @@ void cbuffer_test_destroy(void) {
 
 void cbuffer_test_read(void) {
 	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, NULL);
+	CU_ASSERT (cb != NULL);
 	char* s = NULL;
 	
 	CU_ASSERT (cbuffer_read(NULL, 0, (void**)&s) == EINVAL);

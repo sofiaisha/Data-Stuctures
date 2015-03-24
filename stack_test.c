@@ -34,7 +34,8 @@ void stk_test_init(void) {
 	CU_ASSERT (stack_init(stk_compare, stk_print, NULL, stk_destroy) == NULL);
 
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
-	stack_destroy(s);
+	CU_ASSERT (s != NULL);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 
 void stk_test_empty(void) {
@@ -44,7 +45,7 @@ void stk_test_empty(void) {
 	CU_ASSERT (stack_get(s) == NULL);
 	CU_ASSERT (stack_pop(s) == NULL);
 
-	stack_destroy(s);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 
 void stk_test_push(void) {
@@ -58,16 +59,16 @@ void stk_test_push(void) {
 	CU_ASSERT (stack_push(s, stk_test_s3) == stk_test_s3);
 	CU_ASSERT (stack_push(s, stk_test_s4) == stk_test_s4);
 
-	stack_destroy(s);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 
 void stk_test_get(void) {
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
 	
-	stack_push(s, stk_test_s1);
-	stack_push(s, stk_test_s2);
-	stack_push(s, stk_test_s3);
-	stack_push(s, stk_test_s4);
+	CU_ASSERT (stack_push(s, stk_test_s1) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s2) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s3) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s4) != NULL);;
 
 	char* str = stack_get(s);
 	CU_ASSERT(str == stk_test_s4);
@@ -82,16 +83,17 @@ void stk_test_get(void) {
 	CU_ASSERT(str == stk_test_s3);
 	CU_ASSERT (strcmp(str, stk_test_s3) == 0);
 
-	stack_destroy(s);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 	
 void stk_test_pop(void) {
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
+	CU_ASSERT (s != NULL);
 	
-	stack_push(s, stk_test_s1);
-	stack_push(s, stk_test_s2);
-	stack_push(s, stk_test_s3);
-	stack_push(s, stk_test_s4);
+	CU_ASSERT (stack_push(s, stk_test_s1) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s2) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s3) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s4) != NULL);;
 
 	char* str = stack_pop(s);
 	CU_ASSERT(str != stk_test_s4);
@@ -117,25 +119,28 @@ void stk_test_pop(void) {
 	CU_ASSERT(str == NULL);
 	CU_ASSERT(stack_size(s) == 0);
 	
-	stack_destroy(s);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 	
 void stk_test_print(void) {
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
-	stack_push(s, stk_test_s1);
-	stack_push(s, stk_test_s2);
-	stack_push(s, stk_test_s3);
-	stack_push(s, stk_test_s4);
+	CU_ASSERT (s != NULL);
+	
+	CU_ASSERT (stack_push(s, stk_test_s1) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s2) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s3) != NULL);;
+	CU_ASSERT (stack_push(s, stk_test_s4) != NULL);;
 
 	stack_print(s, stdout);
 
-	stack_destroy(s);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 
 void stk_test_destroy(void) {
 	stack_t* s = stack_init(stk_compare, stk_print, stk_clone, stk_destroy);
-	stack_destroy(NULL);
-	stack_destroy(s);
+	CU_ASSERT (s != NULL);
+	CU_ASSERT (stack_destroy(NULL) == EINVAL);
+	CU_ASSERT (stack_destroy(s) == 0);
 }
 
 int init_stk_suite(void) {

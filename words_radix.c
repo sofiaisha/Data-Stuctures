@@ -59,5 +59,5 @@ void processRadixtree(FILE * fd, char* argString) {
 	char* msg = (s == NULL) ? "did not find" : "found";
 	printf("Radixtree: %s %s in %ld nanoseconds\n", msg, argString, after.tv_nsec-before.tv_nsec);
 
-	radixtree_destroy(&tree);
+	radixtree_destroy(tree);
 }

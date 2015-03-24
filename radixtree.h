@@ -27,7 +27,7 @@ char* 		radixtree_add(radixtree_t* t, char* s);
 
 char*		radixtree_find(radixtree_t* t, char* s);
 
-void		radixtree_destroy(radixtree_t** t);
+int		radixtree_destroy(radixtree_t* t);
 
 /* Internal functions, do not use! */
 

@@ -31,13 +31,13 @@ void radixtree_test_init(void) {
 	CU_ASSERT (radixtree_size(NULL) == EINVAL);
 	CU_ASSERT (radixtree_size(t) == 0);
 
-	radixtree_destroy(&t);
+	CU_ASSERT (radixtree_destroy(t) == 0);
 }
 
 void radixtree_test_destroy(void) {
 	radixtree_t* t = radixtree_init(ALPHABET_SIZE, ALPHABET_START);
-	radixtree_destroy(NULL);
-	radixtree_destroy(&t);
+	CU_ASSERT (radixtree_destroy(NULL) == EINVAL);
+	CU_ASSERT (radixtree_destroy(t) == 0);
 }
 
 void radixtree_test_add(void) {
@@ -57,7 +57,7 @@ void radixtree_test_add(void) {
 	float density = radixtree_density(t, t->childs, &total, &empty);
 	printf("\nDensity= %4.1f\n", density);
 
-	radixtree_destroy(&t);
+	CU_ASSERT (radixtree_destroy(t) == 0);
 }
 
 void radixtree_test_density(void) {
@@ -70,7 +70,7 @@ void radixtree_test_density(void) {
 
 	CU_ASSERT (radixtree_density(t, t->childs, &total, &empty) == 0.0);
 
-	radixtree_destroy(&t);
+	CU_ASSERT (radixtree_destroy(t) == 0);
 }
 
 void radixtree_test_find(void) {
@@ -95,7 +95,7 @@ void radixtree_test_find(void) {
 	CU_ASSERT (radixtree_find(t, radixtree_test_s7) == NULL);
 	CU_ASSERT (radixtree_find(t, radixtree_test_s8) == NULL);
 
-	radixtree_destroy(&t);
+	CU_ASSERT (radixtree_destroy(t) == 0);
 }
 
 int init_radixtree_suite(void) {

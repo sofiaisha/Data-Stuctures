@@ -148,19 +148,18 @@ float radixtree_density(radixtree_t* t, rtnode_t** childs, unsigned int* total, 
 	return ((float)full)/(*total)*100;
 }
 
-void radixtree_destroy(radixtree_t** t) {
-	if ((t == NULL) || (*t == NULL)) {
+int radixtree_destroy(radixtree_t* t) {
+	if (t == NULL) {
 		debug_print("Invalid parameter\n");
-		return;
+		return EINVAL;
 	}
 
-	radixtree_t* tmp = (*t);
-	(*t) = NULL;
-	for (unsigned int i=0;i<tmp->alphabetSize;i++) {
-		radixtree_destroy_internal(tmp, tmp->childs[i]);
+	for (unsigned int i=0;i<t->alphabetSize;i++) {
+		radixtree_destroy_internal(t, t->childs[i]);
 	}
-	free(tmp->childs);
-	free (tmp);
+	free(t->childs);
+	free (t);
+	return 0;
 }
 
 void radixtree_destroy_internal(radixtree_t* t, rtnode_t* c) {

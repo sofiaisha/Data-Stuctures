@@ -126,7 +126,7 @@ void* list_addSort(list_t* l, void* elem, unsigned int mode) {
 
 		default:
 			/* Should never happen */
-			debug_print("invalid mode, %ud", mode);
+			debug_print("invalid mode, %u", mode);
 			assert(0);
 	}
 

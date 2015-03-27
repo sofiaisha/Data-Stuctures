@@ -252,6 +252,8 @@ void bintree_test_add_find2(void) {
 
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
+	n = binarytree_findMinNode(t->root);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
@@ -284,6 +286,8 @@ void bintree_test_add_find3(void) {
 	
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
+	n = binarytree_findMinNode(t->root);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
@@ -316,6 +320,8 @@ void bintree_test_add_find4(void) {
 
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
+	n = binarytree_findMinNode(t->root);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
@@ -437,6 +443,8 @@ void bintree_test_walk(void) {
 
 	tnode_t* n = binarytree_findMaxNode(t->root);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey6) == 0); 
+	n = binarytree_findMinNode(t->root);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }

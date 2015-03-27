@@ -135,6 +135,13 @@ tnode_t* binarytree_findMaxNode(tnode_t* n) {
 	return n;
 }
 
+tnode_t* binarytree_findMinNode(tnode_t* n) {
+	while ((n != NULL) && (n->left != NULL)) {
+		n = n->left;
+	}
+	return n;
+}
+
 void* binarytree_add(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");

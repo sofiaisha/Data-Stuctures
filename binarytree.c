@@ -142,6 +142,25 @@ tnode_t* binarytree_findMinNode(tnode_t* n) {
 	return n;
 }
 
+tnode_t* binarytree_findSuccessor(tnode_t* n) {
+	if (n == NULL) {
+		return NULL;
+	} 
+	// If the right subtree exists, the successor of n is its smallest node
+	if (n->right != NULL) {
+		return binarytree_findMinNode(n->right);
+	}
+	else {
+		// Find the first node whose left child is an ancestor of n
+		tnode_t* p = n->parent;
+		while ((p != NULL) && (p->right == n)) {
+			n = p;
+			p = n->parent;
+		}
+		return p;
+	}
+}
+
 void* binarytree_add(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");

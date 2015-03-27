@@ -51,6 +51,7 @@ void bintree_test_init(void) {
 	CU_ASSERT (binarytree_findMinNode(NULL) == NULL);
 	CU_ASSERT (binarytree_findMaxNode(NULL) == NULL);
 	CU_ASSERT (binarytree_findSuccessor(NULL) == NULL);
+	CU_ASSERT (binarytree_findPredecessor(NULL) == NULL);
 
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
@@ -61,6 +62,7 @@ void bintree_test_init(void) {
 	CU_ASSERT (binarytree_findMinNode(t->root) == NULL);
 	CU_ASSERT (binarytree_findMaxNode(t->root) == NULL);
 	CU_ASSERT (binarytree_findSuccessor(t->root) == NULL);
+	CU_ASSERT (binarytree_findPredecessor(t->root) == NULL);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
@@ -269,6 +271,17 @@ void bintree_test_add_find2(void) {
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey3) == 0); 
 	n = binarytree_findSuccessor(t->root->right->right);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
+	n = binarytree_findSuccessor(t->root->right->right->right);
+	CU_ASSERT (n == NULL);
+
+	n = binarytree_findPredecessor(t->root);
+	CU_ASSERT (n == NULL);
+	n = binarytree_findPredecessor(t->root->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
+	n = binarytree_findPredecessor(t->root->right->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey2) == 0); 
+	n = binarytree_findPredecessor(t->root->right->right->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey3) == 0); 
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
@@ -313,6 +326,15 @@ void bintree_test_add_find3(void) {
 	n = binarytree_findSuccessor(t->root->right->left);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
 
+	n = binarytree_findPredecessor(t->root);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
+	n = binarytree_findPredecessor(t->root->left);
+	CU_ASSERT (n == NULL);
+	n = binarytree_findPredecessor(t->root->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey3) == 0); 
+	n = binarytree_findPredecessor(t->root->right->left);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey2) == 0); 
+
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
@@ -321,17 +343,17 @@ void bintree_test_add_find4(void) {
                                           bintree_clone, bintree_destroy);
 	CU_ASSERT (t != NULL);
 
-	/* Tree:            s2
-         *                 / \ 
-         *                s1 s4 
-         *                   /  
-         *                  s3  
+	/* Tree:            s3
+         *                 / \
+         *                s1  s4 
+         *                  \
+         *                  s2  
 	 */
 
-	CU_ASSERT (binarytree_add(t, bintree_test_s2) == bintree_test_s2);
-	CU_ASSERT (binarytree_add(t, bintree_test_s4) == bintree_test_s4);
 	CU_ASSERT (binarytree_add(t, bintree_test_s3) == bintree_test_s3);
 	CU_ASSERT (binarytree_add(t, bintree_test_s1) == bintree_test_s1);
+	CU_ASSERT (binarytree_add(t, bintree_test_s2) == bintree_test_s2);
+	CU_ASSERT (binarytree_add(t, bintree_test_s4) == bintree_test_s4);
 	CU_ASSERT (binarytree_size(t) == 4);
 	binarytree_print(t, stdout);
 
@@ -348,13 +370,22 @@ void bintree_test_add_find4(void) {
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
 
 	n = binarytree_findSuccessor(t->root);
-	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey3) == 0); 
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
 	n = binarytree_findSuccessor(t->root->right);
 	CU_ASSERT (n == NULL);
-	n = binarytree_findSuccessor(t->root->right->left);
-	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey4) == 0); 
 	n = binarytree_findSuccessor(t->root->left);
 	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey2) == 0); 
+	n = binarytree_findSuccessor(t->root->left->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey3) == 0); 
+
+	n = binarytree_findPredecessor(t->root);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey2) == 0); 
+	n = binarytree_findPredecessor(t->root->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey3) == 0); 
+	n = binarytree_findPredecessor(t->root->left);
+	CU_ASSERT (n == NULL);
+	n = binarytree_findPredecessor(t->root->left->right);
+	CU_ASSERT (strcmp((char*)n->elem, bintree_testKey1) == 0); 
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }

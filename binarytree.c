@@ -161,6 +161,25 @@ tnode_t* binarytree_findSuccessor(tnode_t* n) {
 	}
 }
 
+tnode_t* binarytree_findPredecessor(tnode_t* n) {
+	if (n == NULL) {
+		return NULL;
+	} 
+	// If the left subtree exists, the successor of n is its largest node
+	if (n->left != NULL) {
+		return binarytree_findMaxNode(n->left);
+	}
+	else {
+		// Find the first node whose right child is an ancestor of n
+		tnode_t* p = n->parent;
+		while ((p != NULL) && (p->left == n)) {
+			n = p;
+			p = n->parent;
+		}
+		return p;
+	}
+}
+
 void* binarytree_add(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");

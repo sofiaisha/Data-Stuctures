@@ -188,21 +188,6 @@ void* binarytree_add(binarytree_t* t, void* elem) {
 	return binarytree_add_internal(t, &(t->root), elem, NULL);
 }
 
-void binarytree_skipNode_internal(tnode_t* old, tnode_t* new) {
-	/* Old node is a single child. It will be skipped, 
-	 * i.e. its parent and the new node are linked both ways 
-	 */
-	if (old == old->parent->left) {
-		old->parent->left = new;
-	}
-	else if (old == old->parent->right) {
-		old->parent->right = new;
-	}
-	if (new != NULL) {
-		new->parent = old->parent;
-	}
-}
-
 void* binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem, tnode_t* parent) {
 	/* We've reached a leaf: add the element */
 	if ((*n) == NULL) {

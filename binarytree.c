@@ -202,8 +202,8 @@ void* binarytree_add_internal(binarytree_t* t, tnode_t** n, void* elem, tnode_t*
 	int comp = t->compare(elem, (*n)->elem);
 
 	if (comp == 0) {
-		/* Element is already in the tree, return it */
-		return (*n)->elem;
+		/* Element is already in the tree */
+		return NULL;
 	}
 	else if (comp < 0) {
 		/* Element is smaller, add to left subtree */

@@ -221,6 +221,8 @@ void bintree_test_add_find1(void) {
 
 	CU_ASSERT (binarytree_add(t, bintree_test_s1) == bintree_test_s1);
 	CU_ASSERT (binarytree_size(t) == 1);
+	CU_ASSERT (binarytree_add(t, bintree_test_s1) == NULL);
+	CU_ASSERT (binarytree_size(t) == 1);
 	CU_ASSERT (binarytree_add(t, bintree_test_s2) == bintree_test_s2);
 	CU_ASSERT (binarytree_size(t) == 2);
 	CU_ASSERT (binarytree_add(t, bintree_test_s3) == bintree_test_s3);

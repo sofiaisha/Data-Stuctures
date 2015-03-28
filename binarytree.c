@@ -245,51 +245,44 @@ int binarytree_remove(binarytree_t* t, void* elem) {
 		return ENOENT;
 	}
 
-	if (n == t->root) {
-		/* Not implemented yet :) */
-		return EPERM;
+	/* If the node has a single child, the child will replace it 
+	 * If the node has two childs, it will be replaced by its successor
+	 */
+	tnode_t* repl;
+	if ((n->left == NULL) || (n->right == NULL)) {
+		repl = n;
+	}
+	else {
+		repl = binarytree_findSuccessor(n);
+	}
+	/* If the replacement has a non-null child, update its parent pointer.	
+	 *
+         * Note: the replacement is guaranteed to have only have one child
+	 *    - n has a single child : obvious (see above)  
+	 *    - n has two childs : it's successor can only have one child 
+	 */
+	tnode_t* replChild = (repl->left != NULL) ? repl->left : repl->right; 
+	if (replChild != NULL) {
+		replChild->parent = repl->parent;
+	}
+	// If the parent pointer is null, the replacement is the new root
+	if (repl->parent == NULL) {
+		t->root = replChild;
+	}
+	// If the replacement is a left child, update the left pointer in the parent node to skip it
+	else if (repl == repl->parent->left) {
+		repl->parent->left = replChild;
+	}
+	else {
+		// If the replacement is a right child, update the right pointer in the parent node to skip it
+		repl->parent->right = replChild;
 	}
 
-	/* Count children of node to remove */
-	unsigned int children = ((n->left != NULL)?1:0) + ((n->right != NULL)?2:0); 
-
-	tnode_t* tmp = NULL;
-
-	switch (children) {
-		case 0: /* The node is a leaf */
-			binarytree_skipNode_internal(n, NULL);
-			t->destroy(n->elem);
-			free(n);
-			break;
-
-		case 1: /* The node has only one child (left) */
-			binarytree_skipNode_internal(n, n->left);
-			t->destroy(n->elem);
-			free(n);
-			break;
-
-		case 2: /* The node has only one child (right) */
-			binarytree_skipNode_internal(n, n->right);
-			t->destroy(n->elem);
-			free(n);
-			break;
-
-		case 3: /* The node has two children */
-			/* Find max node in right subtree */
-			tmp = binarytree_findMaxNode(n->right);
-			/* Replace n element with min element */
-			t->destroy(n->elem);
-			n->elem = tmp->elem;
-			/* Unlink max node */
-			binarytree_skipNode_internal(tmp, NULL);
-			/* Delete max node */
-			free(tmp);
-			break;
-
-		default: /* should never happen */
-			assert(0);
-			break;
-	}
+	// Destroy the removed element and replace it with the element from the replacement node
+	t->destroy(n->elem);
+	n->elem = repl->elem;
+	// The replacement node has been unlinked, destroy it	
+	free(repl);
 
 	t->size--;
 	return 0;

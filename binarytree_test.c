@@ -116,9 +116,9 @@ void bintree_test_remove1(void) {
 	CU_ASSERT (binarytree_size(t) == 1);
 	CU_ASSERT (binarytree_height(t->root) == 1);
 	binarytree_print(t, stdout);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == EPERM); 
-	CU_ASSERT (binarytree_size(t) == 1);
-	CU_ASSERT (binarytree_height(t->root) == 1);
+	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == 0); 
+	CU_ASSERT (binarytree_size(t) == 0);
+	CU_ASSERT (binarytree_height(t->root) == 0);
 	binarytree_print(t, stdout);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
@@ -140,21 +140,21 @@ void bintree_test_remove2(void) {
 	binarytree_print(t, stdout);
 
 	/* Removing in addition order, i.e. treating nodes as a one-child node */ 
-	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == EPERM); 
-	CU_ASSERT (binarytree_size(t) == 4);
-	CU_ASSERT (binarytree_height(t->root) == 4);
-	binarytree_print(t, stdout);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == 0); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == 0); 
 	CU_ASSERT (binarytree_size(t) == 3);
 	CU_ASSERT (binarytree_height(t->root) == 3);
 	binarytree_print(t, stdout);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey3) == 0); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == 0); 
 	CU_ASSERT (binarytree_size(t) == 2);
 	CU_ASSERT (binarytree_height(t->root) == 2);
 	binarytree_print(t, stdout);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey4) == 0); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey3) == 0); 
 	CU_ASSERT (binarytree_size(t) == 1);
 	CU_ASSERT (binarytree_height(t->root) == 1);
+	binarytree_print(t, stdout);
+	CU_ASSERT (binarytree_remove(t, bintree_testKey4) == 0); 
+	CU_ASSERT (binarytree_size(t) == 0);
+	CU_ASSERT (binarytree_height(t->root) == 0);
 	binarytree_print(t, stdout);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
@@ -197,7 +197,7 @@ void bintree_test_remove3(void) {
 	CU_ASSERT (binarytree_height(t->root) == 2);
 	CU_ASSERT (binarytree_remove(t, bintree_testKey1) == 0); 
 	CU_ASSERT (binarytree_height(t->root) == 1);
-	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == EPERM); 
+	CU_ASSERT (binarytree_remove(t, bintree_testKey2) == 0); 
 	binarytree_print(t, stdout);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);

@@ -543,13 +543,11 @@ void bintree_test_rotateLeft(void) {
 	CU_ASSERT (binarytree_add(t, bintree_test_s5) == bintree_test_s5);
 	CU_ASSERT (binarytree_add(t, bintree_test_s6) == bintree_test_s6);
 
-
-	tnode_t* n = t->root;
-
-	CU_ASSERT (binarytree_rotateLeft(NULL, n) == EINVAL);
+	CU_ASSERT (binarytree_rotateLeft(NULL, t->root) == EINVAL);
 	CU_ASSERT (binarytree_rotateLeft(t, NULL) == EINVAL);
 	CU_ASSERT (binarytree_rotateLeft(t, t->root->left) == EINVAL);
 
+	tnode_t* n = t->root;
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_rotateLeft(t, n) == 0);
 	binarytree_print(t, stdout);
@@ -581,6 +579,78 @@ void bintree_test_rotateLeft(void) {
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
 
+void bintree_test_rotateRight(void) {
+	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
+					  bintree_clone, bintree_destroy);
+	CU_ASSERT (t != NULL);
+
+	/* Tree:            s2
+         *                 /  \
+         *                s1  s4
+         *                   / \
+         *                  s3 s5 
+	 *                      \
+ 	 *			s6
+	 */
+
+	/* Rotated tree:    s2
+         *                 /  \
+         *                s1  s3
+         *                     \
+         *                     s4 
+	 *                      \
+	 *                      s5
+	 *                       \
+	 *                       s6
+	 */
+
+	CU_ASSERT (binarytree_add(t, bintree_test_s2) == bintree_test_s2);
+	CU_ASSERT (binarytree_add(t, bintree_test_s4) == bintree_test_s4);
+	CU_ASSERT (binarytree_add(t, bintree_test_s3) == bintree_test_s3);
+	CU_ASSERT (binarytree_add(t, bintree_test_s1) == bintree_test_s1);
+	CU_ASSERT (binarytree_add(t, bintree_test_s5) == bintree_test_s5);
+	CU_ASSERT (binarytree_add(t, bintree_test_s6) == bintree_test_s6);
+
+	CU_ASSERT (binarytree_rotateRight(NULL, t->root) == EINVAL);
+	CU_ASSERT (binarytree_rotateRight(t, NULL) == EINVAL);
+	CU_ASSERT (binarytree_rotateRight(t, t->root->left) == EINVAL);
+
+	tnode_t* n = t->root->right;
+	binarytree_print(t, stdout);
+	CU_ASSERT (binarytree_rotateRight(t, n) == 0);
+	binarytree_print(t, stdout);
+
+	// s2
+	CU_ASSERT(strcmp(t->root->elem, bintree_test_s2) == 0);
+	CU_ASSERT(t->root->parent == NULL);
+	// s1
+	CU_ASSERT(strcmp(t->root->left->elem, bintree_test_s1) == 0);
+	CU_ASSERT(strcmp(t->root->left->parent->elem, bintree_test_s2) == 0);
+	CU_ASSERT(t->root->left->left == NULL);
+	CU_ASSERT(t->root->left->right == NULL);
+	// s3	
+	CU_ASSERT(strcmp(t->root->right->elem, bintree_test_s3) == 0);
+	CU_ASSERT(strcmp(t->root->right->parent->elem, bintree_test_s2) == 0);
+	CU_ASSERT(t->root->right->left == NULL);
+	CU_ASSERT(strcmp(t->root->right->right->elem, bintree_test_s4) == 0);
+	// s4
+	CU_ASSERT(strcmp(t->root->right->right->elem, bintree_test_s4) == 0);
+	CU_ASSERT(strcmp(t->root->right->right->parent->elem, bintree_test_s3) == 0);
+	CU_ASSERT(t->root->right->right->left == NULL);
+	CU_ASSERT(strcmp(t->root->right->right->right->elem, bintree_test_s5) == 0);
+	// s5
+	CU_ASSERT(strcmp(t->root->right->right->right->elem, bintree_test_s5) == 0);
+	CU_ASSERT(strcmp(t->root->right->right->right->parent->elem, bintree_test_s4) == 0);
+	CU_ASSERT(t->root->right->right->right->left == NULL);
+	CU_ASSERT(strcmp(t->root->right->right->right->right->elem, bintree_test_s6) == 0);
+	// s6
+	CU_ASSERT(strcmp(t->root->right->right->right->right->elem, bintree_test_s6) == 0);
+	CU_ASSERT(strcmp(t->root->right->right->right->right->parent->elem, bintree_test_s5) == 0);
+	CU_ASSERT(t->root->right->right->right->right->left == NULL);
+	CU_ASSERT(t->root->right->right->right->right->right == NULL);
+
+	CU_ASSERT(binarytree_destroy(t) == 0);
+}
 void bintree_test_destroy(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
 					  bintree_clone, bintree_destroy);

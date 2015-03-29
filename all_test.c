@@ -156,7 +156,8 @@ int main(void) {
 	(CU_add_test(pSuite, "testing binarytree_remove() #1", bintree_test_remove1) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_remove() #2", bintree_test_remove2) == NULL) ||
 	(CU_add_test(pSuite, "testing binarytree_remove() #3", bintree_test_remove3) == NULL) ||
-	(CU_add_test(pSuite, "testing binarytree_rotateLeft()", bintree_test_rotateLeft) == NULL) 
+	(CU_add_test(pSuite, "testing binarytree_rotateLeft()", bintree_test_rotateLeft) == NULL) ||
+	(CU_add_test(pSuite, "testing binarytree_rotateRight()", bintree_test_rotateRight) == NULL) 
 	) {
 		CU_cleanup_registry();
 		return CU_get_error();	

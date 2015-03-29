@@ -88,6 +88,41 @@ int binarytree_rotateLeft(binarytree_t* t, tnode_t* n) {
 	return 0;
 }
 
+int binarytree_rotateRight(binarytree_t* t, tnode_t* n) {
+	if ((t == NULL) || (n == NULL) || (n->left == NULL)) {
+		return EINVAL;
+	}
+
+	// O is the left child of n
+	tnode_t* o = n->left;
+
+	// Right subtree of o becomes left subtree of n	
+	n->left = o->right;
+	if (o->right != NULL) {
+		// Update parent pointer in subtree
+		o->right->parent = n;
+	}
+
+	// Update parent pointer of o
+	o->parent = n->parent;
+	if (n->parent == NULL) {
+		// o is the new root
+		t->root = o;
+	}
+	// Update child pointer in the parent of n
+	else if (n == n->parent->left) {
+		n->parent->left = o;	
+	}
+	else {
+		n->parent->right = o;	
+	}
+
+	// Move n to the right of o
+	o->right = n;
+	n->parent = o;
+
+	return 0;
+}
 #define _BT_FIND_ELEM 0
 #define _BT_FIND_NODE 1
 

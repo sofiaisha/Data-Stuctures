@@ -45,6 +45,8 @@ tnode_t*	binarytree_findPredecessor(tnode_t* n);
 
 int		binarytree_rotateLeft(binarytree_t* t, tnode_t* n);
 
+int		binarytree_rotateRight(binarytree_t* t, tnode_t* n);
+
 #define 	TRAVERSAL_MODE_PREORDER 	1
 #define 	TRAVERSAL_MODE_INORDER 		2
 #define 	TRAVERSAL_MODE_POSTORDER 	3

@@ -52,6 +52,13 @@ unsigned int binarytree_height(tnode_t* n) {
 	return 1 + MAX(binarytree_height(n->left), binarytree_height(n->right));
 }
 
+int binarytree_balanceFactor(tnode_t* n) {
+	if (n == NULL) {
+		return 0;
+	}
+	return (binarytree_height(n->left)-binarytree_height(n->right));
+}
+
 int binarytree_rotateLeft(binarytree_t* t, tnode_t* n) {
 	if ((t == NULL) || (n == NULL) || (n->right == NULL)) {
 		return EINVAL;

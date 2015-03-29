@@ -47,7 +47,8 @@ void bintree_test_init(void) {
 			bintree_clone, NULL) == NULL);
 
 	CU_ASSERT (binarytree_size(NULL) == 0);
-
+	CU_ASSERT (binarytree_height(NULL) == 0);
+	CU_ASSERT (binarytree_balanceFactor(NULL) == 0);
 	CU_ASSERT (binarytree_findMinNode(NULL) == NULL);
 	CU_ASSERT (binarytree_findMaxNode(NULL) == NULL);
 	CU_ASSERT (binarytree_findSuccessor(NULL) == NULL);
@@ -56,13 +57,6 @@ void bintree_test_init(void) {
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
 	CU_ASSERT (t != NULL);
-	CU_ASSERT (binarytree_size(t) == 0);
-	CU_ASSERT (binarytree_height(t->root) == 0);
-
-	CU_ASSERT (binarytree_findMinNode(t->root) == NULL);
-	CU_ASSERT (binarytree_findMaxNode(t->root) == NULL);
-	CU_ASSERT (binarytree_findSuccessor(t->root) == NULL);
-	CU_ASSERT (binarytree_findPredecessor(t->root) == NULL);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
 }
@@ -74,6 +68,11 @@ void bintree_test_empty(void) {
 	
 	CU_ASSERT (binarytree_size(t) == 0);
 	CU_ASSERT (binarytree_height(t->root) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root) == 0);
+	CU_ASSERT (binarytree_findMinNode(t->root) == NULL);
+	CU_ASSERT (binarytree_findMaxNode(t->root) == NULL);
+	CU_ASSERT (binarytree_findSuccessor(t->root) == NULL);
+	CU_ASSERT (binarytree_findPredecessor(t->root) == NULL);
 	binarytree_print(t, stdout);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
@@ -231,6 +230,13 @@ void bintree_test_add_find1(void) {
 	CU_ASSERT (binarytree_size(t) == 4);
 	binarytree_print(t, stdout);
 	
+	/* Checking balance factor for each node */
+
+	CU_ASSERT (binarytree_balanceFactor(t->root) == -3);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right) == -2);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right->right) == 0);
+
 	/* Finding keys in addition order */
 
 	CU_ASSERT (strcmp(binarytree_find(t, bintree_testKey1), bintree_testKey1) == 0); 
@@ -307,6 +313,13 @@ void bintree_test_add_find3(void) {
 	CU_ASSERT (binarytree_size(t) == 4);
 	binarytree_print(t, stdout);
 
+	/* Checking balance factor for each node */
+
+	CU_ASSERT (binarytree_balanceFactor(t->root) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right) == 1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->left) == 0);
+
 	/* Finding keys */
 
 	CU_ASSERT (strcmp(binarytree_find(t, bintree_testKey1), bintree_testKey1) == 0); 
@@ -358,6 +371,13 @@ void bintree_test_add_find4(void) {
 	CU_ASSERT (binarytree_add(t, bintree_test_s4) == bintree_test_s4);
 	CU_ASSERT (binarytree_size(t) == 4);
 	binarytree_print(t, stdout);
+
+	/* Checking balance factor for each node */
+
+	CU_ASSERT (binarytree_balanceFactor(t->root) == 1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left->right) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right) == 0);
 
 	/* Finding keys */
 
@@ -453,6 +473,15 @@ void bintree_test_walk(void) {
 	CU_ASSERT (binarytree_add(t, bintree_test_s1) == bintree_test_s1);
 	CU_ASSERT (binarytree_add(t, bintree_test_s5) == bintree_test_s5);
 	CU_ASSERT (binarytree_add(t, bintree_test_s6) == bintree_test_s6);
+
+	/* Checking balance factor for each node */
+
+	CU_ASSERT (binarytree_balanceFactor(t->root) == -2);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->left) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right->right) == 0);
 
 	// s2 to s1 and back
 	tnode_t* tmp = t->root;
@@ -552,6 +581,15 @@ void bintree_test_rotateLeft(void) {
 	CU_ASSERT (binarytree_rotateLeft(t, n) == 0);
 	binarytree_print(t, stdout);
 
+	/* Checking balance factor for each node */
+
+	CU_ASSERT (binarytree_balanceFactor(t->root) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left->left) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left->right) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right) == 0);
+
 	// s4
 	CU_ASSERT(strcmp(t->root->elem, bintree_test_s4) == 0);
 	CU_ASSERT(t->root->parent == NULL);
@@ -619,6 +657,15 @@ void bintree_test_rotateRight(void) {
 	binarytree_print(t, stdout);
 	CU_ASSERT (binarytree_rotateRight(t, n) == 0);
 	binarytree_print(t, stdout);
+
+	/* Checking balance factor for each node */
+
+	CU_ASSERT (binarytree_balanceFactor(t->root) == -3);
+	CU_ASSERT (binarytree_balanceFactor(t->root->left) == 0);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right) == -3);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right) == -2);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right->right) == -1);
+	CU_ASSERT (binarytree_balanceFactor(t->root->right->right->right->right) == 0);
 
 	// s2
 	CU_ASSERT(strcmp(t->root->elem, bintree_test_s2) == 0);

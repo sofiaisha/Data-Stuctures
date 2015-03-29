@@ -13,6 +13,8 @@ void bintree_test_walk(void);
 void bintree_test_remove1(void);
 void bintree_test_remove2(void);
 void bintree_test_remove3(void);
+void bintree_test_rotateLeft(void);
+void bintree_test_rotateRight(void);
 
 int init_bintree_suite(void);
 int clean_bintree_suite(void);

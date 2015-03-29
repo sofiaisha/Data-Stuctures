@@ -50,7 +50,43 @@ unsigned int binarytree_height(tnode_t* n) {
 		return 0;
 	}
 	return 1 + MAX(binarytree_height(n->left), binarytree_height(n->right));
-} 
+}
+
+int binarytree_rotateLeft(binarytree_t* t, tnode_t* n) {
+	if ((t == NULL) || (n == NULL) || (n->right == NULL)) {
+		return EINVAL;
+	}
+
+	// O is the right child of n
+	tnode_t* o = n->right;
+
+	// Left subtree of o becomes right subtree of n	
+	n->right = o->left;
+	if (o->left != NULL) {
+		// Update parent pointer in subtree
+		o->left->parent = n;
+	}
+
+	// Update parent pointer of o
+	o->parent = n->parent;
+	if (n->parent == NULL) {
+		// o is the new root
+		t->root = o;
+	}
+	// Update child pointer in the parent of n
+	else if (n == n->parent->left) {
+		n->parent->left = o;	
+	}
+	else {
+		n->parent->right = o;	
+	}
+
+	// Move n to the left of o
+	o->left = n;
+	n->parent = o;
+
+	return 0;
+}
 
 #define _BT_FIND_ELEM 0
 #define _BT_FIND_NODE 1
@@ -108,7 +144,6 @@ int binarytree_traversal(binarytree_t* t, unsigned int mode, void(*f)(void*)) {
 	}
 	binarytree_traversal_internal(t->root, mode, f);
 	return 0;
-
 }
 
 void binarytree_traversal_internal(tnode_t* t, unsigned int mode, void(*f)(void*)) {
@@ -279,7 +314,7 @@ void binarytree_print(binarytree_t* t, FILE* fd) {
 		return;
 	}
 
-	fprintf(fd, " ( ");
+	fprintf(fd, "\n( ");
 	binarytree_print_internal(t, t->root, fd);
 	fprintf(fd, " )\n");
 }

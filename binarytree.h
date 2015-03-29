@@ -35,13 +35,15 @@ int 		binarytree_remove(binarytree_t* t, void* elem);
 
 void* 		binarytree_find(binarytree_t* t, void* elem);
 
-tnode_t*	binarytree_findMaxNode(tnode_t* t);
+tnode_t*	binarytree_findMaxNode(tnode_t* n);
 
-tnode_t*	binarytree_findMinNode(tnode_t* t);
+tnode_t*	binarytree_findMinNode(tnode_t* n);
 
-tnode_t*	binarytree_findSuccessor(tnode_t* t);
+tnode_t*	binarytree_findSuccessor(tnode_t* n);
 
-tnode_t*	binarytree_findPredecessor(tnode_t* t);
+tnode_t*	binarytree_findPredecessor(tnode_t* n);
+
+int		binarytree_rotateLeft(binarytree_t* t, tnode_t* n);
 
 #define 	TRAVERSAL_MODE_PREORDER 	1
 #define 	TRAVERSAL_MODE_INORDER 		2

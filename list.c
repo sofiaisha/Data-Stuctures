@@ -251,20 +251,50 @@ int list_remove(list_t* l, void* elem) {
 }
 
 void* list_find(list_t* l, void* elem) {
+	return list_findSorted(l, elem, FIND_SORT_NONE);
+}
+
+void* list_findSortedAsc(list_t* l, void* elem) {
+	return list_findSorted(l, elem, FIND_SORT_ASC);
+}
+
+void* list_findSortedDesc(list_t* l, void* elem) {
+	return list_findSorted(l, elem, FIND_SORT_DESC);
+}
+
+void* list_findSorted(list_t* l, void* elem, unsigned int mode) {
 	if ((l == NULL) || (elem == NULL)) {
 		debug_print("invalid parameter\n");
 		return NULL;
 	}
+
+	//TODO: check mode
 
 	/* This is checked by init(), but better safe than sorry */
 	assert(l->compare != NULL);
 
 	node_t* tmp = l->head;
 	while (tmp != NULL) {
+
 		if (l->compare(tmp->elem,elem) == 0) {
 			return tmp->elem;
 		}
 		else {
+			switch (mode) {
+				case FIND_SORT_ASC:
+					if (l->compare(tmp->elem,elem) > 0) {
+						return NULL;
+					}
+					break;
+				case FIND_SORT_DESC:
+					if (l->compare(tmp->elem,elem) < 0) {
+						return NULL;
+					}
+					break;
+				case FIND_SORT_NONE:
+				default:
+					break;
+			}
 			tmp = tmp->next;
 		}
 	} 

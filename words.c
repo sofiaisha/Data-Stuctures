@@ -23,5 +23,8 @@ int main(int argc, char** argv) {
 	FILE* fd = fopen("wordlist.txt", "r");
 
 	processRadixtree(fd, argv[1]);
+	processList(fd, argv[1]);
+
+	fclose(fd);
 }
 

@@ -11,7 +11,7 @@ LIB= 		libcontainer.a libcontainer.so
 LIBOBJS= 	list.o stack.o queue.o hashtable.o binarytree.o radixtree.o cbuffer.o pqueue.o
 TESTOBJS= 	all_test.o list_test.o stack_test.o queue_test.o hashtable_test.o \
 		     binarytree_test.o radixtree_test.o cbuffer_test.o pqueue_test.o
-WORDSOBJ=	words.o words_radix.o
+WORDSOBJ=	words.o words_radix.o words_list.o
 
 BIN= 		all_test words 
 

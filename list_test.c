@@ -146,6 +146,13 @@ void list_test_addSort(void) {
 	s = list_getElem(l, 3, false);
 	CU_ASSERT(strcmp(s, list_test_s4) == 0);
 
+	char list_test_s31[] = "string31";
+	CU_ASSERT (strcmp((char*)list_findSortedAsc(l, list_test_s1), list_test_s1) == 0);
+	CU_ASSERT (strcmp((char*)list_findSortedAsc(l, list_test_s2), list_test_s2) == 0);
+	CU_ASSERT (strcmp((char*)list_findSortedAsc(l, list_test_s3), list_test_s3) == 0);
+	CU_ASSERT (strcmp((char*)list_findSortedAsc(l, list_test_s4), list_test_s4) == 0);
+	CU_ASSERT (list_findSortedAsc(l, list_test_s31) == NULL);
+
 	CU_ASSERT (list_destroy(l) == 0);
 
 	/* Sort descending */ 
@@ -169,6 +176,12 @@ void list_test_addSort(void) {
 	CU_ASSERT(strcmp(s, list_test_s2) == 0);
 	s = list_getElem(l, 3, false);
 	CU_ASSERT(strcmp(s, list_test_s1) == 0);
+
+	CU_ASSERT (strcmp((char*)list_findSortedDesc(l, list_test_s1), list_test_s1) == 0);
+	CU_ASSERT (strcmp((char*)list_findSortedDesc(l, list_test_s2), list_test_s2) == 0);
+	CU_ASSERT (strcmp((char*)list_findSortedDesc(l, list_test_s3), list_test_s3) == 0);
+	CU_ASSERT (strcmp((char*)list_findSortedDesc(l, list_test_s4), list_test_s4) == 0);
+	CU_ASSERT (list_findSortedDesc(l, list_test_s31) == NULL);
 
 	CU_ASSERT (list_destroy(l) == 0);
 }

@@ -13,6 +13,7 @@
 #include "binarytree_test.h"
 #include "radixtree_test.h"
 #include "cbuffer_test.h"
+#include "fileio_test.h"
 
 int main(void) {
 	CU_pSuite pSuite = NULL;
@@ -203,6 +204,21 @@ int main(void) {
 		return CU_get_error();	
 	}
  
+	/* File io test suite */ 
+
+	pSuite = CU_add_suite("fileio_suite", 
+			init_fileio_suite, clean_fileio_suite); 
+	if (pSuite == NULL) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
+
+	if (
+	(CU_add_test(pSuite, "testing fileio", fileio_test) == NULL) 
+	) {
+		CU_cleanup_registry();
+		return CU_get_error();	
+	}
 	CU_basic_set_mode(CU_BRM_VERBOSE);
 	CU_basic_run_tests();
 	CU_cleanup_registry();

@@ -54,7 +54,7 @@ void fileio_test(void) {
 	void* addr = mmapFile(f, 0, 8*pgsize);
 	CU_ASSERT( addr != NULL );
 	for (unsigned int i=0;i<1000;i++) {
-		CU_ASSERT( readDisk(n, f, sizeof(teststruct_t), i) == 0 );
+		CU_ASSERT( readDisk(o, f, sizeof(teststruct_t), i) == 0 );
 		CU_ASSERT( o->id == i );
 		CU_ASSERT( o->value == 0x10000000+i );
 

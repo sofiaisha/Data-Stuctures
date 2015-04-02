@@ -6,6 +6,7 @@
 
 #include "list.h"
 #include "util.h"
+#include "fileio.h"
 
 list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 		  void* (*clone)(void*), void (*destroy)(void*)) {
@@ -23,6 +24,7 @@ list_t* list_init(int (*compare)(void*, void*), void (*print)(void*, FILE*),
 	l->head 	= NULL;
 	l->tail 	= NULL;
 	l->size 	= 0;
+	l->elemSize 	= 0;
 	l->compare 	= compare;
 	l->print 	= print;
 	l->destroy 	= destroy;
@@ -318,6 +320,23 @@ void list_print(list_t* l, FILE* fd) {
 	} 
 	fprintf(fd, ") ");
 }
+
+
+int list_save(list_t* l, FILE* f) {
+	if ( (l == NULL) || (f == NULL) || (l->elemSize == 0) ) {
+		debug_print("invalid parameter\n");
+		return EINVAL;	
+	}
+	int count = 0;
+	for (node_t* n=l->head; n != NULL; n=n->next) {
+		void* elem = l->clone(n->elem);
+		writeDisk(elem, f, l->elemSize, count);
+		count++;
+		free(elem);
+	}
+	return count;
+}
+
 
 int list_destroy(list_t* l) {
 	if (l == NULL) {

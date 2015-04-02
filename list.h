@@ -15,6 +15,7 @@ typedef struct {
 	node_t*		head;
 	node_t*		tail;
 	unsigned int 	size;
+	size_t		elemSize;
 	int		(*compare)(void*, void*);
 	void		(*print)(void*, FILE*);
 	void*		(*clone)(void*);
@@ -52,6 +53,9 @@ void* 	list_findSortedAsc(list_t* l, void* elem);
 void* 	list_findSortedDesc(list_t* l, void* elem);
 
 void 	list_print(list_t* l, FILE* fd);
+
+int	list_load(list_t* l, FILE* fd);
+int	list_save(list_t* l, FILE* fd);
 
 int 	list_destroy(list_t* l); 
 

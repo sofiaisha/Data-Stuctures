@@ -11,6 +11,7 @@ void list_test_getElem(void);
 void list_test_print(void);
 void list_test_find(void);
 void list_test_remove(void);
+void list_test_save(void);
 void list_test_destroy(void);
 
 int init_list_suite(void);

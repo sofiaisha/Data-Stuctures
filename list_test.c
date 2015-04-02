@@ -321,6 +321,22 @@ void list_test_remove(void) {
 	CU_ASSERT (list_destroy(l) == 0);
 }
 
+void list_test_save(void) {
+	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
+	CU_ASSERT (l != NULL);
+
+	CU_ASSERT(list_addLast(l, list_test_s1) != NULL);
+	CU_ASSERT(list_addLast(l, list_test_s2) != NULL);
+	CU_ASSERT(list_addLast(l, list_test_s3) != NULL);
+
+	FILE* f = fopen("file2.bin", "w+");
+	l->elemSize = 7;
+	CU_ASSERT (list_save(l, f) == list_size(l));
+	fclose(f);
+
+	CU_ASSERT (list_destroy(l) == 0);
+}
+
 void list_test_destroy(void) {
 	list_t* l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
 	CU_ASSERT (l != NULL);

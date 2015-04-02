@@ -41,6 +41,7 @@ int main(void) {
 	(CU_add_test(pSuite, "testing list_print()", list_test_print) == NULL) ||
 	(CU_add_test(pSuite, "testing list_find()", list_test_find) == NULL) ||
 	(CU_add_test(pSuite, "testing list_remove()", list_test_remove) == NULL) ||
+	(CU_add_test(pSuite, "testing list_save()", list_test_save) == NULL) ||
 	(CU_add_test(pSuite, "testing list_destroy()", list_test_destroy) == NULL) 
 	) {
 		CU_cleanup_registry();

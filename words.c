@@ -7,6 +7,7 @@
 #include "radixtree.h"
 
 void processRadixtree(FILE * fd, char* s); 
+void processList(FILE * fd, char* s); 
 
 int main(int argc, char** argv) {
 

@@ -334,7 +334,7 @@ void list_test_save(void) {
 
 	FILE* f = fopen("file2.bin", "w+");
 	CU_ASSERT (f != NULL);
-	l->elemSize = 7;
+	l->elemSize = 8;
 
 	CU_ASSERT (list_save(NULL, f) == EINVAL);
 	CU_ASSERT (list_save(l, NULL) == EINVAL);
@@ -345,20 +345,22 @@ void list_test_save(void) {
 
 	l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
 	CU_ASSERT (l != NULL);
-	l->elemSize = 7;
+	l->elemSize = 8;
 	f = fopen("file2.bin", "r");
 	CU_ASSERT (f != NULL);
 
 	CU_ASSERT (list_load(NULL, f) == EINVAL);
 	CU_ASSERT (list_load(l, NULL) == EINVAL);
-	/*CU_ASSERT (list_load(l, f) == 3);
+	CU_ASSERT (list_load(l, f) == 3);
 	CU_ASSERT (list_size(l) == 3);
 	list_print(l, stdout);
 	CU_ASSERT (list_find(l, list_test_s1) != NULL);
 	CU_ASSERT (strncmp((char*)list_find(l, list_test_s1), list_test_s1, l->elemSize) == 0);
-	printf("%s\n", l->head->next->elem);
 	CU_ASSERT (list_find(l, list_test_s2) != NULL);
-	CU_ASSERT (list_find(l, list_test_s4) == NULL);*/
+	CU_ASSERT (strncmp((char*)list_find(l, list_test_s2), list_test_s2, l->elemSize) == 0);
+	CU_ASSERT (list_find(l, list_test_s3) != NULL);
+	CU_ASSERT (strncmp((char*)list_find(l, list_test_s3), list_test_s3, l->elemSize) == 0);
+	CU_ASSERT (list_find(l, list_test_s4) == NULL);
 
 	fclose(f);
 	CU_ASSERT (list_destroy(l) == 0);

@@ -15,8 +15,12 @@ int lst_compare(void* s1, void* s2) {
         return strcmp ((char*)s1, (char*)s2);
 }
 
+#define MAX_LEN 32
 void* lst_clone(void* s) {
-        return strdup((char*)s);
+	char* str = (char*)malloc(MAX_LEN*sizeof(char));
+	memset(str, 0, MAX_LEN);
+	strncpy(str, s, strlen(s));
+	return str;
 }
 
 void lst_destroy(void* s) {
@@ -35,7 +39,7 @@ void processList(FILE * fd, char* argString) {
 	rewind(fd);
 
 	while (!feof(fd)) {
-		char s[32];
+		char s[MAX_LEN];
 		unsigned int ret = fscanf(fd, "%s\n", s);
 		if (list_addLast(l, strdup(s)) != NULL) {
 			count+=ret;	
@@ -48,11 +52,12 @@ void processList(FILE * fd, char* argString) {
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 
 	// Find all words in the list
+	/*
 	count = 0;
 	rewind(fd);
         clock_gettime(CLOCK_REALTIME, &before);
 	while (!feof(fd)) {
-		char s[32];
+		char s[MAX_LEN];
 		unsigned int ret = fscanf(fd, "%s\n", s);
 		if (list_findSortedAsc(l, s) != NULL) {
 			count+=ret;
@@ -64,7 +69,7 @@ void processList(FILE * fd, char* argString) {
 		count, after.tv_sec-before.tv_sec, after.tv_nsec-before.tv_nsec, 
 		(float)(after.tv_nsec-before.tv_nsec)/count);
 
-
+	*/
         clock_gettime(CLOCK_REALTIME, &before);
 	char* s = list_find(l, argString);
         clock_gettime(CLOCK_REALTIME, &after);
@@ -72,5 +77,11 @@ void processList(FILE * fd, char* argString) {
 	char* msg = (s == NULL) ? "did not find" : "found";
 	printf("List: %s %s in %ld nanoseconds\n", msg, argString, after.tv_nsec-before.tv_nsec);
 
+	FILE * f = fopen ("file_list.bin", "w+");
+
+	l->elemSize = MAX_LEN;	
+	list_save(l, f);
 	list_destroy(l);
+
+	fclose(f);
 }

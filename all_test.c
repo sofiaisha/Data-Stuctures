@@ -215,6 +215,7 @@ int main(void) {
 	}
 
 	if (
+	(CU_add_test(pSuite, "testing fileio parameters", fileio_test_invalid) == NULL) ||
 	(CU_add_test(pSuite, "testing fileio", fileio_test) == NULL) 
 	) {
 		CU_cleanup_registry();

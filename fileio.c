@@ -66,7 +66,7 @@ int writeMem(void* n, void* addr, size_t recordSize, unsigned long recordNum) {
 }
 
 void* mmapFile(FILE* f, off_t offset, size_t length) {
-	if ((f == NULL) || (length == NULL)) {
+	if ((f == NULL) || (length == 0)) {
 		return NULL;
 	}
  	void* addr = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_PRIVATE, fileno(f), offset);

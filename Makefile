@@ -33,7 +33,7 @@ libcontainer.so: $(LIBOBJS)
 	$(CC) -shared -o libcontainer.so $(LIBOBJS)
 
 clean:	
-	/bin/rm -f $(BIN) $(OBJS) $(LIB) cachegrind.out.* *.gcov *.gcda *.gcno *.bak file*.bin
+	/bin/rm -f $(BIN) $(OBJS) $(LIB) cachegrind.out.* *.gcov *.gcda *.gcno *.bak file*.bin file*.txt
 
 test: all_test
 	./all_test

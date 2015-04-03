@@ -8,7 +8,7 @@
 #include "list.h"
 
 void lst_print(void* elem, FILE* fd) {
-        fprintf (fd, "%s ", (char*)elem);
+        fprintf (fd, "%s\n", (char*)elem);
 }
 
 int lst_compare(void* s1, void* s2) {
@@ -18,8 +18,10 @@ int lst_compare(void* s1, void* s2) {
 #define MAX_LEN 32
 void* lst_clone(void* s) {
 	char* str = (char*)malloc(MAX_LEN*sizeof(char));
-	memset(str, 0, MAX_LEN);
-	strncpy(str, s, strlen(s));
+	if (str != NULL) {
+		memset(str, 0, MAX_LEN);
+		strncpy(str, s, MAX_LEN);
+	}
 	return str;
 }
 
@@ -77,11 +79,31 @@ void processList(FILE * fd, char* argString) {
 	char* msg = (s == NULL) ? "did not find" : "found";
 	printf("List: %s %s in %ld nanoseconds\n", msg, argString, after.tv_nsec-before.tv_nsec);
 
+	// Save list to disk
 	FILE * f = fopen ("file_list.bin", "w+");
-
 	l->elemSize = MAX_LEN;	
 	list_save(l, f);
+	// Print list to disk
+	FILE * f2 = fopen ("file_list.txt", "w+");
+	list_print(l, f2);
+	// Destroy list and close files
 	list_destroy(l);
-
 	fclose(f);
+	fclose(f2);
+
+	// Rebuild list from disk
+	l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
+	l->elemSize = MAX_LEN;	
+	f = fopen ("file_list.bin", "r");
+	list_load(l, f);
+	// Print list to disk
+	f2 = fopen ("file_list2.txt", "w+");
+	list_print(l, f2);
+	s = list_find(l, argString);
+	msg = ( s == NULL) ? "did not find" : "found";
+	printf("List: %s %s\n", msg, s);
+	// Destroy list and close files
+	list_destroy(l);
+	fclose(f);
+	fclose(f2);
 }

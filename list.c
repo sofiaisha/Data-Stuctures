@@ -309,16 +309,11 @@ void list_print(list_t* l, FILE* fd) {
 		return;
 	}
 
-	fprintf(fd, "(");
 	node_t* head = l->head;
-	if (head == NULL) {
-		fprintf(fd, "empty");
-	}
 	while (head) {
 		l->print(head->elem, fd);
 		head = head->next;
 	} 
-	fprintf(fd, ") ");
 }
 
 
@@ -330,13 +325,34 @@ int list_save(list_t* l, FILE* f) {
 	int count = 0;
 	for (node_t* n=l->head; n != NULL; n=n->next) {
 		void* elem = l->clone(n->elem);
-		writeDisk(elem, f, l->elemSize, count);
+		writeDisk(elem, f, l->elemSize, count); //TODO: check return code
 		count++;
 		free(elem);
 	}
 	return count;
 }
 
+int list_load(list_t* l, FILE* f) {
+	if ( (l == NULL) || (f == NULL) || (l->elemSize == 0) ) {
+		debug_print("invalid parameter\n");
+		return EINVAL;	
+	}
+	int count = 0;
+	int ret = 0;
+	while (ret != ENODATA) {
+		void* elem = (void*)malloc(l->elemSize*sizeof(char));
+		memset(elem, 0, l->elemSize*sizeof(char));
+		ret = readDisk(elem, f, l->elemSize, count);
+		if (ret != ENODATA) {
+			list_addLast(l, elem);
+			count++;
+		}
+		else {
+			free(elem);
+		}
+	}
+	return count;
+}
 
 int list_destroy(list_t* l) {
 	if (l == NULL) {

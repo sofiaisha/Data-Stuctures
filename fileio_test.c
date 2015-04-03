@@ -74,7 +74,7 @@ void fileio_test(void) {
 	for (unsigned int i=0;i<10;i++) {
 		n->id    = i+0x10000000;
 		n->value = i+0x20000000;
-		sprintf(n->string, "str%d", i);
+		sprintf(n->string, "str%u", i);
 		CU_ASSERT( writeDisk(n, f, sizeof(teststruct_t), i) == 0 );
 	}
 	free(n);

@@ -270,7 +270,10 @@ void* list_findSorted(list_t* l, void* elem, unsigned int mode) {
 		return NULL;
 	}
 
-	//TODO: check mode
+	if ((mode != FIND_SORT_ASC) && (mode != FIND_SORT_DESC) && (mode != FIND_SORT_NONE)) {
+		debug_print("invalid parameter\n");
+		return NULL;
+	}
 
 	/* This is checked by init(), but better safe than sorry */
 	assert(l->compare != NULL);
@@ -294,8 +297,10 @@ void* list_findSorted(list_t* l, void* elem, unsigned int mode) {
 					}
 					break;
 				case FIND_SORT_NONE:
-				default:
 					break;
+				default:
+					// should never happen
+					assert(0);
 			}
 			tmp = tmp->next;
 		}
@@ -323,11 +328,15 @@ int list_save(list_t* l, FILE* f) {
 		return EINVAL;	
 	}
 	int count = 0;
+	int ret = 0;
 	for (node_t* n=l->head; n != NULL; n=n->next) {
 		void* elem = l->clone(n->elem);
-		writeDisk(elem, f, l->elemSize, count); //TODO: check return code
-		count++;
+		ret = writeDisk(elem, f, l->elemSize, count); 
 		free(elem);
+		if (ret == 0) {
+			count++;
+		}
+		else break;
 	}
 	return count;
 }

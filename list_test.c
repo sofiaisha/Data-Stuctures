@@ -22,6 +22,11 @@ void lst_destroy(void* s) {
 	return;
 }
 
+void lst_destroy2(void* s) {
+	free(s);
+}
+
+
 char list_test_s1[] = "string1";
 char list_test_s2[] = "string2";
 char list_test_s3[] = "string3";
@@ -343,7 +348,7 @@ void list_test_save(void) {
 	fclose(f);
 	CU_ASSERT (list_destroy(l) == 0);
 
-	l = list_init(lst_compare, lst_print, lst_clone, lst_destroy);
+	l = list_init(lst_compare, lst_print, lst_clone, lst_destroy2);
 	CU_ASSERT (l != NULL);
 	l->elemSize = 8;
 	f = fopen("file2.bin", "r");

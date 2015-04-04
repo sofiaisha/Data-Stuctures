@@ -76,23 +76,23 @@ int cbuffer_read(cbuffer_t* cb, int offset, void** element) {
 	return 0;
 }
 	
-int cbuffer_destroy(cbuffer_t** cb) {
-	if ((cb == NULL) || (*cb == NULL)) {
+int cbuffer_destroy(cbuffer_t* cb) {
+	if (cb == NULL) {
 		debug_print("invalid parameter\n");
 		return EINVAL;
 	}
 
-	if ((*cb)->destroy != NULL) {
-		for (unsigned int i=0;i<(*cb)->size;i++) {
-			if ((*cb)->entries[i] != NULL) {
-				((*cb)->destroy)((*cb)->entries[i]);
+	if (cb->destroy != NULL) {
+		for (unsigned int i=0;i<cb->size;i++) {
+			if (cb->entries[i] != NULL) {
+				(cb->destroy)(cb->entries[i]);
 			}
 		}
 	}  	
-	if ((*cb)->entries != NULL) {
-		free((*cb)->entries);
+	if (cb->entries != NULL) {
+		free(cb->entries);
 	}
-	free(*cb);
+	free(cb);
 
 	return 0;
 }

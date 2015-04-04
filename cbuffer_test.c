@@ -41,7 +41,7 @@ void cbuffer_test_init(void) {
 	CU_ASSERT (cb->destroy == NULL);
 	CU_ASSERT (cb->entries != NULL);
 
-	CU_ASSERT (cbuffer_destroy(&cb) == 0);
+	CU_ASSERT (cbuffer_destroy(cb) == 0);
 }
 
 void cbuffer_test_empty(void) {
@@ -51,14 +51,14 @@ void cbuffer_test_empty(void) {
 	CU_ASSERT (cbuffer_size(NULL) == EINVAL);
 	CU_ASSERT (cbuffer_size(cb) == cb_size);
 
-	CU_ASSERT (cbuffer_destroy(&cb) == 0);
+	CU_ASSERT (cbuffer_destroy(cb) == 0);
 }
 
 void cbuffer_test_destroy(void) {
 	cbuffer_t* cb = cbuffer_init(cb_size, cb_print, cb_clone, NULL);
 	CU_ASSERT (cb != NULL);
 	CU_ASSERT (cbuffer_destroy(NULL) == EINVAL);
-	CU_ASSERT (cbuffer_destroy(&cb) == 0);
+	CU_ASSERT (cbuffer_destroy(cb) == 0);
 }
 
 void cbuffer_test_read(void) {
@@ -69,7 +69,7 @@ void cbuffer_test_read(void) {
 	CU_ASSERT (cbuffer_read(NULL, 0, (void**)&s) == EINVAL);
 	CU_ASSERT (cbuffer_read(cb, 0, NULL) == EINVAL);
 
-	CU_ASSERT (cbuffer_destroy(&cb) == 0);
+	CU_ASSERT (cbuffer_destroy(cb) == 0);
 }
 
 void cbuffer_test_write(void) {
@@ -110,7 +110,7 @@ void cbuffer_test_write(void) {
 	CU_ASSERT (cbuffer_read(cb, 5, (void**)&s) == 0);
 	CU_ASSERT (strcmp(cbuffer_test_s3, s) == 0);
 
-	CU_ASSERT (cbuffer_destroy(&cb) == 0);
+	CU_ASSERT (cbuffer_destroy(cb) == 0);
 }
 
 int init_cbuffer_suite(void) {

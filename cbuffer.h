@@ -24,6 +24,6 @@ int 	cbuffer_read(cbuffer_t* cb, int offset, void** elem);
 
 void 	cbuffer_print(cbuffer_t* cb, FILE* fd);
 
-int 	cbuffer_destroy(cbuffer_t** cb); 
+int 	cbuffer_destroy(cbuffer_t* cb); 
 
 #endif 

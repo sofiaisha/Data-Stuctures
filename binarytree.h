@@ -45,6 +45,12 @@ tnode_t*	binarytree_findSuccessor(tnode_t* n);
 
 tnode_t*	binarytree_findPredecessor(tnode_t* n);
 
+tnode_t*	binarytree_findGrandparent(tnode_t* n);
+
+tnode_t*	binarytree_findUncle(tnode_t* n);
+
+tnode_t*	binarytree_findBrother(tnode_t* n);
+
 int		binarytree_rotateLeft(binarytree_t* t, tnode_t* n);
 
 int		binarytree_rotateRight(binarytree_t* t, tnode_t* n);

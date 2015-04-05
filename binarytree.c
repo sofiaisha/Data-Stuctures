@@ -257,6 +257,40 @@ tnode_t* binarytree_findPredecessor(tnode_t* n) {
 	}
 }
 
+tnode_t* binarytree_findGrandparent(tnode_t* n) {
+	if ((n == NULL) || (n->parent == NULL)) {
+		return NULL;
+	} 
+	return n->parent->parent;
+}
+
+tnode_t* binarytree_findUncle(tnode_t* n) {
+	tnode_t* gp = binarytree_findGrandparent(n);
+	if (gp == NULL) {
+		return NULL;
+	} 
+	if (n->parent == gp->right) {
+		return gp->left;
+	} 
+	else {
+		return gp->right;
+	}
+}
+
+tnode_t* binarytree_findBrother(tnode_t* n) {
+	if ((n == NULL) || (n->parent == NULL)) {
+		return NULL;
+	} 
+	if (n == n->parent->right) {
+		return n->parent->left;
+	} 
+	else {
+		return n->parent->right;
+	}
+}
+
+
+
 void* binarytree_add(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");

@@ -53,6 +53,9 @@ void bintree_test_init(void) {
 	CU_ASSERT (binarytree_findMaxNode(NULL) == NULL);
 	CU_ASSERT (binarytree_findSuccessor(NULL) == NULL);
 	CU_ASSERT (binarytree_findPredecessor(NULL) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(NULL) == NULL);
+	CU_ASSERT (binarytree_findBrother(NULL) == NULL);
+	CU_ASSERT (binarytree_findUncle(NULL) == NULL);
 
 	binarytree_t* t = binarytree_init(bintree_compare, bintree_print, 
                                           bintree_clone, bintree_destroy);
@@ -73,6 +76,9 @@ void bintree_test_empty(void) {
 	CU_ASSERT (binarytree_findMaxNode(t->root) == NULL);
 	CU_ASSERT (binarytree_findSuccessor(t->root) == NULL);
 	CU_ASSERT (binarytree_findPredecessor(t->root) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root) == NULL);
+	CU_ASSERT (binarytree_findBrother(t->root) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root) == NULL);
 	binarytree_print(t, stdout);
 
 	CU_ASSERT(binarytree_destroy(t) == 0);
@@ -320,6 +326,23 @@ void bintree_test_add_find3(void) {
 	CU_ASSERT (binarytree_balanceFactor(t->root->right) == 1);
 	CU_ASSERT (binarytree_balanceFactor(t->root->right->left) == 0);
 
+	/* Find grandfather, uncle and brother */
+
+	CU_ASSERT (binarytree_findGrandparent(t->root) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root->left) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root->right) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root->right->left) == t->root);
+
+	CU_ASSERT (binarytree_findUncle(t->root) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root->left) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root->right) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root->right->left) == t->root->left);
+
+	CU_ASSERT (binarytree_findBrother(t->root) == NULL);
+	CU_ASSERT (binarytree_findBrother(t->root->left) == t->root->right);
+	CU_ASSERT (binarytree_findBrother(t->root->right) == t->root->left);
+	CU_ASSERT (binarytree_findBrother(t->root->right->left) == NULL);
+
 	/* Finding keys */
 
 	CU_ASSERT (strcmp(binarytree_find(t, bintree_testKey1), bintree_testKey1) == 0); 
@@ -378,6 +401,23 @@ void bintree_test_add_find4(void) {
 	CU_ASSERT (binarytree_balanceFactor(t->root->left) == -1);
 	CU_ASSERT (binarytree_balanceFactor(t->root->left->right) == 0);
 	CU_ASSERT (binarytree_balanceFactor(t->root->right) == 0);
+
+	/* Find grandfather, uncle and brother */
+
+	CU_ASSERT (binarytree_findGrandparent(t->root) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root->left) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root->right) == NULL);
+	CU_ASSERT (binarytree_findGrandparent(t->root->left->right) == t->root);
+
+	CU_ASSERT (binarytree_findUncle(t->root) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root->left) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root->right) == NULL);
+	CU_ASSERT (binarytree_findUncle(t->root->left->right) == t->root->right);
+
+	CU_ASSERT (binarytree_findBrother(t->root) == NULL);
+	CU_ASSERT (binarytree_findBrother(t->root->left) == t->root->right);
+	CU_ASSERT (binarytree_findBrother(t->root->right) == t->root->left);
+	CU_ASSERT (binarytree_findBrother(t->root->right->left) == NULL);
 
 	/* Finding keys */
 

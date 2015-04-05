@@ -289,8 +289,6 @@ tnode_t* binarytree_findBrother(tnode_t* n) {
 	}
 }
 
-
-
 void* binarytree_add(binarytree_t* t, void* elem) {
 	if ((t == NULL) || (elem == NULL)) {
 		debug_print("Invalid parameter\n");

@@ -318,6 +318,7 @@ void pqueue_test_update_min(void) {
 
 	newPriority = 1;
 	s = pqueue_update(pq, pqueue_test_s1, &oldPriority, &newPriority);
+	CU_ASSERT (s == pqueue_test_s1);
 	CU_ASSERT (oldPriority == 10);
 	CU_ASSERT(pqueue_size(pq) == 4);
 	n = pqueue_peek(pq);
@@ -355,6 +356,7 @@ void pqueue_test_update_max(void) {
 
 	newPriority = 4;
 	s = pqueue_update(pq, pqueue_test_s4, &oldPriority, &newPriority);
+	CU_ASSERT (s == pqueue_test_s4);
 	CU_ASSERT (oldPriority == -10);
 	CU_ASSERT(pqueue_size(pq) == 4);
 	n = pqueue_peek(pq);

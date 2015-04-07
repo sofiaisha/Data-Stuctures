@@ -328,10 +328,9 @@ int list_save(list_t* l, FILE* f) {
 		return EINVAL;	
 	}
 	int count = 0;
-	int ret = 0;
 	for (node_t* n=l->head; n != NULL; n=n->next) {
 		void* elem = l->clone(n->elem);
-		ret = writeDisk(elem, f, l->elemSize, count); 
+		int ret = writeDisk(elem, f, l->elemSize, count); 
 		free(elem);
 		if (ret == 0) {
 			count++;

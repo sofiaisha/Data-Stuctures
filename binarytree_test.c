@@ -19,6 +19,7 @@ void* bintree_clone(void* s) {
 }
 
 void bintree_destroy(void* s) {
+	(void)s;
 	return;
 }
 

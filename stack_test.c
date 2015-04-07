@@ -20,6 +20,7 @@ void* stk_clone(void* s) {
 }
 
 void stk_destroy(void* s) {
+	(void)s;
 	return;
 }
 

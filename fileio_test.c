@@ -39,7 +39,7 @@ void fileio_test_invalid(void) {
 
 	FILE* f = fopen("file.bin", "w+");
 	teststruct_t* n = buildTestStruct();
-	void* addr = 0x1234;
+	void* addr = (void*)0x1234;
 
 	CU_ASSERT( readDisk(NULL, f, sizeof(teststruct_t), 1) == EINVAL );
 	CU_ASSERT( readDisk(n, NULL, sizeof(teststruct_t), 1) == EINVAL );

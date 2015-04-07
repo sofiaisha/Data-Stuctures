@@ -20,6 +20,7 @@ void* q_clone(void* s) {
 }
 
 void q_destroy(void* s) {
+	(void)s;
 	return;
 }
 

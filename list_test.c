@@ -19,6 +19,7 @@ void* lst_clone(void* s) {
 }
 
 void lst_destroy(void* s) {
+	(void)s;
 	return;
 }
 

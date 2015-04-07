@@ -7,6 +7,7 @@
 #include "util.h"
 
 void* ht_clone_INTERNAL(void* e) {
+	(void)e;
 	return NULL;
 }
 

@@ -343,7 +343,7 @@ void list_test_save(void) {
 
 	CU_ASSERT (list_save(NULL, f) == EINVAL);
 	CU_ASSERT (list_save(l, NULL) == EINVAL);
-	CU_ASSERT (list_save(l, f) == list_size(l));
+	CU_ASSERT (list_save(l, f) == (int)list_size(l));
 
 	fclose(f);
 	CU_ASSERT (list_destroy(l) == 0);

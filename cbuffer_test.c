@@ -49,7 +49,7 @@ void cbuffer_test_empty(void) {
 	CU_ASSERT (cb != NULL);
 
 	CU_ASSERT (cbuffer_size(NULL) == EINVAL);
-	CU_ASSERT (cbuffer_size(cb) == cb_size);
+	CU_ASSERT (cbuffer_size(cb) == (int)cb_size);
 
 	CU_ASSERT (cbuffer_destroy(cb) == 0);
 }
